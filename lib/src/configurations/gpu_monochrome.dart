@@ -1,4 +1,4 @@
-part of gpu_video_filters;
+part of flutter_gpu_video_filters;
 
 class GPUMonochromeConfiguration extends GPUFilterConfiguration {
   final NumberParameter _intensity;
@@ -17,7 +17,7 @@ class GPUMonochromeConfiguration extends GPUFilterConfiguration {
           'Color',
           const Color.fromRGBO(153, 115, 76, 1.0),
         ),
-        super('CIColorMonochrome');
+        super('Monochrome');
 
   set intensity(double value) {
     _intensity.value = value;

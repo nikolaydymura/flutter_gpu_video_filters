@@ -1,4 +1,4 @@
-part of gpu_video_filters;
+part of flutter_gpu_video_filters;
 
 class GPULookupTableConfiguration extends GPUFilterConfiguration {
   final NumberParameter _cubeDimension;
@@ -8,7 +8,7 @@ class GPULookupTableConfiguration extends GPUFilterConfiguration {
       : _cubeDimension =
             _FloatParameter('inputCubeDimension', 'Cube Dimension', 2),
         _cubeData = _BitmapParameter('inputCubeData', 'Cube Data'),
-        super('CIColorCube');
+        super('LookupTable');
 
   set cubeDimension(int value) {
     _cubeDimension.value = value;

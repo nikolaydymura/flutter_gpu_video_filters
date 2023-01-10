@@ -1,4 +1,4 @@
-part of gpu_video_filters;
+part of flutter_gpu_video_filters;
 
 class GPUVideoPreview extends StatelessWidget {
   final GPUVideoPreviewController controller;
@@ -7,28 +7,50 @@ class GPUVideoPreview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return PlatformViewLink(
+        surfaceFactory: (context, controller) {
+          return AndroidViewSurface(
+              controller: controller as AndroidViewController,
+              hitTestBehavior: PlatformViewHitTestBehavior.opaque,
+              gestureRecognizers: const <
+                  Factory<OneSequenceGestureRecognizer>>{});
+        },
+        onCreatePlatformView: (PlatformViewCreationParams params) {
+          return PlatformViewsService.initSurfaceAndroidView(
+              id: params.id,
+              viewType: 'GPUVideoPreview',
+              layoutDirection: TextDirection.ltr,
+              creationParams: {
+                'asset': 'videos/BigBuckBunny.mp4'
+              },
+              creationParamsCodec: const StandardMessageCodec())
+            ..addOnPlatformViewCreatedListener(params.onPlatformViewCreated)
+            ..create();
+        },
+        viewType: 'GPUVideoPreview');
     return Texture(textureId: controller._textureId);
   }
 }
 
 class GPUVideoPreviewController {
-  static final GpuVideoPreviewsPlatform _api =
-      GpuVideoPreviewsPlatform.instance;
+  static final VideoPreviewApi _api = VideoPreviewApi();
   final int _textureId;
 
   GPUVideoPreviewController._(this._textureId);
 
   Future<void> setImageAsset(String asset) async {
-    await _api.setPreviewAsset(_textureId, asset);
+    await _api.setSource(
+        SourcePreviewMessage(textureId: _textureId, path: asset, asset: true));
   }
 
   Future<void> setImageFile(File file) async {
-    await _api.setPreviewFile(_textureId, file);
+    await _api.setSource(SourcePreviewMessage(
+        textureId: _textureId, path: file.absolute.path, asset: false));
   }
 
   static Future<GPUVideoPreviewController> initialize() async {
-    final textureId = await _api.createPreview();
-    return GPUVideoPreviewController._(textureId);
+    final message = await _api.create();
+    return GPUVideoPreviewController._(message.textureId);
   }
 
   static Future<GPUVideoPreviewController> fromFile(File file) async {
@@ -47,7 +69,8 @@ class GPUVideoPreviewController {
     if (!configuration.ready) {
       await configuration.prepare();
     }
-    await _api.setPreviewConfiguration(_textureId, configuration._filterId);
+    await _api.connect(BindPreviewMessage(
+        textureId: _textureId, filterId: configuration._filterId));
   }
 
   Future<void> disconnect(
@@ -57,18 +80,20 @@ class GPUVideoPreviewController {
     if (disposeConfiguration && configuration.ready) {
       await configuration.dispose();
     }
-    await _api.setPreviewConfiguration(_textureId, -1);
+    await _api.dispose(PreviewMessage(textureId: _textureId));
   }
 
   Future<void> dispose() async {
-    await _api.destroyPreview(_textureId);
+    await _api.dispose(PreviewMessage(textureId: _textureId));
   }
 
   Future<void> play() async {
-    await _api.resumePreview(_textureId);
+    await _api.resume(PreviewMessage(textureId: _textureId));
   }
 
   Future<void> pause() async {
-    await _api.pausePreview(_textureId);
+    await _api.pause(PreviewMessage(textureId: _textureId));
   }
 }
+
+

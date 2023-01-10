@@ -11,11 +11,12 @@ dependencies:
   flutter:
     sdk: flutter
   plugin_platform_interface: ^2.0.2
-  flutter_gpu_filters_interface: ^0.0.1
+  flutter_gpu_filters_interface: ^0.0.4
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  pigeon: ^4.2.3
   flutter_lints: ^2.0.0
 
 # For information on the generic Dart part of this file, see the
@@ -36,12 +37,12 @@ flutter:
   plugin:
     platforms:
       android:
-        package: ng.gpu_video_filters.gpu_video_filters
+        package: nd.flutter.plugins.gpu_video_filters
         pluginClass: GpuVideoFiltersPlugin
 
   # To add assets to your plugin package, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
+  assets:
+    - shaders/
   #   - images/a_dot_ham.jpeg
   #
   # For details regarding assets in packages, see

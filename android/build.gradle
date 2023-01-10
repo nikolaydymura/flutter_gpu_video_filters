@@ -1,4 +1,4 @@
-group 'ng.gpu_video_filters.gpu_video_filters'
+group 'nd.flutter.plugins.gpu_video_filters'
 version '1.0-SNAPSHOT'
 
 buildscript {
@@ -41,6 +41,11 @@ android {
     }
 
     defaultConfig {
-        minSdkVersion 16
+        minSdkVersion 21
     }
 }
+dependencies {
+    implementation 'com.google.android.exoplayer:exoplayer-core:2.18.1'
+    implementation 'com.google.android.exoplayer:exoplayer-transformer:2.18.1'
+}
+

@@ -1,13 +1,18 @@
-library gpu_video_filters;
+library flutter_gpu_video_filters;
 
 import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_gpu_filters_interface/flutter_gpu_filters_interface.dart';
+import 'package:flutter_gpu_video_filters/src/messages/filter_messages.g.dart';
 
 import 'gpu_video_filters_platform_interface.dart';
+import 'src/messages/preview_messages.g.dart';
 
 part 'src/configurations/gpu_filter_configuration.dart';
 part 'src/configurations/gpu_lookup_table.dart';
