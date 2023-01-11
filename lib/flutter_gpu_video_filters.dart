@@ -20,6 +20,7 @@ part 'src/configurations/gpu_lookup_table.dart';
 
 part 'src/configurations/gpu_monochrome.dart';
 
+
 part 'src/configurations/gpu_bilateral.dart';
 
 part 'src/configurations/gpu_box_blur.dart';
@@ -59,5 +60,6 @@ Map<String, GPUFilterConfiguration Function()> availableFilters =
             'Gamma': () => GPUGammaConfiguration(),
             'Lookup Table': () => GPULookupTableConfiguration(),
             'Monochrome': () => GPUMonochromeConfiguration(),
+
           }
         : {};
