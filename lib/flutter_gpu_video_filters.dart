@@ -17,6 +17,7 @@ import 'src/messages/preview_messages.g.dart';
 part 'src/configurations/gpu_filter_configuration.dart';
 part 'src/configurations/gpu_lookup_table.dart';
 part 'src/configurations/gpu_monochrome.dart';
+part 'src/configurations/gpu_bilateral.dart';
 part 'src/parameters/color_parameter.dart';
 part 'src/parameters/float_parameter.dart';
 part 'src/parameters/slider_float_parameter.dart';
@@ -28,5 +29,6 @@ Map<String, GPUFilterConfiguration Function()> availableFilters =
         ? {
             'Monochrome': () => GPUMonochromeConfiguration(),
             'Lookup Table': () => GPULookupTableConfiguration(),
+            'Bilateral Configuration':()=> GPUBilateralConfiguration(),
           }
         : {};
