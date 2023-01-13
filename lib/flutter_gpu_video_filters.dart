@@ -15,20 +15,47 @@ import 'gpu_video_filters_platform_interface.dart';
 import 'src/messages/preview_messages.g.dart';
 
 part 'src/configurations/gpu_filter_configuration.dart';
+
 part 'src/configurations/gpu_lookup_table.dart';
+
 part 'src/configurations/gpu_monochrome.dart';
+
 part 'src/configurations/gpu_bilateral.dart';
+
+part 'src/configurations/gpu_threex3_texture_sampling.dart';
+
+part 'src/configurations/gpu_tone.dart';
+
+part 'src/configurations/gpu_vibrance.dart';
+
+part 'src/configurations/gpu_watermark.dart';
+
+part 'src/configurations/gpu_weak_pixel_inclusion.dart';
+
+part 'src/configurations/gpu_white_balance.dart';
+
 part 'src/parameters/color_parameter.dart';
+
 part 'src/parameters/float_parameter.dart';
+
 part 'src/parameters/slider_float_parameter.dart';
+
 part 'src/parameters/bitmap_parameter.dart';
+
 part 'src/gpu_video_preview.dart';
 
 Map<String, GPUFilterConfiguration Function()> availableFilters =
     kDebugMode || Platform.isAndroid
         ? {
-            'Monochrome': () => GPUMonochromeConfiguration(),
+            'Bilateral Configuration': () => GPUBilateralConfiguration(),
+            'Three x3 Texture Sampling': () =>
+                GPUThreex3TextureSamplingConfiguration(),
+            'Tone': () => GPUToneConfiguration(),
+            'Vibrance': () => GPUVibranceConfiguration(),
+            'Watermark': () => GPUWatermarkConfiguration(),
+            'Weak Pixel Inclusion': () => GPUWeakPixelInclusionConfiguration(),
+            'WhiteBalance': () => GPUWhiteBalanceConfiguration(),
             'Lookup Table': () => GPULookupTableConfiguration(),
-            'Bilateral Configuration':()=> GPUBilateralConfiguration(),
+            'Monochrome': () => GPUMonochromeConfiguration(),
           }
         : {};

@@ -6,29 +6,29 @@ class GPUBilateralConfiguration extends GPUFilterConfiguration {
   final NumberParameter _blurSize;
 
   GPUBilateralConfiguration()
-      : _texelWidthOffset = _SliderFloatParameter(
+      : _texelWidthOffset = _FloatParameter(
           'inputTexelWidthOffset',
           'TexelWidthOffset',
           0.004,
         ),
-        _texelHeightOffset = _SliderFloatParameter(
-          'inputHeightOffset',
+        _texelHeightOffset = _FloatParameter(
+          'inputTexelHeightOffset',
           'TexelHeightOffset',
           0.004,
         ),
-        _blurSize = _SliderFloatParameter(
+        _blurSize = _FloatParameter(
           'inputBlurSize',
           'BlurSize',
           1.0,
         ),
         super('Bilateral');
 
-  set intensity(double value) {
+  set texelWidthOffset(double value) {
     _texelWidthOffset.value = value;
   }
 
   set texelHeightOffset(double value) {
-    _texelWidthOffset.value = value;
+    _texelHeightOffset.value = value;
   }
 
   set blurSize(double value) {
