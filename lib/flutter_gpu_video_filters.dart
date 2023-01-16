@@ -41,6 +41,12 @@ part 'src/configurations/gpu_saturation.dart';
 part 'src/configurations/gpu_sepia.dart';
 part 'src/configurations/gpu_sharpen.dart';
 part 'src/configurations/gpu_solarize.dart';
+part 'src/configurations/gpu_threex3_texture_sampling.dart';
+part 'src/configurations/gpu_tone.dart';
+part 'src/configurations/gpu_vibrance.dart';
+part 'src/configurations/gpu_watermark.dart';
+part 'src/configurations/gpu_weak_pixel_inclusion.dart';
+part 'src/configurations/gpu_white_balance.dart';
 part 'src/gpu_video_preview.dart';
 part 'src/parameters/bitmap_parameter.dart';
 part 'src/parameters/color_parameter.dart';
@@ -77,5 +83,12 @@ Map<String, GPUFilterConfiguration Function()> availableFilters =
             'Sepia': () => GPUSepiaConfiguration(),
             'Sharpen': () => GPUSharpenConfiguration(),
             'Solarize': () => GPUSolarizeConfiguration(),
+            'Three x3 Texture Sampling': () =>
+                GPUThreex3TextureSamplingConfiguration(),
+            'Tone': () => GPUToneConfiguration(),
+            'Vibrance': () => GPUVibranceConfiguration(),
+            'Watermark': () => GPUWatermarkConfiguration(),
+            'Weak Pixel Inclusion': () => GPUWeakPixelInclusionConfiguration(),
+            'WhiteBalance': () => GPUWhiteBalanceConfiguration(),
           }
         : {};
