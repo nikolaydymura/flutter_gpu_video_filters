@@ -33,6 +33,14 @@ part 'src/configurations/gpu_lookup_table.dart';
 part 'src/configurations/gpu_luminance.dart';
 part 'src/configurations/gpu_luminance_threshold.dart';
 part 'src/configurations/gpu_monochrome.dart';
+part 'src/configurations/gpu_opacity.dart';
+part 'src/configurations/gpu_pixelation.dart';
+part 'src/configurations/gpu_posterize.dart';
+part 'src/configurations/gpu_rgb.dart';
+part 'src/configurations/gpu_saturation.dart';
+part 'src/configurations/gpu_sepia.dart';
+part 'src/configurations/gpu_sharpen.dart';
+part 'src/configurations/gpu_solarize.dart';
 part 'src/gpu_video_preview.dart';
 part 'src/parameters/bitmap_parameter.dart';
 part 'src/parameters/color_parameter.dart';
@@ -61,5 +69,13 @@ Map<String, GPUFilterConfiguration Function()> availableFilters =
             'Invert': () => GPUInvertConfiguration(),
             'Luminance': () => GPULuminanceConfiguration(),
             'Luminance Threshold': () => GPULuminanceThresholdConfiguration(),
+            'Opacity': () => GPUOpacityConfiguration(),
+            'Pixelation': () => GPUPixelationConfiguration(),
+            'Posterize': () => GPUPosterizeConfiguration(),
+            'RGB': () => GPURGBConfiguration(),
+            'Saturation': () => GPUSaturationConfiguration(),
+            'Sepia': () => GPUSepiaConfiguration(),
+            'Sharpen': () => GPUSharpenConfiguration(),
+            'Solarize': () => GPUSolarizeConfiguration(),
           }
         : {};
