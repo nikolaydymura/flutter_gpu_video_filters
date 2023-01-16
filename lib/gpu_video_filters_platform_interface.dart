@@ -1,6 +1,3 @@
-import 'dart:io';
-import 'dart:typed_data';
-
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 import 'gpu_video_filters_method_channel.dart';

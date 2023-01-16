@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gpu_filters_interface/flutter_gpu_filters_interface.dart';
-import 'package:flutter_gpu_video_filters/src/messages/filter_messages.g.dart';
+import 'src/messages/filter_messages.g.dart';
 
 import 'src/messages/preview_messages.g.dart';
 

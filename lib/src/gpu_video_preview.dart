@@ -8,27 +8,26 @@ class GPUVideoPreview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PlatformViewLink(
-        surfaceFactory: (context, controller) {
-          return AndroidViewSurface(
-              controller: controller as AndroidViewController,
-              hitTestBehavior: PlatformViewHitTestBehavior.opaque,
-              gestureRecognizers: const <
-                  Factory<OneSequenceGestureRecognizer>>{});
-        },
-        onCreatePlatformView: (PlatformViewCreationParams params) {
-          return PlatformViewsService.initSurfaceAndroidView(
-              id: params.id,
-              viewType: 'GPUVideoPreview',
-              layoutDirection: TextDirection.ltr,
-              creationParams: {
-                'asset': 'videos/BigBuckBunny.mp4'
-              },
-              creationParamsCodec: const StandardMessageCodec())
-            ..addOnPlatformViewCreatedListener(params.onPlatformViewCreated)
-            ..create();
-        },
-        viewType: 'GPUVideoPreview');
-    return Texture(textureId: controller._textureId);
+      surfaceFactory: (context, controller) {
+        return AndroidViewSurface(
+          controller: controller as AndroidViewController,
+          hitTestBehavior: PlatformViewHitTestBehavior.opaque,
+          gestureRecognizers: const <Factory<OneSequenceGestureRecognizer>>{},
+        );
+      },
+      onCreatePlatformView: (PlatformViewCreationParams params) {
+        return PlatformViewsService.initSurfaceAndroidView(
+          id: params.id,
+          viewType: 'GPUVideoPreview',
+          layoutDirection: TextDirection.ltr,
+          creationParams: {'asset': 'videos/BigBuckBunny.mp4'},
+          creationParamsCodec: const StandardMessageCodec(),
+        )
+          ..addOnPlatformViewCreatedListener(params.onPlatformViewCreated)
+          ..create();
+      },
+      viewType: 'GPUVideoPreview',
+    );
   }
 }
 
@@ -40,12 +39,18 @@ class GPUVideoPreviewController {
 
   Future<void> setImageAsset(String asset) async {
     await _api.setSource(
-        SourcePreviewMessage(textureId: _textureId, path: asset, asset: true));
+      SourcePreviewMessage(textureId: _textureId, path: asset, asset: true),
+    );
   }
 
   Future<void> setImageFile(File file) async {
-    await _api.setSource(SourcePreviewMessage(
-        textureId: _textureId, path: file.absolute.path, asset: false));
+    await _api.setSource(
+      SourcePreviewMessage(
+        textureId: _textureId,
+        path: file.absolute.path,
+        asset: false,
+      ),
+    );
   }
 
   static Future<GPUVideoPreviewController> initialize() async {
@@ -69,8 +74,12 @@ class GPUVideoPreviewController {
     if (!configuration.ready) {
       await configuration.prepare();
     }
-    await _api.connect(BindPreviewMessage(
-        textureId: _textureId, filterId: configuration._filterId));
+    await _api.connect(
+      BindPreviewMessage(
+        textureId: _textureId,
+        filterId: configuration._filterId,
+      ),
+    );
   }
 
   Future<void> disconnect(
@@ -95,5 +104,3 @@ class GPUVideoPreviewController {
     await _api.pause(PreviewMessage(textureId: _textureId));
   }
 }
-
-
