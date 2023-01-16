@@ -1,34 +1,34 @@
 part of flutter_gpu_video_filters;
 
-class GPUBilateralConfiguration extends GPUFilterConfiguration {
+class GPUGaussianBlurConfiguration extends GPUFilterConfiguration {
   final NumberParameter _texelWidthOffset;
   final NumberParameter _texelHeightOffset;
   final NumberParameter _blurSize;
 
-  GPUBilateralConfiguration()
-      : _texelWidthOffset = _FloatParameter(
+  GPUGaussianBlurConfiguration()
+      : _texelWidthOffset = _SliderFloatParameter(
           'inputTexelWidthOffset',
           'TexelWidthOffset',
-          0.004,
+          0.01,
         ),
-        _texelHeightOffset = _FloatParameter(
-          'inputTexelHeightOffset',
+        _texelHeightOffset = _SliderFloatParameter(
+          'inputHeightOffset',
           'TexelHeightOffset',
-          0.004,
+          0.01,
         ),
-        _blurSize = _FloatParameter(
+        _blurSize = _SliderFloatParameter(
           'inputBlurSize',
           'BlurSize',
-          1.0,
+          0.2,
         ),
-        super('Bilateral');
+        super('GaussianBlur');
 
-  set texelWidthOffset(double value) {
+  set intensity(double value) {
     _texelWidthOffset.value = value;
   }
 
   set texelHeightOffset(double value) {
-    _texelHeightOffset.value = value;
+    _texelWidthOffset.value = value;
   }
 
   set blurSize(double value) {
