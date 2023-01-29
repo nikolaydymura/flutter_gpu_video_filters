@@ -5,11 +5,12 @@ class _PointParameter extends PointParameter {
 
   @override
   FutureOr<void> update(covariant GPUFilterConfiguration configuration) async {
-    await GPUFilterConfiguration._api
-        .setFloatArrayParameter(FloatArrayFilterMessage(
-      filterId: configuration._filterId,
-      name: name,
-      value: [value.x, value.y],
-    ));
+    await GPUFilterConfiguration._api.setFloatArrayParameter(
+      FloatArrayFilterMessage(
+        filterId: configuration._filterId,
+        name: name,
+        value: [value.x, value.y],
+      ),
+    );
   }
 }

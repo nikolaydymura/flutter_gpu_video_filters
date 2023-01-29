@@ -176,13 +176,15 @@ class VideoPreviewApiImpl(private val binding: FlutterPluginBinding, private val
 class VideoPreviewFactory : PlatformViewFactory(StandardMessageCodec.INSTANCE) {
     override fun create(context: Context?, viewId: Int, args: Any?): PlatformView {
         val creationParams = args as Map<String?, Any?>?
-        return VideoPreview(context!!, creationParams?.get("asset") as String)
+        return VideoPreview(context!!)
     }
 }
 
-class VideoPreview(private val context: Context, private val videoFilter: VideoFilterApiImpl) : PlatformView, DebugViewProvider {
+class VideoPreview(private val context: Context) : PlatformView, DebugViewProvider {
     private var debugFrame: FrameLayout = FrameLayout(context)
     override fun getView(): View? {
+        /*
+        TODO:
         val mediaUri = Uri.parse("asset:///flutter_assets/videos/BigBuckBunny.mp4")
         try {
             val externalCacheFile = File(context.externalCacheDir, "temp.mp4")
@@ -197,6 +199,7 @@ class VideoPreview(private val context: Context, private val videoFilter: VideoF
         } catch (e: Exception) {
             e.printStackTrace()
         }
+        */
         return debugFrame
     }
 
