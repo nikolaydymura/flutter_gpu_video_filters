@@ -4,15 +4,15 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:math';
 
+import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gpu_filters_interface/flutter_gpu_filters_interface.dart';
-import 'src/messages/filter_messages.g.dart';
-import 'package:collection/collection.dart';
 
+import 'src/messages/filter_messages.g.dart';
 import 'src/messages/preview_messages.g.dart';
 
 part 'src/configurations/gpu_bilateral.dart';
@@ -45,8 +45,8 @@ part 'src/configurations/gpu_saturation.dart';
 part 'src/configurations/gpu_sepia.dart';
 part 'src/configurations/gpu_sharpen.dart';
 part 'src/configurations/gpu_solarize.dart';
-part 'src/configurations/gpu_swirl.dart';
 part 'src/configurations/gpu_sphere_refraction.dart';
+part 'src/configurations/gpu_swirl.dart';
 part 'src/configurations/gpu_threex3_texture_sampling.dart';
 part 'src/configurations/gpu_tone.dart';
 part 'src/configurations/gpu_tone_curve.dart';
@@ -56,9 +56,7 @@ part 'src/configurations/gpu_watermark.dart';
 part 'src/configurations/gpu_weak_pixel_inclusion.dart';
 part 'src/configurations/gpu_white_balance.dart';
 part 'src/configurations/gpu_zoom_blur.dart';
-
 part 'src/gpu_video_preview.dart';
-
 part 'src/parameters/bitmap_parameter.dart';
 part 'src/parameters/color_parameter.dart';
 part 'src/parameters/float_parameter.dart';

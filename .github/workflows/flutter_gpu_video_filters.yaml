@@ -19,10 +19,7 @@ jobs:
 
       - name: Format
         run: |
-          flutter format --set-exit-if-changed lib/*.dart
-          flutter format --set-exit-if-changed lib/src/*.dart
-          flutter format --set-exit-if-changed lib/src/configurations/
-          flutter format --set-exit-if-changed lib/src/parameters/
+          flutter format --set-exit-if-changed lib/
       - name: Analyze
         run: flutter analyze lib
 
