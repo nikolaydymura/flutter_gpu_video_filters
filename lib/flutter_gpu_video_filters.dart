@@ -63,50 +63,65 @@ part 'src/parameters/float_parameter.dart';
 part 'src/parameters/point_parameter.dart';
 part 'src/parameters/slider_float_parameter.dart';
 
-Map<String, GPUFilterConfiguration Function()> availableFilters =
-    kDebugMode || Platform.isAndroid
-        ? {
-            'Bilateral': () => GPUBilateralConfiguration(),
-            'Box Blur': () => GPUBoxBlurConfiguration(),
-            'Brightness': () => GPUBrightnessConfiguration(),
-            'Bulge Distortion Configuration': () =>
-                GPUBulgeDistortionConfiguration(),
-            'CGA Colorspace': () => GPUCGAColorspaceConfiguration(),
-            'Contrast': () => GPUContrastConfiguration(),
-            'Crosshatch': () => GPUCrosshatchConfiguration(),
-            'Exposure': () => GPUExposureConfiguration(),
-            'Gamma': () => GPUGammaConfiguration(),
-            'Lookup Table': () => GPULookupTableConfiguration(),
-            'Monochrome': () => GPUMonochromeConfiguration(),
-            'Gaussian Blur': () => GPUGaussianBlurConfiguration(),
-            'Gray Scale': () => GPUGrayScaleConfiguration(),
-            'Halftone': () => GPUHalftoneConfiguration(),
-            'Haze': () => GPUHazeConfiguration(),
-            'Highlight Shadow': () => GPUHighlightShadowConfiguration(),
-            'Hue': () => GPUHueConfiguration(),
-            'Invert': () => GPUInvertConfiguration(),
-            'Luminance': () => GPULuminanceConfiguration(),
-            'Luminance Threshold': () => GPULuminanceThresholdConfiguration(),
-            'Opacity': () => GPUOpacityConfiguration(),
-            'Overlay': () => GPUOverlayConfiguration(),
-            'Pixelation': () => GPUPixelationConfiguration(),
-            'Posterize': () => GPUPosterizeConfiguration(),
-            'RGB': () => GPURGBConfiguration(),
-            'Saturation': () => GPUSaturationConfiguration(),
-            'Sepia': () => GPUSepiaConfiguration(),
-            'Sharpen': () => GPUSharpenConfiguration(),
-            'Solarize': () => GPUSolarizeConfiguration(),
-            'Sphere Refraction': () => GPUSphereRefractionConfiguration(),
-            'Swirl': () => GPUSwirlConfiguration(),
-            'Three x3 Texture Sampling': () =>
-                GPUThreex3TextureSamplingConfiguration(),
-            'Tone': () => GPUToneConfiguration(),
-            'Tone Curve': () => GPUToneCurveConfiguration(),
-            'Vibrance': () => GPUVibranceConfiguration(),
-            'Vignette': () => GPUVignetteConfiguration(),
-            'Watermark': () => GPUWatermarkConfiguration(),
-            'Weak Pixel Inclusion': () => GPUWeakPixelInclusionConfiguration(),
-            'WhiteBalance': () => GPUWhiteBalanceConfiguration(),
-            'Zoom Blur': () => GPUZoomBlurConfiguration(),
-          }
-        : {};
+class FlutterVideoFilters {
+  static Iterable<String> get availableFilters =>
+      kDebugMode || Platform.isAndroid ? _availableFilters.keys : {};
+  static final Map<String, GPUFilterConfiguration Function()>
+      _availableFilters = kDebugMode || Platform.isAndroid
+          ? {
+              'Bilateral': () => GPUBilateralConfiguration(),
+              'Box Blur': () => GPUBoxBlurConfiguration(),
+              'Brightness': () => GPUBrightnessConfiguration(),
+              'Bulge Distortion Configuration': () =>
+                  GPUBulgeDistortionConfiguration(),
+              'CGA Colorspace': () => GPUCGAColorspaceConfiguration(),
+              'Contrast': () => GPUContrastConfiguration(),
+              'Crosshatch': () => GPUCrosshatchConfiguration(),
+              'Exposure': () => GPUExposureConfiguration(),
+              'Gamma': () => GPUGammaConfiguration(),
+              'Lookup Table': () => GPULookupTableConfiguration(),
+              'Monochrome': () => GPUMonochromeConfiguration(),
+              'Gaussian Blur': () => GPUGaussianBlurConfiguration(),
+              'Gray Scale': () => GPUGrayScaleConfiguration(),
+              'Halftone': () => GPUHalftoneConfiguration(),
+              'Haze': () => GPUHazeConfiguration(),
+              'Highlight Shadow': () => GPUHighlightShadowConfiguration(),
+              'Hue': () => GPUHueConfiguration(),
+              'Invert': () => GPUInvertConfiguration(),
+              'Luminance': () => GPULuminanceConfiguration(),
+              'Luminance Threshold': () => GPULuminanceThresholdConfiguration(),
+              'Opacity': () => GPUOpacityConfiguration(),
+              'Overlay': () => GPUOverlayConfiguration(),
+              'Pixelation': () => GPUPixelationConfiguration(),
+              'Posterize': () => GPUPosterizeConfiguration(),
+              'RGB': () => GPURGBConfiguration(),
+              'Saturation': () => GPUSaturationConfiguration(),
+              'Sepia': () => GPUSepiaConfiguration(),
+              'Sharpen': () => GPUSharpenConfiguration(),
+              'Solarize': () => GPUSolarizeConfiguration(),
+              'Sphere Refraction': () => GPUSphereRefractionConfiguration(),
+              'Swirl': () => GPUSwirlConfiguration(),
+              'Three x3 Texture Sampling': () =>
+                  GPUThreex3TextureSamplingConfiguration(),
+              'Tone': () => GPUToneConfiguration(),
+              'Tone Curve': () => GPUToneCurveConfiguration(),
+              'Vibrance': () => GPUVibranceConfiguration(),
+              'Vignette': () => GPUVignetteConfiguration(),
+              'Watermark': () => GPUWatermarkConfiguration(),
+              'Weak Pixel Inclusion': () =>
+                  GPUWeakPixelInclusionConfiguration(),
+              'WhiteBalance': () => GPUWhiteBalanceConfiguration(),
+              'Zoom Blur': () => GPUZoomBlurConfiguration(),
+            }
+          : {};
+
+  static T createFilter<T extends GPUFilterConfiguration>({
+    required String displayName,
+  }) {
+    final configuration = _availableFilters[displayName]?.call();
+    if (configuration == null) {
+      debugPrint('Configuration not found for $displayName');
+    }
+    return configuration as T;
+  }
+}
