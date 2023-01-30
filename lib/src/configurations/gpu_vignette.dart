@@ -36,6 +36,7 @@ class GPUVignetteConfiguration extends GPUFilterConfiguration {
   set centerY(double value) {
     _centerY.value = value;
   }
+
   set vignetteStart(double value) {
     _vignetteStart.value = value;
   }

@@ -83,60 +83,65 @@ class VideoFilterApiImpl(private val binding: FlutterPluginBinding) : FilterMess
     var filters: LongSparseArray<DynamicProcessor> = LongSparseArray();
     private var filterSequenceId: Long = 0;
 
-    override fun create(msg: FilterMessages.CreateFilterMessage): FilterMessages.FilterMessage {
-        val processor = DynamicProcessor(msg.fragmentShader)
+    override fun create(fragmentShader: String): Long {
+        val processor = DynamicProcessor(fragmentShader)
         var filterId = filterSequenceId
         filterSequenceId++
         filters.put(filterId, processor)
 
-        return FilterMessages.FilterMessage.Builder().setFilterId(filterId).build();
+        return filterId
     }
 
-    override fun setSource(msg: FilterMessages.SourceFilterMessage) {
+    override fun setInputAsset(filterId: Long, path: String) {
         TODO("Not yet implemented")
     }
 
-    override fun setFloatParameter(msg: FilterMessages.FloatFilterMessage) {
+    override fun setInputFile(filterId: Long, path: String) {
         TODO("Not yet implemented")
     }
 
-    override fun setFloatArrayParameter(msg: FilterMessages.FloatArrayFilterMessage) {
+    override fun setFloatParameter(filterId: Long, key: String, value: Double) {
         TODO("Not yet implemented")
     }
 
-    override fun setBitmapParameter(msg: FilterMessages.BitmapFilterMessage) {
+    override fun setFloatArrayParameter(filterId: Long, key: String, value: MutableList<Double>) {
         TODO("Not yet implemented")
     }
 
-    override fun setBitmapDataParameter(msg: FilterMessages.BitmapDataFilterMessage) {
+    override fun setBitmapParameter(filterId: Long, key: String, data: ByteArray) {
         TODO("Not yet implemented")
     }
 
-    override fun dispose(msg: FilterMessages.FilterMessage) {
-        val processor = filters[msg.filterId]
+    override fun setBitmapSourceParameter(filterId: Long, key: String, asset: Boolean, path: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun dispose(filterId: Long) {
+        val processor = filters[filterId]
         processor.release()
-        filters.remove(msg.filterId)
+        filters.remove(filterId)
     }
 
 }
 
 class VideoPreviewApiImpl(private val binding: FlutterPluginBinding, private val videoFilters: VideoFilterApiImpl) : PreviewMessages.VideoPreviewApi {
     private var videosSources: LongSparseArray<VideoTexture> = LongSparseArray();
-    override fun create(): PreviewMessages.PreviewMessage {
+
+    override fun create(): Long {
         val texture = binding.textureRegistry.createSurfaceTexture();
         val videoTexture = VideoTexture(binding.applicationContext)
         videoTexture.player.setVideoSurface(Surface(texture.surfaceTexture()))
         videosSources.put(texture.id(), videoTexture)
-        return PreviewMessages.PreviewMessage.Builder().setTextureId(texture.id()).build();
+        return texture.id()
     }
 
-    override fun connect(msg: PreviewMessages.BindPreviewMessage) {
-        val videoSource = videosSources[msg.textureId]
-        val filter = videoFilters.filters[msg.filterId];
+    override fun connect(textureId: Long, filterId: Long) {
+        val videoSource = videosSources[textureId]
+        val filter = videoFilters.filters[filterId];
         videoSource.filter = filter
     }
 
-    override fun disconnect(msg: PreviewMessages.PreviewMessage) {
+    override fun disconnect(textureId: Long) {
 
     }
 
@@ -155,21 +160,21 @@ class VideoPreviewApiImpl(private val binding: FlutterPluginBinding, private val
         videoSource.player.play()
     }
 
-    override fun resume(msg: PreviewMessages.PreviewMessage) {
-        val videoSource = videosSources[msg.textureId]
+    override fun resume(textureId: Long) {
+        val videoSource = videosSources[textureId]
         videoSource.player.play()
     }
 
-    override fun pause(msg: PreviewMessages.PreviewMessage) {
-        val videoSource = videosSources[msg.textureId]
+    override fun pause(textureId: Long) {
+        val videoSource = videosSources[textureId]
         videoSource.player.pause()
     }
 
-    override fun dispose(msg: PreviewMessages.PreviewMessage) {
-        val videoSource = videosSources[msg.textureId]
+    override fun dispose(textureId: Long) {
+        val videoSource = videosSources[textureId]
         videoSource.player.stop()
         videoSource.player.release()
-        videosSources.remove(msg.textureId)
+        videosSources.remove(textureId)
     }
 }
 

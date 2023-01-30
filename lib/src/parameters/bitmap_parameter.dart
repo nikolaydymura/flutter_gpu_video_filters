@@ -6,30 +6,24 @@ class _BitmapParameter extends DataParameter {
   @override
   FutureOr<void> update(covariant GPUFilterConfiguration configuration) async {
     if (asset != null) {
-      await GPUFilterConfiguration._api.setBitmapParameter(
-        BitmapFilterMessage(
-          filterId: configuration._filterId,
-          name: name,
-          path: asset!,
-          asset: true,
-        ),
+      await GPUFilterConfiguration._api.setBitmapSourceParameter(
+        configuration._filterId,
+        name,
+        true,
+        asset!,
       );
     } else if (file != null) {
-      await GPUFilterConfiguration._api.setBitmapParameter(
-        BitmapFilterMessage(
-          filterId: configuration._filterId,
-          name: name,
-          path: file!.absolute.path,
-          asset: false,
-        ),
+      await GPUFilterConfiguration._api.setBitmapSourceParameter(
+        configuration._filterId,
+        name,
+        false,
+        file!.absolute.path,
       );
     } else if (data != null) {
-      await GPUFilterConfiguration._api.setBitmapDataParameter(
-        BitmapDataFilterMessage(
-          filterId: configuration._filterId,
-          name: name,
-          data: data!,
-        ),
+      await GPUFilterConfiguration._api.setBitmapParameter(
+        configuration._filterId,
+        name,
+        data!,
       );
     }
   }

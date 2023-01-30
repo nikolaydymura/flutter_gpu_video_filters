@@ -15,15 +15,14 @@ abstract class GPUFilterConfiguration extends FilterConfiguration {
       final fragmentShader = await rootBundle.loadString(
         'packages/flutter_gpu_video_filters/shaders/$name.glsl',
       );
-      final message = await _api
-          .create(CreateFilterMessage(fragmentShader: fragmentShader));
-      _filterId = message.filterId;
+      final filterId = await _api.create(fragmentShader);
+      _filterId = filterId;
     }
   }
 
   Future<void> dispose() async {
     if (_filterId >= 0) {
-      await _api.dispose(FilterMessage(filterId: _filterId));
+      await _api.dispose(_filterId);
     }
     _filterId = -1;
   }

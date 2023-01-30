@@ -25,62 +25,6 @@ import java.util.HashMap;
 public class PreviewMessages {
 
   /** Generated class from Pigeon that represents data sent in messages. */
-  public static class BindPreviewMessage {
-    private @NonNull Long textureId;
-    public @NonNull Long getTextureId() { return textureId; }
-    public void setTextureId(@NonNull Long setterArg) {
-      if (setterArg == null) {
-        throw new IllegalStateException("Nonnull field \"textureId\" is null.");
-      }
-      this.textureId = setterArg;
-    }
-
-    private @NonNull Long filterId;
-    public @NonNull Long getFilterId() { return filterId; }
-    public void setFilterId(@NonNull Long setterArg) {
-      if (setterArg == null) {
-        throw new IllegalStateException("Nonnull field \"filterId\" is null.");
-      }
-      this.filterId = setterArg;
-    }
-
-    /**Constructor is private to enforce null safety; use Builder. */
-    private BindPreviewMessage() {}
-    public static final class Builder {
-      private @Nullable Long textureId;
-      public @NonNull Builder setTextureId(@NonNull Long setterArg) {
-        this.textureId = setterArg;
-        return this;
-      }
-      private @Nullable Long filterId;
-      public @NonNull Builder setFilterId(@NonNull Long setterArg) {
-        this.filterId = setterArg;
-        return this;
-      }
-      public @NonNull BindPreviewMessage build() {
-        BindPreviewMessage pigeonReturn = new BindPreviewMessage();
-        pigeonReturn.setTextureId(textureId);
-        pigeonReturn.setFilterId(filterId);
-        return pigeonReturn;
-      }
-    }
-    @NonNull Map<String, Object> toMap() {
-      Map<String, Object> toMapResult = new HashMap<>();
-      toMapResult.put("textureId", textureId);
-      toMapResult.put("filterId", filterId);
-      return toMapResult;
-    }
-    static @NonNull BindPreviewMessage fromMap(@NonNull Map<String, Object> map) {
-      BindPreviewMessage pigeonResult = new BindPreviewMessage();
-      Object textureId = map.get("textureId");
-      pigeonResult.setTextureId((textureId == null) ? null : ((textureId instanceof Integer) ? (Integer)textureId : (Long)textureId));
-      Object filterId = map.get("filterId");
-      pigeonResult.setFilterId((filterId == null) ? null : ((filterId instanceof Integer) ? (Integer)filterId : (Long)filterId));
-      return pigeonResult;
-    }
-  }
-
-  /** Generated class from Pigeon that represents data sent in messages. */
   public static class SourcePreviewMessage {
     private @NonNull Long textureId;
     public @NonNull Long getTextureId() { return textureId; }
@@ -153,44 +97,6 @@ public class PreviewMessages {
       return pigeonResult;
     }
   }
-
-  /** Generated class from Pigeon that represents data sent in messages. */
-  public static class PreviewMessage {
-    private @NonNull Long textureId;
-    public @NonNull Long getTextureId() { return textureId; }
-    public void setTextureId(@NonNull Long setterArg) {
-      if (setterArg == null) {
-        throw new IllegalStateException("Nonnull field \"textureId\" is null.");
-      }
-      this.textureId = setterArg;
-    }
-
-    /**Constructor is private to enforce null safety; use Builder. */
-    private PreviewMessage() {}
-    public static final class Builder {
-      private @Nullable Long textureId;
-      public @NonNull Builder setTextureId(@NonNull Long setterArg) {
-        this.textureId = setterArg;
-        return this;
-      }
-      public @NonNull PreviewMessage build() {
-        PreviewMessage pigeonReturn = new PreviewMessage();
-        pigeonReturn.setTextureId(textureId);
-        return pigeonReturn;
-      }
-    }
-    @NonNull Map<String, Object> toMap() {
-      Map<String, Object> toMapResult = new HashMap<>();
-      toMapResult.put("textureId", textureId);
-      return toMapResult;
-    }
-    static @NonNull PreviewMessage fromMap(@NonNull Map<String, Object> map) {
-      PreviewMessage pigeonResult = new PreviewMessage();
-      Object textureId = map.get("textureId");
-      pigeonResult.setTextureId((textureId == null) ? null : ((textureId instanceof Integer) ? (Integer)textureId : (Long)textureId));
-      return pigeonResult;
-    }
-  }
   private static class VideoPreviewApiCodec extends StandardMessageCodec {
     public static final VideoPreviewApiCodec INSTANCE = new VideoPreviewApiCodec();
     private VideoPreviewApiCodec() {}
@@ -198,12 +104,6 @@ public class PreviewMessages {
     protected Object readValueOfType(byte type, @NonNull ByteBuffer buffer) {
       switch (type) {
         case (byte)128:         
-          return BindPreviewMessage.fromMap((Map<String, Object>) readValue(buffer));
-        
-        case (byte)129:         
-          return PreviewMessage.fromMap((Map<String, Object>) readValue(buffer));
-        
-        case (byte)130:         
           return SourcePreviewMessage.fromMap((Map<String, Object>) readValue(buffer));
         
         default:        
@@ -213,16 +113,8 @@ public class PreviewMessages {
     }
     @Override
     protected void writeValue(@NonNull ByteArrayOutputStream stream, Object value)     {
-      if (value instanceof BindPreviewMessage) {
-        stream.write(128);
-        writeValue(stream, ((BindPreviewMessage) value).toMap());
-      } else 
-      if (value instanceof PreviewMessage) {
-        stream.write(129);
-        writeValue(stream, ((PreviewMessage) value).toMap());
-      } else 
       if (value instanceof SourcePreviewMessage) {
-        stream.write(130);
+        stream.write(128);
         writeValue(stream, ((SourcePreviewMessage) value).toMap());
       } else 
 {
@@ -233,13 +125,13 @@ public class PreviewMessages {
 
   /** Generated interface from Pigeon that represents a handler of messages from Flutter. */
   public interface VideoPreviewApi {
-    @NonNull PreviewMessage create();
-    void connect(@NonNull BindPreviewMessage msg);
-    void disconnect(@NonNull PreviewMessage msg);
+    @NonNull Long create();
+    void connect(@NonNull Long textureId, @NonNull Long filterId);
+    void disconnect(@NonNull Long textureId);
     void setSource(@NonNull SourcePreviewMessage msg);
-    void resume(@NonNull PreviewMessage msg);
-    void pause(@NonNull PreviewMessage msg);
-    void dispose(@NonNull PreviewMessage msg);
+    void resume(@NonNull Long textureId);
+    void pause(@NonNull Long textureId);
+    void dispose(@NonNull Long textureId);
 
     /** The codec used by VideoPreviewApi. */
     static MessageCodec<Object> getCodec() {
@@ -253,7 +145,7 @@ public class PreviewMessages {
           channel.setMessageHandler((message, reply) -> {
             Map<String, Object> wrapped = new HashMap<>();
             try {
-              PreviewMessage output = api.create();
+              Long output = api.create();
               wrapped.put("result", output);
             }
             catch (Error | RuntimeException exception) {
@@ -274,11 +166,15 @@ public class PreviewMessages {
             try {
               ArrayList<Object> args = (ArrayList<Object>)message;
               assert args != null;
-              BindPreviewMessage msgArg = (BindPreviewMessage)args.get(0);
-              if (msgArg == null) {
-                throw new NullPointerException("msgArg unexpectedly null.");
+              Number textureIdArg = (Number)args.get(0);
+              if (textureIdArg == null) {
+                throw new NullPointerException("textureIdArg unexpectedly null.");
               }
-              api.connect(msgArg);
+              Number filterIdArg = (Number)args.get(1);
+              if (filterIdArg == null) {
+                throw new NullPointerException("filterIdArg unexpectedly null.");
+              }
+              api.connect((textureIdArg == null) ? null : textureIdArg.longValue(), (filterIdArg == null) ? null : filterIdArg.longValue());
               wrapped.put("result", null);
             }
             catch (Error | RuntimeException exception) {
@@ -299,11 +195,11 @@ public class PreviewMessages {
             try {
               ArrayList<Object> args = (ArrayList<Object>)message;
               assert args != null;
-              PreviewMessage msgArg = (PreviewMessage)args.get(0);
-              if (msgArg == null) {
-                throw new NullPointerException("msgArg unexpectedly null.");
+              Number textureIdArg = (Number)args.get(0);
+              if (textureIdArg == null) {
+                throw new NullPointerException("textureIdArg unexpectedly null.");
               }
-              api.disconnect(msgArg);
+              api.disconnect((textureIdArg == null) ? null : textureIdArg.longValue());
               wrapped.put("result", null);
             }
             catch (Error | RuntimeException exception) {
@@ -349,11 +245,11 @@ public class PreviewMessages {
             try {
               ArrayList<Object> args = (ArrayList<Object>)message;
               assert args != null;
-              PreviewMessage msgArg = (PreviewMessage)args.get(0);
-              if (msgArg == null) {
-                throw new NullPointerException("msgArg unexpectedly null.");
+              Number textureIdArg = (Number)args.get(0);
+              if (textureIdArg == null) {
+                throw new NullPointerException("textureIdArg unexpectedly null.");
               }
-              api.resume(msgArg);
+              api.resume((textureIdArg == null) ? null : textureIdArg.longValue());
               wrapped.put("result", null);
             }
             catch (Error | RuntimeException exception) {
@@ -374,11 +270,11 @@ public class PreviewMessages {
             try {
               ArrayList<Object> args = (ArrayList<Object>)message;
               assert args != null;
-              PreviewMessage msgArg = (PreviewMessage)args.get(0);
-              if (msgArg == null) {
-                throw new NullPointerException("msgArg unexpectedly null.");
+              Number textureIdArg = (Number)args.get(0);
+              if (textureIdArg == null) {
+                throw new NullPointerException("textureIdArg unexpectedly null.");
               }
-              api.pause(msgArg);
+              api.pause((textureIdArg == null) ? null : textureIdArg.longValue());
               wrapped.put("result", null);
             }
             catch (Error | RuntimeException exception) {
@@ -399,11 +295,11 @@ public class PreviewMessages {
             try {
               ArrayList<Object> args = (ArrayList<Object>)message;
               assert args != null;
-              PreviewMessage msgArg = (PreviewMessage)args.get(0);
-              if (msgArg == null) {
-                throw new NullPointerException("msgArg unexpectedly null.");
+              Number textureIdArg = (Number)args.get(0);
+              if (textureIdArg == null) {
+                throw new NullPointerException("textureIdArg unexpectedly null.");
               }
-              api.dispose(msgArg);
+              api.dispose((textureIdArg == null) ? null : textureIdArg.longValue());
               wrapped.put("result", null);
             }
             catch (Error | RuntimeException exception) {

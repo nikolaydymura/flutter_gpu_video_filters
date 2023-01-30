@@ -54,8 +54,8 @@ class GPUVideoPreviewController {
   }
 
   static Future<GPUVideoPreviewController> initialize() async {
-    final message = await _api.create();
-    return GPUVideoPreviewController._(message.textureId);
+    final textureId = await _api.create();
+    return GPUVideoPreviewController._(textureId);
   }
 
   static Future<GPUVideoPreviewController> fromFile(File file) async {
@@ -75,10 +75,8 @@ class GPUVideoPreviewController {
       await configuration.prepare();
     }
     await _api.connect(
-      BindPreviewMessage(
-        textureId: _textureId,
-        filterId: configuration._filterId,
-      ),
+      _textureId,
+      configuration._filterId,
     );
   }
 
@@ -89,18 +87,18 @@ class GPUVideoPreviewController {
     if (disposeConfiguration && configuration.ready) {
       await configuration.dispose();
     }
-    await _api.dispose(PreviewMessage(textureId: _textureId));
+    await _api.dispose(_textureId);
   }
 
   Future<void> dispose() async {
-    await _api.dispose(PreviewMessage(textureId: _textureId));
+    await _api.dispose(_textureId);
   }
 
   Future<void> play() async {
-    await _api.resume(PreviewMessage(textureId: _textureId));
+    await _api.resume(_textureId);
   }
 
   Future<void> pause() async {
-    await _api.pause(PreviewMessage(textureId: _textureId));
+    await _api.pause(_textureId);
   }
 }

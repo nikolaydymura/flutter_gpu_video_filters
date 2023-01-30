@@ -12,11 +12,9 @@ class _SliderFloatParameter extends RangeNumberParameter {
   @override
   FutureOr<void> update(covariant GPUFilterConfiguration configuration) async {
     await GPUFilterConfiguration._api.setFloatParameter(
-      FloatFilterMessage(
-        filterId: configuration._filterId,
-        name: name,
-        value: value.toDouble(),
-      ),
+      configuration._filterId,
+      name,
+      value.toDouble(),
     );
   }
 }

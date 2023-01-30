@@ -42,6 +42,7 @@ class GPUSphereRefractionConfiguration extends GPUFilterConfiguration {
   set centerY(double value) {
     _centerY.value = value;
   }
+
   set radius(double value) {
     _radius.value = value;
   }

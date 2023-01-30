@@ -8,285 +8,30 @@ import 'dart:typed_data' show Float64List, Int32List, Int64List, Uint8List;
 import 'package:flutter/foundation.dart' show ReadBuffer, WriteBuffer;
 import 'package:flutter/services.dart';
 
-class CreateFilterMessage {
-  CreateFilterMessage({
-    required this.fragmentShader,
-  });
-
-  String fragmentShader;
-
-  Object encode() {
-    final Map<Object?, Object?> pigeonMap = <Object?, Object?>{};
-    pigeonMap['fragmentShader'] = fragmentShader;
-    return pigeonMap;
-  }
-
-  static CreateFilterMessage decode(Object message) {
-    final Map<Object?, Object?> pigeonMap = message as Map<Object?, Object?>;
-    return CreateFilterMessage(
-      fragmentShader: pigeonMap['fragmentShader']! as String,
-    );
-  }
-}
-
-class FilterMessage {
-  FilterMessage({
-    required this.filterId,
-  });
-
-  int filterId;
-
-  Object encode() {
-    final Map<Object?, Object?> pigeonMap = <Object?, Object?>{};
-    pigeonMap['filterId'] = filterId;
-    return pigeonMap;
-  }
-
-  static FilterMessage decode(Object message) {
-    final Map<Object?, Object?> pigeonMap = message as Map<Object?, Object?>;
-    return FilterMessage(
-      filterId: pigeonMap['filterId']! as int,
-    );
-  }
-}
-
-class FloatFilterMessage {
-  FloatFilterMessage({
-    required this.filterId,
-    required this.name,
-    required this.value,
-  });
-
-  int filterId;
-  String name;
-  double value;
-
-  Object encode() {
-    final Map<Object?, Object?> pigeonMap = <Object?, Object?>{};
-    pigeonMap['filterId'] = filterId;
-    pigeonMap['name'] = name;
-    pigeonMap['value'] = value;
-    return pigeonMap;
-  }
-
-  static FloatFilterMessage decode(Object message) {
-    final Map<Object?, Object?> pigeonMap = message as Map<Object?, Object?>;
-    return FloatFilterMessage(
-      filterId: pigeonMap['filterId']! as int,
-      name: pigeonMap['name']! as String,
-      value: pigeonMap['value']! as double,
-    );
-  }
-}
-
-class FloatArrayFilterMessage {
-  FloatArrayFilterMessage({
-    required this.filterId,
-    required this.name,
-    required this.value,
-  });
-
-  int filterId;
-  String name;
-  List<double?> value;
-
-  Object encode() {
-    final Map<Object?, Object?> pigeonMap = <Object?, Object?>{};
-    pigeonMap['filterId'] = filterId;
-    pigeonMap['name'] = name;
-    pigeonMap['value'] = value;
-    return pigeonMap;
-  }
-
-  static FloatArrayFilterMessage decode(Object message) {
-    final Map<Object?, Object?> pigeonMap = message as Map<Object?, Object?>;
-    return FloatArrayFilterMessage(
-      filterId: pigeonMap['filterId']! as int,
-      name: pigeonMap['name']! as String,
-      value: (pigeonMap['value'] as List<Object?>?)!.cast<double?>(),
-    );
-  }
-}
-
-class SourceFilterMessage {
-  SourceFilterMessage({
-    required this.filterId,
-    required this.path,
-    required this.asset,
-  });
-
-  int filterId;
-  String path;
-  bool asset;
-
-  Object encode() {
-    final Map<Object?, Object?> pigeonMap = <Object?, Object?>{};
-    pigeonMap['filterId'] = filterId;
-    pigeonMap['path'] = path;
-    pigeonMap['asset'] = asset;
-    return pigeonMap;
-  }
-
-  static SourceFilterMessage decode(Object message) {
-    final Map<Object?, Object?> pigeonMap = message as Map<Object?, Object?>;
-    return SourceFilterMessage(
-      filterId: pigeonMap['filterId']! as int,
-      path: pigeonMap['path']! as String,
-      asset: pigeonMap['asset']! as bool,
-    );
-  }
-}
-
-class BitmapFilterMessage {
-  BitmapFilterMessage({
-    required this.filterId,
-    required this.name,
-    required this.path,
-    required this.asset,
-  });
-
-  int filterId;
-  String name;
-  String path;
-  bool asset;
-
-  Object encode() {
-    final Map<Object?, Object?> pigeonMap = <Object?, Object?>{};
-    pigeonMap['filterId'] = filterId;
-    pigeonMap['name'] = name;
-    pigeonMap['path'] = path;
-    pigeonMap['asset'] = asset;
-    return pigeonMap;
-  }
-
-  static BitmapFilterMessage decode(Object message) {
-    final Map<Object?, Object?> pigeonMap = message as Map<Object?, Object?>;
-    return BitmapFilterMessage(
-      filterId: pigeonMap['filterId']! as int,
-      name: pigeonMap['name']! as String,
-      path: pigeonMap['path']! as String,
-      asset: pigeonMap['asset']! as bool,
-    );
-  }
-}
-
-class BitmapDataFilterMessage {
-  BitmapDataFilterMessage({
-    required this.filterId,
-    required this.name,
-    required this.data,
-  });
-
-  int filterId;
-  String name;
-  Uint8List data;
-
-  Object encode() {
-    final Map<Object?, Object?> pigeonMap = <Object?, Object?>{};
-    pigeonMap['filterId'] = filterId;
-    pigeonMap['name'] = name;
-    pigeonMap['data'] = data;
-    return pigeonMap;
-  }
-
-  static BitmapDataFilterMessage decode(Object message) {
-    final Map<Object?, Object?> pigeonMap = message as Map<Object?, Object?>;
-    return BitmapDataFilterMessage(
-      filterId: pigeonMap['filterId']! as int,
-      name: pigeonMap['name']! as String,
-      data: pigeonMap['data']! as Uint8List,
-    );
-  }
-}
-
-class _FilterApiCodec extends StandardMessageCodec{
-  const _FilterApiCodec();
-  @override
-  void writeValue(WriteBuffer buffer, Object? value) {
-    if (value is BitmapDataFilterMessage) {
-      buffer.putUint8(128);
-      writeValue(buffer, value.encode());
-    } else 
-    if (value is BitmapFilterMessage) {
-      buffer.putUint8(129);
-      writeValue(buffer, value.encode());
-    } else 
-    if (value is CreateFilterMessage) {
-      buffer.putUint8(130);
-      writeValue(buffer, value.encode());
-    } else 
-    if (value is FilterMessage) {
-      buffer.putUint8(131);
-      writeValue(buffer, value.encode());
-    } else 
-    if (value is FloatArrayFilterMessage) {
-      buffer.putUint8(132);
-      writeValue(buffer, value.encode());
-    } else 
-    if (value is FloatFilterMessage) {
-      buffer.putUint8(133);
-      writeValue(buffer, value.encode());
-    } else 
-    if (value is SourceFilterMessage) {
-      buffer.putUint8(134);
-      writeValue(buffer, value.encode());
-    } else 
-{
-      super.writeValue(buffer, value);
-    }
-  }
-  @override
-  Object? readValueOfType(int type, ReadBuffer buffer) {
-    switch (type) {
-      case 128:       
-        return BitmapDataFilterMessage.decode(readValue(buffer)!);
-      
-      case 129:       
-        return BitmapFilterMessage.decode(readValue(buffer)!);
-      
-      case 130:       
-        return CreateFilterMessage.decode(readValue(buffer)!);
-      
-      case 131:       
-        return FilterMessage.decode(readValue(buffer)!);
-      
-      case 132:       
-        return FloatArrayFilterMessage.decode(readValue(buffer)!);
-      
-      case 133:       
-        return FloatFilterMessage.decode(readValue(buffer)!);
-      
-      case 134:       
-        return SourceFilterMessage.decode(readValue(buffer)!);
-      
-      default:      
-        return super.readValueOfType(type, buffer);
-      
-    }
-  }
-}
-
 class FilterApi {
   /// Constructor for [FilterApi].  The [binaryMessenger] named argument is
   /// available for dependency injection.  If it is left null, the default
   /// BinaryMessenger will be used which routes to the host platform.
-  FilterApi({BinaryMessenger? binaryMessenger}) : _binaryMessenger = binaryMessenger;
+  FilterApi({BinaryMessenger? binaryMessenger})
+      : _binaryMessenger = binaryMessenger;
   final BinaryMessenger? _binaryMessenger;
 
-  static const MessageCodec<Object?> codec = _FilterApiCodec();
+  static const MessageCodec<Object?> codec = StandardMessageCodec();
 
-  Future<FilterMessage> create(CreateFilterMessage arg_msg) async {
+  Future<int> create(String arg_fragmentShader) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.FilterApi.create', codec, binaryMessenger: _binaryMessenger);
-    final Map<Object?, Object?>? replyMap =
-        await channel.send(<Object?>[arg_msg]) as Map<Object?, Object?>?;
+        'dev.flutter.pigeon.FilterApi.create', codec,
+        binaryMessenger: _binaryMessenger);
+    final Map<Object?, Object?>? replyMap = await channel
+        .send(<Object?>[arg_fragmentShader]) as Map<Object?, Object?>?;
     if (replyMap == null) {
       throw PlatformException(
         code: 'channel-error',
         message: 'Unable to establish connection on channel.',
       );
     } else if (replyMap['error'] != null) {
-      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
+      final Map<Object?, Object?> error =
+          (replyMap['error'] as Map<Object?, Object?>?)!;
       throw PlatformException(
         code: (error['code'] as String?)!,
         message: error['message'] as String?,
@@ -298,22 +43,24 @@ class FilterApi {
         message: 'Host platform returned null value for non-null return value.',
       );
     } else {
-      return (replyMap['result'] as FilterMessage?)!;
+      return (replyMap['result'] as int?)!;
     }
   }
 
-  Future<void> setSource(SourceFilterMessage arg_msg) async {
+  Future<void> setInputAsset(int arg_filterId, String arg_path) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.FilterApi.setSource', codec, binaryMessenger: _binaryMessenger);
-    final Map<Object?, Object?>? replyMap =
-        await channel.send(<Object?>[arg_msg]) as Map<Object?, Object?>?;
+        'dev.flutter.pigeon.FilterApi.setInputAsset', codec,
+        binaryMessenger: _binaryMessenger);
+    final Map<Object?, Object?>? replyMap = await channel
+        .send(<Object?>[arg_filterId, arg_path]) as Map<Object?, Object?>?;
     if (replyMap == null) {
       throw PlatformException(
         code: 'channel-error',
         message: 'Unable to establish connection on channel.',
       );
     } else if (replyMap['error'] != null) {
-      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
+      final Map<Object?, Object?> error =
+          (replyMap['error'] as Map<Object?, Object?>?)!;
       throw PlatformException(
         code: (error['code'] as String?)!,
         message: error['message'] as String?,
@@ -324,18 +71,20 @@ class FilterApi {
     }
   }
 
-  Future<void> setFloatParameter(FloatFilterMessage arg_msg) async {
+  Future<void> setInputFile(int arg_filterId, String arg_path) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.FilterApi.setFloatParameter', codec, binaryMessenger: _binaryMessenger);
-    final Map<Object?, Object?>? replyMap =
-        await channel.send(<Object?>[arg_msg]) as Map<Object?, Object?>?;
+        'dev.flutter.pigeon.FilterApi.setInputFile', codec,
+        binaryMessenger: _binaryMessenger);
+    final Map<Object?, Object?>? replyMap = await channel
+        .send(<Object?>[arg_filterId, arg_path]) as Map<Object?, Object?>?;
     if (replyMap == null) {
       throw PlatformException(
         code: 'channel-error',
         message: 'Unable to establish connection on channel.',
       );
     } else if (replyMap['error'] != null) {
-      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
+      final Map<Object?, Object?> error =
+          (replyMap['error'] as Map<Object?, Object?>?)!;
       throw PlatformException(
         code: (error['code'] as String?)!,
         message: error['message'] as String?,
@@ -346,18 +95,22 @@ class FilterApi {
     }
   }
 
-  Future<void> setFloatArrayParameter(FloatArrayFilterMessage arg_msg) async {
+  Future<void> setFloatParameter(
+      int arg_filterId, String arg_key, double arg_value) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.FilterApi.setFloatArrayParameter', codec, binaryMessenger: _binaryMessenger);
+        'dev.flutter.pigeon.FilterApi.setFloatParameter', codec,
+        binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
-        await channel.send(<Object?>[arg_msg]) as Map<Object?, Object?>?;
+        await channel.send(<Object?>[arg_filterId, arg_key, arg_value])
+            as Map<Object?, Object?>?;
     if (replyMap == null) {
       throw PlatformException(
         code: 'channel-error',
         message: 'Unable to establish connection on channel.',
       );
     } else if (replyMap['error'] != null) {
-      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
+      final Map<Object?, Object?> error =
+          (replyMap['error'] as Map<Object?, Object?>?)!;
       throw PlatformException(
         code: (error['code'] as String?)!,
         message: error['message'] as String?,
@@ -368,18 +121,22 @@ class FilterApi {
     }
   }
 
-  Future<void> setBitmapParameter(BitmapFilterMessage arg_msg) async {
+  Future<void> setFloatArrayParameter(
+      int arg_filterId, String arg_key, List<double?> arg_value) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.FilterApi.setBitmapParameter', codec, binaryMessenger: _binaryMessenger);
+        'dev.flutter.pigeon.FilterApi.setFloatArrayParameter', codec,
+        binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
-        await channel.send(<Object?>[arg_msg]) as Map<Object?, Object?>?;
+        await channel.send(<Object?>[arg_filterId, arg_key, arg_value])
+            as Map<Object?, Object?>?;
     if (replyMap == null) {
       throw PlatformException(
         code: 'channel-error',
         message: 'Unable to establish connection on channel.',
       );
     } else if (replyMap['error'] != null) {
-      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
+      final Map<Object?, Object?> error =
+          (replyMap['error'] as Map<Object?, Object?>?)!;
       throw PlatformException(
         code: (error['code'] as String?)!,
         message: error['message'] as String?,
@@ -390,18 +147,22 @@ class FilterApi {
     }
   }
 
-  Future<void> setBitmapDataParameter(BitmapDataFilterMessage arg_msg) async {
+  Future<void> setBitmapParameter(
+      int arg_filterId, String arg_key, Uint8List arg_data) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.FilterApi.setBitmapDataParameter', codec, binaryMessenger: _binaryMessenger);
+        'dev.flutter.pigeon.FilterApi.setBitmapParameter', codec,
+        binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
-        await channel.send(<Object?>[arg_msg]) as Map<Object?, Object?>?;
+        await channel.send(<Object?>[arg_filterId, arg_key, arg_data])
+            as Map<Object?, Object?>?;
     if (replyMap == null) {
       throw PlatformException(
         code: 'channel-error',
         message: 'Unable to establish connection on channel.',
       );
     } else if (replyMap['error'] != null) {
-      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
+      final Map<Object?, Object?> error =
+          (replyMap['error'] as Map<Object?, Object?>?)!;
       throw PlatformException(
         code: (error['code'] as String?)!,
         message: error['message'] as String?,
@@ -412,18 +173,46 @@ class FilterApi {
     }
   }
 
-  Future<void> dispose(FilterMessage arg_msg) async {
+  Future<void> setBitmapSourceParameter(
+      int arg_filterId, String arg_key, bool arg_asset, String arg_path) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.FilterApi.dispose', codec, binaryMessenger: _binaryMessenger);
-    final Map<Object?, Object?>? replyMap =
-        await channel.send(<Object?>[arg_msg]) as Map<Object?, Object?>?;
+        'dev.flutter.pigeon.FilterApi.setBitmapSourceParameter', codec,
+        binaryMessenger: _binaryMessenger);
+    final Map<Object?, Object?>? replyMap = await channel
+            .send(<Object?>[arg_filterId, arg_key, arg_asset, arg_path])
+        as Map<Object?, Object?>?;
     if (replyMap == null) {
       throw PlatformException(
         code: 'channel-error',
         message: 'Unable to establish connection on channel.',
       );
     } else if (replyMap['error'] != null) {
-      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
+      final Map<Object?, Object?> error =
+          (replyMap['error'] as Map<Object?, Object?>?)!;
+      throw PlatformException(
+        code: (error['code'] as String?)!,
+        message: error['message'] as String?,
+        details: error['details'],
+      );
+    } else {
+      return;
+    }
+  }
+
+  Future<void> dispose(int arg_filterId) async {
+    final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.FilterApi.dispose', codec,
+        binaryMessenger: _binaryMessenger);
+    final Map<Object?, Object?>? replyMap =
+        await channel.send(<Object?>[arg_filterId]) as Map<Object?, Object?>?;
+    if (replyMap == null) {
+      throw PlatformException(
+        code: 'channel-error',
+        message: 'Unable to establish connection on channel.',
+      );
+    } else if (replyMap['error'] != null) {
+      final Map<Object?, Object?> error =
+          (replyMap['error'] as Map<Object?, Object?>?)!;
       throw PlatformException(
         code: (error['code'] as String?)!,
         message: error['message'] as String?,

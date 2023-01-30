@@ -4,81 +4,37 @@
 
 import 'package:pigeon/pigeon.dart';
 
-@ConfigurePigeon(PigeonOptions(
-  dartOut: 'lib/src/messages/filter_messages.g.dart',
-  javaOut:
-      'android/src/main/java/nd/flutter/plugins/gpu_video_filters/FilterMessages.java',
-  javaOptions: JavaOptions(
-    package: 'nd.flutter.plugins.gpu_video_filters',
+@ConfigurePigeon(
+  PigeonOptions(
+    dartOut: 'lib/src/messages/filter_messages.g.dart',
+    javaOut:
+        'android/src/main/java/nd/flutter/plugins/gpu_video_filters/FilterMessages.java',
+    javaOptions: JavaOptions(
+      package: 'nd.flutter.plugins.gpu_video_filters',
+    ),
+    copyrightHeader: 'pigeons/copyright.txt',
   ),
-  copyrightHeader: 'pigeons/copyright.txt',
-))
-class CreateFilterMessage {
-  CreateFilterMessage(this.fragmentShader);
-
-  String fragmentShader;
-}
-
-class FilterMessage {
-  FilterMessage(this.filterId);
-
-  int filterId;
-}
-
-class FloatFilterMessage {
-  FloatFilterMessage(this.filterId, this.name, this.value);
-
-  int filterId;
-  String name;
-  double value;
-}
-
-class FloatArrayFilterMessage {
-  FloatArrayFilterMessage(this.filterId, this.name, this.value);
-
-  int filterId;
-  String name;
-  List<double?> value;
-}
-
-class SourceFilterMessage {
-  SourceFilterMessage(this.filterId, this.path, this.asset);
-
-  int filterId;
-  String path;
-  bool asset;
-}
-
-class BitmapFilterMessage {
-  BitmapFilterMessage(this.filterId, this.name, this.path, this.asset);
-
-  int filterId;
-  String name;
-  String path;
-  bool asset;
-}
-
-class BitmapDataFilterMessage {
-  BitmapDataFilterMessage(this.filterId, this.name, this.data);
-
-  int filterId;
-  String name;
-  Uint8List data;
-}
-
+)
 @HostApi()
 abstract class FilterApi {
-  FilterMessage create(CreateFilterMessage msg);
+  int create(String fragmentShader);
 
-  void setSource(SourceFilterMessage msg);
+  void setInputAsset(int filterId, String path);
 
-  void setFloatParameter(FloatFilterMessage msg);
+  void setInputFile(int filterId, String path);
 
-  void setFloatArrayParameter(FloatArrayFilterMessage msg);
+  void setFloatParameter(int filterId, String key, double value);
 
-  void setBitmapParameter(BitmapFilterMessage msg);
+  void setFloatArrayParameter(int filterId, String key, List<double?> value);
 
-  void setBitmapDataParameter(BitmapDataFilterMessage msg);
+  void setBitmapParameter(int filterId, String key, Uint8List data);
 
-  void dispose(FilterMessage msg);
+  void setBitmapSourceParameter(
+    int filterId,
+    String key,
+    bool asset,
+    String path,
+  );
+
+  void dispose(int filterId);
 }

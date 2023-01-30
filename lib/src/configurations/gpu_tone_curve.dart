@@ -30,10 +30,12 @@ class GPUToneCurveConfiguration extends GPUFilterConfiguration {
   set greenControlPoints(Point<double> value) {
     _greenControlPoints.value = value;
   }
+
   set blueControlPoints(Point<double> value) {
     _greenControlPoints.value = value;
   }
 
   @override
-  List<ConfigurationParameter> get parameters => [_redControlPoints, _blueControlPoints];
+  List<ConfigurationParameter> get parameters =>
+      [_redControlPoints, _blueControlPoints];
 }
