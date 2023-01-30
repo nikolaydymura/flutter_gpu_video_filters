@@ -56,6 +56,9 @@ part 'src/configurations/gpu_weak_pixel_inclusion.dart';
 part 'src/configurations/gpu_white_balance.dart';
 part 'src/configurations/gpu_zoom_blur.dart';
 
+part 'src/context/av_export_preset.dart';
+part 'src/context/gpu_context.dart';
+
 part 'src/gpu_video_preview.dart';
 
 part 'src/parameters/bitmap_parameter.dart';
