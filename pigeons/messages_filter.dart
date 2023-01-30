@@ -17,11 +17,19 @@ import 'package:pigeon/pigeon.dart';
 )
 @HostApi()
 abstract class FilterApi {
-  int create(String fragmentShader);
+  int create(
+    String vertexShader,
+    String fragmentShader,
+    Map<String, double> defaults,
+  );
 
-  void setInputAsset(int filterId, String path);
-
-  void setInputFile(int filterId, String path);
+  int exportVideoFile(
+    int filterId,
+    bool asset,
+    String input,
+    String output,
+    String format,
+  );
 
   void setFloatParameter(int filterId, String key, double value);
 

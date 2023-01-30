@@ -25,9 +25,8 @@ import java.util.HashMap;
 public class FilterMessages {
   /** Generated interface from Pigeon that represents a handler of messages from Flutter. */
   public interface FilterApi {
-    @NonNull Long create(@NonNull String fragmentShader);
-    void setInputAsset(@NonNull Long filterId, @NonNull String path);
-    void setInputFile(@NonNull Long filterId, @NonNull String path);
+    @NonNull Long create(@NonNull String vertexShader, @NonNull String fragmentShader, @NonNull Map<String, Double> defaults);
+    @NonNull Long exportVideoFile(@NonNull Long filterId, @NonNull Boolean asset, @NonNull String input, @NonNull String output, @NonNull String format);
     void setFloatParameter(@NonNull Long filterId, @NonNull String key, @NonNull Double value);
     void setFloatArrayParameter(@NonNull Long filterId, @NonNull String key, @NonNull List<Double> value);
     void setBitmapParameter(@NonNull Long filterId, @NonNull String key, @NonNull byte[] data);
@@ -48,11 +47,19 @@ public class FilterMessages {
             try {
               ArrayList<Object> args = (ArrayList<Object>)message;
               assert args != null;
-              String fragmentShaderArg = (String)args.get(0);
+              String vertexShaderArg = (String)args.get(0);
+              if (vertexShaderArg == null) {
+                throw new NullPointerException("vertexShaderArg unexpectedly null.");
+              }
+              String fragmentShaderArg = (String)args.get(1);
               if (fragmentShaderArg == null) {
                 throw new NullPointerException("fragmentShaderArg unexpectedly null.");
               }
-              Long output = api.create(fragmentShaderArg);
+              Map<String, Double> defaultsArg = (Map<String, Double>)args.get(2);
+              if (defaultsArg == null) {
+                throw new NullPointerException("defaultsArg unexpectedly null.");
+              }
+              Long output = api.create(vertexShaderArg, fragmentShaderArg, defaultsArg);
               wrapped.put("result", output);
             }
             catch (Error | RuntimeException exception) {
@@ -66,7 +73,7 @@ public class FilterMessages {
       }
       {
         BasicMessageChannel<Object> channel =
-            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.FilterApi.setInputAsset", getCodec());
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.FilterApi.exportVideoFile", getCodec());
         if (api != null) {
           channel.setMessageHandler((message, reply) -> {
             Map<String, Object> wrapped = new HashMap<>();
@@ -77,41 +84,24 @@ public class FilterMessages {
               if (filterIdArg == null) {
                 throw new NullPointerException("filterIdArg unexpectedly null.");
               }
-              String pathArg = (String)args.get(1);
-              if (pathArg == null) {
-                throw new NullPointerException("pathArg unexpectedly null.");
+              Boolean assetArg = (Boolean)args.get(1);
+              if (assetArg == null) {
+                throw new NullPointerException("assetArg unexpectedly null.");
               }
-              api.setInputAsset((filterIdArg == null) ? null : filterIdArg.longValue(), pathArg);
-              wrapped.put("result", null);
-            }
-            catch (Error | RuntimeException exception) {
-              wrapped.put("error", wrapError(exception));
-            }
-            reply.reply(wrapped);
-          });
-        } else {
-          channel.setMessageHandler(null);
-        }
-      }
-      {
-        BasicMessageChannel<Object> channel =
-            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.FilterApi.setInputFile", getCodec());
-        if (api != null) {
-          channel.setMessageHandler((message, reply) -> {
-            Map<String, Object> wrapped = new HashMap<>();
-            try {
-              ArrayList<Object> args = (ArrayList<Object>)message;
-              assert args != null;
-              Number filterIdArg = (Number)args.get(0);
-              if (filterIdArg == null) {
-                throw new NullPointerException("filterIdArg unexpectedly null.");
+              String inputArg = (String)args.get(2);
+              if (inputArg == null) {
+                throw new NullPointerException("inputArg unexpectedly null.");
               }
-              String pathArg = (String)args.get(1);
-              if (pathArg == null) {
-                throw new NullPointerException("pathArg unexpectedly null.");
+              String outputArg = (String)args.get(3);
+              if (outputArg == null) {
+                throw new NullPointerException("outputArg unexpectedly null.");
               }
-              api.setInputFile((filterIdArg == null) ? null : filterIdArg.longValue(), pathArg);
-              wrapped.put("result", null);
+              String formatArg = (String)args.get(4);
+              if (formatArg == null) {
+                throw new NullPointerException("formatArg unexpectedly null.");
+              }
+              Long output = api.exportVideoFile((filterIdArg == null) ? null : filterIdArg.longValue(), assetArg, inputArg, outputArg, formatArg);
+              wrapped.put("result", output);
             }
             catch (Error | RuntimeException exception) {
               wrapped.put("error", wrapError(exception));

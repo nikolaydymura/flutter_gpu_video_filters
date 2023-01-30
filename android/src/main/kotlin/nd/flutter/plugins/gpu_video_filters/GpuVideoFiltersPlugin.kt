@@ -1,5 +1,6 @@
 package nd.flutter.plugins.gpu_video_filters
 
+import VideoFilterApiImpl
 import android.content.Context
 import android.net.Uri
 import android.os.Handler
@@ -77,51 +78,6 @@ class VideoTexture(private val context: Context) {
                         })
                 .build()
     }
-}
-
-class VideoFilterApiImpl(private val binding: FlutterPluginBinding) : FilterMessages.FilterApi {
-    var filters: LongSparseArray<DynamicProcessor> = LongSparseArray();
-    private var filterSequenceId: Long = 0;
-
-    override fun create(fragmentShader: String): Long {
-        val processor = DynamicProcessor(fragmentShader)
-        var filterId = filterSequenceId
-        filterSequenceId++
-        filters.put(filterId, processor)
-
-        return filterId
-    }
-
-    override fun setInputAsset(filterId: Long, path: String) {
-        TODO("Not yet implemented")
-    }
-
-    override fun setInputFile(filterId: Long, path: String) {
-        TODO("Not yet implemented")
-    }
-
-    override fun setFloatParameter(filterId: Long, key: String, value: Double) {
-        TODO("Not yet implemented")
-    }
-
-    override fun setFloatArrayParameter(filterId: Long, key: String, value: MutableList<Double>) {
-        TODO("Not yet implemented")
-    }
-
-    override fun setBitmapParameter(filterId: Long, key: String, data: ByteArray) {
-        TODO("Not yet implemented")
-    }
-
-    override fun setBitmapSourceParameter(filterId: Long, key: String, asset: Boolean, path: String) {
-        TODO("Not yet implemented")
-    }
-
-    override fun dispose(filterId: Long) {
-        val processor = filters[filterId]
-        processor.release()
-        filters.remove(filterId)
-    }
-
 }
 
 class VideoPreviewApiImpl(private val binding: FlutterPluginBinding, private val videoFilters: VideoFilterApiImpl) : PreviewMessages.VideoPreviewApi {

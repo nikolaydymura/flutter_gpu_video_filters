@@ -5,41 +5,59 @@ import static com.google.android.exoplayer2.util.Assertions.checkStateNotNull;
 import android.content.Context;
 import android.opengl.GLES20;
 import android.util.Size;
+import android.util.SparseArray;
 
 import com.google.android.exoplayer2.transformer.FrameProcessingException;
 import com.google.android.exoplayer2.transformer.SingleFrameGlTextureProcessor;
 import com.google.android.exoplayer2.util.GlProgram;
 import com.google.android.exoplayer2.util.GlUtil;
 
-import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class DynamicProcessor implements SingleFrameGlTextureProcessor {
     static {
         GlUtil.glAssertionsEnabled = true;
     }
 
-    private static final String VERTEX_SHADER_PATH = "vertex_shader_copy_es2.glsl";
+    private final String vertexShader;
     private final String fragmentShader;
 
     private Size outputSize;
     private GlProgram glProgram;
 
-    public DynamicProcessor(String fragmentShader) {
+    private final Map<String, Float> currentFloats = new HashMap<>();
+
+    public DynamicProcessor(String vertexShader, String fragmentShader, Map<String, Double> fragmentDefaultFloats) {
+        this.vertexShader = vertexShader;
         this.fragmentShader = fragmentShader;
+        for (String key : fragmentDefaultFloats.keySet()) {
+            currentFloats.put(key, fragmentDefaultFloats.get(key).floatValue());
+        }
     }
 
     @Override
-    public void initialize(Context context, int inputTexId, int inputWidth, int inputHeight)
-            throws IOException {
+    public void initialize(Context context, int inputTexId, int inputWidth, int inputHeight) {
         outputSize = new Size(inputWidth, inputHeight);
 
-        glProgram = new GlProgram(context, VERTEX_SHADER_PATH, fragmentShader);
+        glProgram = new GlProgram(vertexShader, fragmentShader);
         // Draw the frame on the entire normalized device coordinate space, from -1 to 1, for x and y.
         glProgram.setBufferAttribute(
                 "aFramePosition",
                 GlUtil.getNormalizedCoordinateBounds(),
                 GlUtil.HOMOGENEOUS_COORDINATE_VECTOR_SIZE);
-        glProgram.setSamplerTexIdUniform("uTexSampler0", inputTexId, /* texUnitIndex= */ 0);
+        for (String key : currentFloats.keySet()) {
+            glProgram.setFloatUniform(key, currentFloats.get(key));
+        }
+        glProgram.setSamplerTexIdUniform("inputImageTexture", inputTexId, /* texUnitIndex= */ 0);
+    }
+
+    public void setFloatUniform(String name, float value) {
+        if (glProgram != null) {
+            glProgram.setFloatUniform(name, value);
+        } else {
+            currentFloats.put(name, value);
+        }
     }
 
     @Override
