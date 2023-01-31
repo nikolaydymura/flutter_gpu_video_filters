@@ -92,7 +92,7 @@ class GPUVideoPreviewParams {
         .groupFoldBy((e) => e.name, (_, e) => e.floats);
     return GPUVideoPreviewParams._(
       vertexShader,
-      fragmentShader,
+      '#extension GL_OES_EGL_image_external : require\n${fragmentShader.replaceAll('sampler2D inputImageTexture', 'samplerExternalOES inputImageTexture')}',
       floats,
       arrays,
     );

@@ -11,7 +11,6 @@ import io.flutter.plugin.common.EventChannel
 import nd.flutter.plugins.gpu_video_filters.DynamicTextureProcessor
 import nd.flutter.plugins.gpu_video_filters.FilterMessages
 import java.io.File
-import java.nio.ByteBuffer
 
 class VideoFilterApiImpl(private val binding: FlutterPlugin.FlutterPluginBinding) : FilterMessages.FilterApi {
     var filters: LongSparseArray<DynamicTextureProcessor> = LongSparseArray();
