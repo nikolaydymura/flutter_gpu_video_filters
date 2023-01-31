@@ -1,8 +1,8 @@
 precision mediump float;
 varying vec2 vTextureCoord;
 
-uniform lowp sampler2D inoutSTexture;
-uniform lowp float inoutGamma;
+uniform lowp sampler2D inputSTexture;
+uniform lowp float inputGamma;
 
 void main()
 {

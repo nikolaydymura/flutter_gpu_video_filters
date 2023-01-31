@@ -2,7 +2,7 @@ precision highp float;
 varying vec2 vTextureCoord;
 
 uniform lowp sampler2D inputSTexture;
-uniform mediump float inputHhueAdjust;
+uniform mediump float inputHueAdjust;
 
 const highp vec4 kRGBToYPrime = vec4 (0.299, 0.587, 0.114, 0.0);
 const highp vec4 kRGBToI = vec4 (0.595716, -0.274453, -0.321263, 0.0);
@@ -27,7 +27,7 @@ void main ()
     highp float chroma = sqrt (I * I + Q * Q);
 
     // Make the user's adjustments
-    hue += (-inputHhueAdjust);//why negative rotation?
+    hue += (-inputHueAdjust);//why negative rotation?
 
     // Convert back to YIQ
     Q = chroma * sin (hue);

@@ -1,11 +1,11 @@
 varying vec2 vTextureCoord;
-uniform lowp sampler2D sTexture;
+uniform lowp sampler2D inputSTexture;
 
 void main() {
     highp vec2 sampleDivisor = vec2(1.0 / 200.0, 1.0 / 320.0);
 
     highp vec2 samplePos = vTextureCoord - mod(vTextureCoord, sampleDivisor);
-    highp vec4 color = texture2D(sTexture, samplePos);
+    highp vec4 color = texture2D(inputSTexture, samplePos);
 
     mediump vec4 colorCyan = vec4(85.0 / 255.0, 1.0, 1.0, 1.0);
     mediump vec4 colorMagenta = vec4(1.0, 85.0 / 255.0, 1.0, 1.0);
