@@ -33,7 +33,7 @@ abstract class FilterApi {
 
   void setFloatParameter(int filterId, String key, double value);
 
-  void setFloatArrayParameter(int filterId, String key, List<double?> value);
+  void setFloatArrayParameter(int filterId, String key, Float64List value);
 
   void setBitmapParameter(int filterId, String key, Uint8List data);
 

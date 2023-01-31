@@ -27,15 +27,15 @@ class SourcePreviewMessage {
 abstract class VideoPreviewApi {
   int create();
 
-  void connect(int textureId, int filterId);
+  void connect(int textureId, int filterId, bool embedded);
 
-  void disconnect(int textureId);
+  void disconnect(int textureId, bool embedded);
 
-  void setSource(SourcePreviewMessage msg);
+  void setSource(SourcePreviewMessage msg, bool embedded);
 
-  void resume(int textureId);
+  void resume(int textureId, bool embedded);
 
-  void pause(int textureId);
+  void pause(int textureId, bool embedded);
 
-  void dispose(int textureId);
+  void dispose(int textureId, bool embedded);
 }

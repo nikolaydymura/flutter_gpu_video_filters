@@ -5,7 +5,6 @@ import static com.google.android.exoplayer2.util.Assertions.checkStateNotNull;
 import android.content.Context;
 import android.opengl.GLES20;
 import android.util.Size;
-import android.util.SparseArray;
 
 import com.google.android.exoplayer2.transformer.FrameProcessingException;
 import com.google.android.exoplayer2.transformer.SingleFrameGlTextureProcessor;
@@ -14,12 +13,10 @@ import com.google.android.exoplayer2.util.GlUtil;
 
 import java.util.HashMap;
 import java.util.Map;
-
-public class DynamicProcessor implements SingleFrameGlTextureProcessor {
+public class DynamicTextureProcessor implements SingleFrameGlTextureProcessor {
     static {
         GlUtil.glAssertionsEnabled = true;
     }
-
     private final String vertexShader;
     private final String fragmentShader;
 
@@ -28,7 +25,9 @@ public class DynamicProcessor implements SingleFrameGlTextureProcessor {
 
     private final Map<String, Float> currentFloats = new HashMap<>();
 
-    public DynamicProcessor(String vertexShader, String fragmentShader, Map<String, Double> fragmentDefaultFloats) {
+    public OnUniformsUpdater onUniformsUpdater;
+
+    public DynamicTextureProcessor(String vertexShader, String fragmentShader, Map<String, Double> fragmentDefaultFloats) {
         this.vertexShader = vertexShader;
         this.fragmentShader = fragmentShader;
         for (String key : fragmentDefaultFloats.keySet()) {
@@ -57,6 +56,15 @@ public class DynamicProcessor implements SingleFrameGlTextureProcessor {
             glProgram.setFloatUniform(name, value);
         } else {
             currentFloats.put(name, value);
+        }
+        if (onUniformsUpdater != null) {
+            onUniformsUpdater.setFloatUniform(name, value);
+        }
+    }
+
+    public void setFloatsUniform(String name, float[] value) {
+        if (onUniformsUpdater != null) {
+            onUniformsUpdater.setFloatsUniform(name, value);
         }
     }
 

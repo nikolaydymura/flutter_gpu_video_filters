@@ -8,16 +8,17 @@ import com.google.android.exoplayer2.transformer.*
 import com.google.common.collect.ImmutableList
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.plugin.common.EventChannel
-import nd.flutter.plugins.gpu_video_filters.DynamicProcessor
+import nd.flutter.plugins.gpu_video_filters.DynamicTextureProcessor
 import nd.flutter.plugins.gpu_video_filters.FilterMessages
 import java.io.File
+import java.nio.ByteBuffer
 
 class VideoFilterApiImpl(private val binding: FlutterPlugin.FlutterPluginBinding) : FilterMessages.FilterApi {
-    var filters: LongSparseArray<DynamicProcessor> = LongSparseArray();
+    var filters: LongSparseArray<DynamicTextureProcessor> = LongSparseArray();
     private var filterSequenceId: Long = 0
     private var transformerSequenceId: Long = 0
     override fun create(vertexShader: String, fragmentShader: String, defaults: MutableMap<String, Double>): Long {
-        val processor = DynamicProcessor(vertexShader, fragmentShader, defaults)
+        val processor = DynamicTextureProcessor(vertexShader, fragmentShader, defaults)
         val filterId = filterSequenceId
         filterSequenceId++
         filters.put(filterId, processor)
@@ -48,10 +49,13 @@ class VideoFilterApiImpl(private val binding: FlutterPlugin.FlutterPluginBinding
     override fun setFloatParameter(filterId: Long, key: String, value: Double) {
         val processor = filters[filterId]
         processor.setFloatUniform(key, value.toFloat())
+
     }
 
-    override fun setFloatArrayParameter(filterId: Long, key: String, value: MutableList<Double>) {
-        TODO("Not yet implemented")
+    override fun setFloatArrayParameter(filterId: Long, key: String, value: DoubleArray) {
+        val array = value.map { it.toFloat() }.toFloatArray()
+        val processor = filters[filterId]
+        processor.setFloatsUniform(key, array)
     }
 
     override fun setBitmapParameter(filterId: Long, key: String, data: ByteArray) {
@@ -68,7 +72,7 @@ class VideoFilterApiImpl(private val binding: FlutterPlugin.FlutterPluginBinding
         filters.remove(filterId)
     }
 
-    private fun createTransformer(filter: DynamicProcessor): Transformer {
+    private fun createTransformer(filter: DynamicTextureProcessor): Transformer {
         val transformerBuilder = Transformer.Builder(binding.applicationContext)
         val requestBuilder = TransformationRequest.Builder()
         transformerBuilder
