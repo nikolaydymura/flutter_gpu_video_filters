@@ -1,9 +1,9 @@
 package nd.flutter.plugins.gpu_video_filters
 
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Handler
 import android.os.Looper.getMainLooper
-import android.util.Log
 import android.util.LongSparseArray
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.transformer.*
@@ -24,8 +24,7 @@ class VideoFilterApiImpl(private val binding: FlutterPlugin.FlutterPluginBinding
 
         return filterId
     }
-
-    override fun exportVideoFile(filterId: Long, asset: Boolean, input: String, output: String, format: String): Long {
+    override fun exportVideoFile(filterId: Long, asset: Boolean, input: String, output: String, format: String, period: Long): Long {
         val processor = filters[filterId]
         val mediaUri = if (asset) {
             val assetPath = binding.flutterAssets.getAssetFilePathByName(input)
@@ -38,7 +37,7 @@ class VideoFilterApiImpl(private val binding: FlutterPlugin.FlutterPluginBinding
         val eventChannel = EventChannel(binding.binaryMessenger, "Transformer_$transformerId")
         val transform = createTransformer(processor)
 
-        val streamHandler = TransformerStreamHandler(transform, mediaUri, output)
+        val streamHandler = TransformerStreamHandler(transform, mediaUri, output, period)
         eventChannel.setStreamHandler(streamHandler)
         transform.getProgress(ProgressHolder())
         return transformerId
@@ -58,11 +57,20 @@ class VideoFilterApiImpl(private val binding: FlutterPlugin.FlutterPluginBinding
     }
 
     override fun setBitmapParameter(filterId: Long, key: String, data: ByteArray) {
-        TODO("Not yet implemented")
+        val processor = filters[filterId]
+        processor.setBitmap(key, BitmapFactory.decodeByteArray(data, 0, data.size))
     }
 
     override fun setBitmapSourceParameter(filterId: Long, key: String, asset: Boolean, path: String) {
-        TODO("Not yet implemented")
+        val processor = filters[filterId]
+        if (asset) {
+            val assetPath = binding.flutterAssets.getAssetFilePathByName(path)
+            val stream = binding.applicationContext
+                    .assets.open(assetPath)
+            processor.setBitmap(key, BitmapFactory.decodeStream(stream))
+        } else {
+            processor.setBitmap(key, BitmapFactory.decodeFile(path))
+        }
     }
 
     override fun dispose(filterId: Long) {
@@ -90,7 +98,8 @@ class VideoFilterApiImpl(private val binding: FlutterPlugin.FlutterPluginBinding
 
 class TransformerStreamHandler(private val transform: Transformer,
                                private val mediaUri: Uri,
-                               private val outputPath: String) : EventChannel.StreamHandler, Transformer.Listener, Runnable {
+                               private val outputPath: String,
+                               private val period: Long) : EventChannel.StreamHandler, Transformer.Listener, Runnable {
     private var eventSink: EventChannel.EventSink? = null
     private val progressHolder: ProgressHolder = ProgressHolder()
     private val mainHandler: Handler = Handler(getMainLooper())
@@ -106,7 +115,7 @@ class TransformerStreamHandler(private val transform: Transformer,
         if (transform.getProgress(progressHolder)
                 != Transformer.PROGRESS_STATE_NO_TRANSFORMATION) {
             eventSink?.success(progressHolder.progress)
-            mainHandler.postDelayed(this, 1000)
+            mainHandler.postDelayed(this, period)
         }
     }
 
@@ -118,14 +127,11 @@ class TransformerStreamHandler(private val transform: Transformer,
     }
 
     override fun onTransformationCompleted(inputMediaItem: MediaItem, transformationResult: TransformationResult) {
-        Log.i(javaClass.simpleName, "onTransformationCompleted $outputPath $inputMediaItem")
-        eventSink?.success(-100)
         eventSink?.endOfStream()
         mainHandler.removeCallbacksAndMessages(null)
     }
 
     override fun onTransformationError(inputMediaItem: MediaItem, exception: TransformationException) {
-        Log.e(javaClass.simpleName, "onTransformationError $inputMediaItem", exception)
         eventSink?.error("gpu_video-filters", exception.localizedMessage, exception)
         mainHandler.removeCallbacksAndMessages(null)
     }

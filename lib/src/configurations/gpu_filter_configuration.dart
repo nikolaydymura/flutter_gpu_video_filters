@@ -42,7 +42,10 @@ abstract class GPUFilterConfiguration extends FilterConfiguration {
     }
   }
 
-  Future<Stream<int>> exportVideoFile(VideoExportConfig config) async {
+  Future<Stream<int>> exportVideoFile(
+    VideoExportConfig config, {
+    Duration period = const Duration(seconds: 1),
+  }) async {
     final source = config.source;
     final output = config.output;
     var format = config.format;
@@ -60,6 +63,7 @@ abstract class GPUFilterConfiguration extends FilterConfiguration {
           source.path,
           output.absolute.path,
           'mp4',
+          period.inMilliseconds,
         );
         return EventChannel('Transformer_$sessionId')
             .receiveBroadcastStream()
@@ -73,6 +77,7 @@ abstract class GPUFilterConfiguration extends FilterConfiguration {
           source.path,
           output.absolute.path,
           'mov',
+          period.inMilliseconds,
         );
         return EventChannel('Transformer_$sessionId')
             .receiveBroadcastStream()

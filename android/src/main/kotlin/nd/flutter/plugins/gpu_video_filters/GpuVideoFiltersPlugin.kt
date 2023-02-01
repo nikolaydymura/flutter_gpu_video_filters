@@ -1,6 +1,7 @@
 package nd.flutter.plugins.gpu_video_filters
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.net.Uri
 import android.util.LongSparseArray
 import android.view.Surface
@@ -137,6 +138,7 @@ class VideoPreviewApiImpl(private val binding: FlutterPluginBinding, private val
         val params = args as Map<*, *>
         val vertex = params["vertex"] as String
         val fragment = params["fragment"] as String
+        val texture = params["textureName"] as String?
         val defaultFloats = HashMap<String, Float>()
         val defaultArrayFloats = HashMap<String, FloatArray>()
         for (key in params.keys) {
@@ -150,7 +152,7 @@ class VideoPreviewApiImpl(private val binding: FlutterPluginBinding, private val
                 defaultArrayFloats[key as String] = value
             }
         }
-        val preview = VideoPreview(context!!, vertex, fragment, defaultFloats, defaultArrayFloats)
+        val preview = VideoPreview(context!!, vertex, fragment, defaultFloats, defaultArrayFloats, texture)
         videosPreviews.put(viewId.toLong(), preview)
         return preview
     }
@@ -160,10 +162,11 @@ class VideoPreview(context: Context,
                    vertexGlsl: String,
                    fragmentGlsl: String,
                    defaultFloats: Map<String, Float>,
-                   defaultArrayFloats: Map<String, FloatArray>) : PlatformView, OnUniformsUpdater {
+                   defaultArrayFloats: Map<String, FloatArray>,
+                   textureName: String? = null) : PlatformView, OnUniformsUpdater {
 
     val player: ExoPlayer = ExoPlayer.Builder(context).build()
-    private val processor: DynamicVideoProcessor = DynamicVideoProcessor(vertexGlsl, fragmentGlsl, defaultFloats, defaultArrayFloats)
+    private val processor: DynamicVideoProcessor = DynamicVideoProcessor(vertexGlsl, fragmentGlsl, defaultFloats, defaultArrayFloats, textureName)
     val videoProcessingGLSurfaceView: VideoProcessingGLSurfaceView = VideoProcessingGLSurfaceView(
             context, false, processor)
 
@@ -182,5 +185,9 @@ class VideoPreview(context: Context,
 
     override fun setFloatsUniform(name: String?, value: FloatArray?) {
         processor.setFloatsUniform(name, value)
+    }
+
+    override fun setBitmapUniform(name: String?, value: Bitmap?) {
+        processor.setSecondBitmap(value)
     }
 }

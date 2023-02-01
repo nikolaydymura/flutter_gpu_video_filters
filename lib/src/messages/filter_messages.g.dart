@@ -48,8 +48,13 @@ class FilterApi {
     }
   }
 
-  Future<int> exportVideoFile(int arg_filterId, bool arg_asset,
-      String arg_input, String arg_output, String arg_format) async {
+  Future<int> exportVideoFile(
+      int arg_filterId,
+      bool arg_asset,
+      String arg_input,
+      String arg_output,
+      String arg_format,
+      int arg_period) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.FilterApi.exportVideoFile', codec,
         binaryMessenger: _binaryMessenger);
@@ -58,7 +63,8 @@ class FilterApi {
       arg_asset,
       arg_input,
       arg_output,
-      arg_format
+      arg_format,
+      arg_period
     ]) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(

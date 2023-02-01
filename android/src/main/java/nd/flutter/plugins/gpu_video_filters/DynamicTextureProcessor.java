@@ -3,6 +3,7 @@ package nd.flutter.plugins.gpu_video_filters;
 import static com.google.android.exoplayer2.util.Assertions.checkStateNotNull;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.opengl.GLES20;
 import android.util.Size;
 
@@ -65,6 +66,12 @@ public class DynamicTextureProcessor implements SingleFrameGlTextureProcessor {
     public void setFloatsUniform(String name, float[] value) {
         if (onUniformsUpdater != null) {
             onUniformsUpdater.setFloatsUniform(name, value);
+        }
+    }
+
+    public void setBitmap(String name, Bitmap value) {
+        if (onUniformsUpdater != null) {
+            onUniformsUpdater.setBitmapUniform(name, value);
         }
     }
 

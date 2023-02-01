@@ -39,7 +39,7 @@ public class FilterMessages {
     Long create(@NonNull String vertexShader, @NonNull String fragmentShader, @NonNull Map<String, Double> defaults);
 
     @NonNull 
-    Long exportVideoFile(@NonNull Long filterId, @NonNull Boolean asset, @NonNull String input, @NonNull String output, @NonNull String format);
+    Long exportVideoFile(@NonNull Long filterId, @NonNull Boolean asset, @NonNull String input, @NonNull String output, @NonNull String format, @NonNull Long period);
 
     void setFloatParameter(@NonNull Long filterId, @NonNull String key, @NonNull Double value);
 
@@ -123,7 +123,11 @@ public class FilterMessages {
                   if (formatArg == null) {
                     throw new NullPointerException("formatArg unexpectedly null.");
                   }
-                  Long output = api.exportVideoFile((filterIdArg == null) ? null : filterIdArg.longValue(), assetArg, inputArg, outputArg, formatArg);
+                  Number periodArg = (Number) args.get(5);
+                  if (periodArg == null) {
+                    throw new NullPointerException("periodArg unexpectedly null.");
+                  }
+                  Long output = api.exportVideoFile((filterIdArg == null) ? null : filterIdArg.longValue(), assetArg, inputArg, outputArg, formatArg, (periodArg == null) ? null : periodArg.longValue());
                   wrapped.add(0, output);
                 } catch (Error | RuntimeException exception) {
                   ArrayList<Object> wrappedError = wrapError(exception);

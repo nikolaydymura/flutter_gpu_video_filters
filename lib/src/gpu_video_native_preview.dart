@@ -67,12 +67,14 @@ class GPUVideoPreviewParams {
   final String _fragmentShader;
   final Map<String, double> _floats;
   final Map<String, Float32List> _arrays;
+  final String? _texture;
 
   GPUVideoPreviewParams._(
     this._vertexShader,
     this._fragmentShader,
     this._floats,
     this._arrays,
+    this._texture,
   );
 
   static Future<GPUVideoPreviewParams> create(
@@ -90,11 +92,17 @@ class GPUVideoPreviewParams {
     final arrays = configuration.parameters
         .whereType<_FloatsParameter>()
         .groupFoldBy((e) => e.name, (_, e) => e.floats);
+
+    final textures = configuration.parameters
+        .whereType<_BitmapParameter>()
+        .singleOrNull
+        ?.name;
     return GPUVideoPreviewParams._(
       vertexShader,
       '#extension GL_OES_EGL_image_external : require\n${fragmentShader.replaceAll('sampler2D inputImageTexture', 'samplerExternalOES inputImageTexture')}',
       floats,
       arrays,
+      textures,
     );
   }
 
@@ -103,7 +111,8 @@ class GPUVideoPreviewParams {
       'vertex': _vertexShader,
       'fragment': _fragmentShader,
       ..._floats,
-      ..._arrays
+      ..._arrays,
+      if (_texture != null) 'textureName': _texture,
     });
   }
 }

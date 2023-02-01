@@ -1,37 +1,83 @@
 part of flutter_gpu_video_filters;
 
-class GPULookupTableConfiguration extends GPUFilterConfiguration {
-  final NumberParameter _cubeDimension;
-  final DataParameter _cubeData;
+class GPUSquareLookupTableConfiguration extends GPUFilterConfiguration {
+  final NumberParameter _intensity;
+  final DataParameter _lutImage;
 
-  GPULookupTableConfiguration()
-      : _cubeDimension =
-            _FloatParameter('inputCubeDimension', 'Cube Dimension', 2),
-        _cubeData = _BitmapParameter('inputCubeData', 'Cube Data'),
-        super('LookupTable');
+  GPUSquareLookupTableConfiguration()
+      : _intensity = _SliderFloatParameter(
+          'inputIntensity',
+          'Intensity',
+          1.0,
+          min: 0,
+          max: 1,
+        ),
+        _lutImage = _BitmapParameter('inputTextureCubeData', 'LUT'),
+        super('SquareLookupTable');
 
-  set cubeDimension(int value) {
-    _cubeDimension.value = value;
+  set intensity(double value) {
+    _intensity.value = value;
   }
 
-  set cubeData(Uint8List value) {
-    _cubeData.data = value;
-    _cubeData.asset = null;
-    _cubeData.file = null;
+  set lutImage(Uint8List value) {
+    _lutImage.data = value;
+    _lutImage.asset = null;
+    _lutImage.file = null;
   }
 
-  set cubeDataAsset(String value) {
-    _cubeData.data = null;
-    _cubeData.asset = value;
-    _cubeData.file = null;
+  set lutImageAsset(String value) {
+    _lutImage.data = null;
+    _lutImage.asset = value;
+    _lutImage.file = null;
   }
 
-  set cubeDataFile(File value) {
-    _cubeData.data = null;
-    _cubeData.asset = null;
-    _cubeData.file = value;
+  set lutImageFile(File value) {
+    _lutImage.data = null;
+    _lutImage.asset = null;
+    _lutImage.file = value;
   }
 
   @override
-  List<ConfigurationParameter> get parameters => [_cubeDimension, _cubeData];
+  List<ConfigurationParameter> get parameters => [_intensity, _lutImage];
+}
+
+class GPUHALDLookupTableConfiguration extends GPUFilterConfiguration {
+  final NumberParameter _intensity;
+  final DataParameter _lutImage;
+
+  GPUHALDLookupTableConfiguration()
+      : _intensity = _SliderFloatParameter(
+          'inputIntensity',
+          'Intensity',
+          1.0,
+          min: 0,
+          max: 1,
+        ),
+        _lutImage = _BitmapParameter('inputTextureCubeData', 'LUT'),
+        super('HALDLookupTable');
+
+  set intensity(double value) {
+    _intensity.value = value;
+  }
+
+  set lutImage(Uint8List value) {
+    _lutImage.data = value;
+    _lutImage.asset = null;
+    _lutImage.file = null;
+  }
+
+  set lutImageAsset(String value) {
+    _lutImage.data = null;
+    _lutImage.asset = value;
+    _lutImage.file = null;
+  }
+
+  set lutImageFile(File value) {
+    _lutImage.data = null;
+    _lutImage.asset = null;
+    _lutImage.file = value;
+  }
+
+  @override
+  List<ConfigurationParameter> get parameters => [_intensity, _lutImage];
 }
