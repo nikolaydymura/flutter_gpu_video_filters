@@ -1,13 +1,10 @@
 package nd.flutter.plugins.gpu_video_filters
 
-import VideoFilterApiImpl
 import android.content.Context
 import android.net.Uri
-import android.util.Log
 import android.util.LongSparseArray
 import android.view.Surface
 import android.view.View
-import androidx.annotation.NonNull
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
@@ -23,7 +20,7 @@ import java.io.File
 /** GpuVideoFiltersPlugin */
 class GpuVideoFiltersPlugin : FlutterPlugin {
 
-    override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
+    override fun onAttachedToEngine(flutterPluginBinding: FlutterPluginBinding) {
         val videoFilterApiImpl = VideoFilterApiImpl(flutterPluginBinding)
         val videoPreviewApiImpl = VideoPreviewApiImpl(flutterPluginBinding, videoFilterApiImpl)
         FilterMessages.FilterApi.setup(flutterPluginBinding.binaryMessenger, videoFilterApiImpl)
@@ -34,7 +31,7 @@ class GpuVideoFiltersPlugin : FlutterPlugin {
                 .registerViewFactory("GPUVideoPreview", videoPreviewApiImpl)
     }
 
-    override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
+    override fun onDetachedFromEngine(binding: FlutterPluginBinding) {
 
     }
 }
@@ -45,11 +42,11 @@ class VideoTexture(context: Context) {
 }
 
 class VideoPreviewApiImpl(private val binding: FlutterPluginBinding, private val videoFilters: VideoFilterApiImpl) : PlatformViewFactory(StandardMessageCodec.INSTANCE), PreviewMessages.VideoPreviewApi {
-    var videosSources: LongSparseArray<VideoTexture> = LongSparseArray();
-    var videosPreviews: LongSparseArray<VideoPreview> = LongSparseArray();
+    private var videosSources = LongSparseArray<VideoTexture>()
+    private var videosPreviews = LongSparseArray<VideoPreview>()
 
     override fun create(): Long {
-        val texture = binding.textureRegistry.createSurfaceTexture();
+        val texture = binding.textureRegistry.createSurfaceTexture()
         val videoTexture = VideoTexture(binding.applicationContext)
         videoTexture.player.setVideoSurface(Surface(texture.surfaceTexture()))
         videosSources.put(texture.id(), videoTexture)
@@ -137,20 +134,20 @@ class VideoPreviewApiImpl(private val binding: FlutterPluginBinding, private val
     }
 
     override fun create(context: Context?, viewId: Int, args: Any?): PlatformView {
-        val params = args as Map<String, *>
+        val params = args as Map<*, *>
         val vertex = params["vertex"] as String
         val fragment = params["fragment"] as String
         val defaultFloats = HashMap<String, Float>()
         val defaultArrayFloats = HashMap<String, FloatArray>()
         for (key in params.keys) {
             if (key == "vertex" || key == "fragment") {
-                continue;
+                continue
             }
             val value = params[key]
             if (value is Double) {
-                defaultFloats[key] = value.toFloat()
+                defaultFloats[key as String] = value.toFloat()
             } else if (value is FloatArray) {
-                defaultArrayFloats[key] = value;
+                defaultArrayFloats[key as String] = value
             }
         }
         val preview = VideoPreview(context!!, vertex, fragment, defaultFloats, defaultArrayFloats)
@@ -168,9 +165,9 @@ class VideoPreview(context: Context,
     val player: ExoPlayer = ExoPlayer.Builder(context).build()
     private val processor: DynamicVideoProcessor = DynamicVideoProcessor(vertexGlsl, fragmentGlsl, defaultFloats, defaultArrayFloats)
     val videoProcessingGLSurfaceView: VideoProcessingGLSurfaceView = VideoProcessingGLSurfaceView(
-            context, false, processor);
+            context, false, processor)
 
-    override fun getView(): View? {
+    override fun getView(): View {
         return videoProcessingGLSurfaceView
     }
 
@@ -184,7 +181,6 @@ class VideoPreview(context: Context,
     }
 
     override fun setFloatsUniform(name: String?, value: FloatArray?) {
-        Log.e(javaClass.simpleName, "$name == $value")
         processor.setFloatsUniform(name, value)
     }
 }

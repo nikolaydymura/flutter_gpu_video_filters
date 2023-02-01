@@ -1,3 +1,5 @@
+package nd.flutter.plugins.gpu_video_filters
+
 import android.net.Uri
 import android.os.Handler
 import android.os.Looper.getMainLooper
@@ -8,12 +10,10 @@ import com.google.android.exoplayer2.transformer.*
 import com.google.common.collect.ImmutableList
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.plugin.common.EventChannel
-import nd.flutter.plugins.gpu_video_filters.DynamicTextureProcessor
-import nd.flutter.plugins.gpu_video_filters.FilterMessages
 import java.io.File
 
 class VideoFilterApiImpl(private val binding: FlutterPlugin.FlutterPluginBinding) : FilterMessages.FilterApi {
-    var filters: LongSparseArray<DynamicTextureProcessor> = LongSparseArray();
+    var filters: LongSparseArray<DynamicTextureProcessor> = LongSparseArray()
     private var filterSequenceId: Long = 0
     private var transformerSequenceId: Long = 0
     override fun create(vertexShader: String, fragmentShader: String, defaults: MutableMap<String, Double>): Long {
