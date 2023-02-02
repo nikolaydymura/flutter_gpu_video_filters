@@ -1,7 +1,7 @@
 precision highp float;
-varying vec2 vTextureCoord;
+varying vec2 textureCoordinate;
 
-uniform lowp sampler2D inputSTexture;
+uniform lowp sampler2D inputImageTexture;
 uniform mediump float inputHueAdjust;
 
 const highp vec4 kRGBToYPrime = vec4 (0.299, 0.587, 0.114, 0.0);
@@ -15,7 +15,7 @@ const highp vec4 kYIQToB = vec4 (1.0, -1.1070, 1.7046, 0.0);
 void main ()
 {
     // Sample the input pixel
-    highp vec4 color = texture2D(inputSTexture, vTextureCoord);
+    highp vec4 color = texture2D(inputImageTexture, textureCoordinate);
 
     // Convert to YIQ
     highp float YPrime = dot (color, kRGBToYPrime);

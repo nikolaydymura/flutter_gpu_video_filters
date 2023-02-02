@@ -1,14 +1,14 @@
 precision mediump float;
- varying vec2 vTextureCoord;
+ varying vec2 textureCoordinate;
 
- uniform lowp sampler2D inputSTexture;
+ uniform lowp sampler2D inputImageTexture;
  uniform highp float inputThreshold;
 
  const highp vec3 W = vec3(0.2125, 0.7154, 0.0721);
 
 void main()
 {
-    highp vec4 textureColor = texture2D(inputSTexture, vTextureCoord);
+    highp vec4 textureColor = texture2D(inputImageTexture, textureCoordinate);
     highp float luminance = dot(textureColor.rgb, W);
     highp float inputThresholdResult = step(luminance, inputThreshold);
     highp vec3 finalColor = abs(inputThresholdResult - textureColor.rgb);

@@ -5,14 +5,14 @@ class GPUHueConfiguration extends GPUFilterConfiguration {
 
   GPUHueConfiguration()
       : _hue = _FloatParameter(
-          'inputHue',
-          'Hue',
-          90,
+          'inputHueAdjust',
+          'Hue Adjust',
+          1.57,
         ),
         super('Hue');
 
   set hue(double value) {
-    _hue.value = value;
+    _hue.value = (value % 360.0) * pi / 180.0;
   }
 
   @override

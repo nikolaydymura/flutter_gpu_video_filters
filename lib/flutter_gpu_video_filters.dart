@@ -16,6 +16,7 @@ import 'src/messages/filter_messages.g.dart';
 import 'src/messages/preview_messages.g.dart';
 
 part 'src/configurations/gpu_add_blend.dart';
+part 'src/configurations/gpu_alpha_blend.dart';
 part 'src/configurations/gpu_bilateral.dart';
 part 'src/configurations/gpu_box_blur.dart';
 part 'src/configurations/gpu_brightness.dart';
@@ -48,9 +49,8 @@ part 'src/configurations/gpu_sharpen.dart';
 part 'src/configurations/gpu_solarize.dart';
 part 'src/configurations/gpu_sphere_refraction.dart';
 part 'src/configurations/gpu_swirl.dart';
-part 'src/configurations/gpu_threex3_texture_sampling.dart';
-part 'src/configurations/gpu_tone.dart';
 part 'src/configurations/gpu_tone_curve.dart';
+part 'src/configurations/gpu_toon.dart';
 part 'src/configurations/gpu_vibrance.dart';
 part 'src/configurations/gpu_vignette.dart';
 part 'src/configurations/gpu_watermark.dart';
@@ -58,6 +58,7 @@ part 'src/configurations/gpu_weak_pixel_inclusion.dart';
 part 'src/configurations/gpu_white_balance.dart';
 part 'src/configurations/gpu_zoom_blur.dart';
 part 'src/configurations/utils/image_2_mixin.dart';
+part 'src/configurations/utils/sampling_3x3_mixin.dart';
 part 'src/gpu_video_native_preview.dart';
 part 'src/gpu_video_texture_preview.dart';
 part 'src/parameters/bitmap_parameter.dart';
@@ -66,7 +67,6 @@ part 'src/parameters/float_parameter.dart';
 part 'src/parameters/floats_parameter_mixin.dart';
 part 'src/parameters/point_parameter.dart';
 part 'src/parameters/slider_float_parameter.dart';
-part 'src/configurations/gpu_alpha_blend.dart';
 
 class FlutterVideoFilters {
   static Iterable<String> get availableFilters =>
@@ -107,9 +107,7 @@ class FlutterVideoFilters {
               'Solarize': () => GPUSolarizeConfiguration(),
               'Sphere Refraction': () => GPUSphereRefractionConfiguration(),
               'Swirl': () => GPUSwirlConfiguration(),
-              'Three x3 Texture Sampling': () =>
-                  GPUThreex3TextureSamplingConfiguration(),
-              'Tone': () => GPUToneConfiguration(),
+              'Toon': () => GPUToonConfiguration(),
               'Tone Curve': () => GPUToneCurveConfiguration(),
               'Vibrance': () => GPUVibranceConfiguration(),
               'Vignette': () => GPUVignetteConfiguration(),
@@ -119,7 +117,7 @@ class FlutterVideoFilters {
               'WhiteBalance': () => GPUWhiteBalanceConfiguration(),
               'Zoom Blur': () => GPUZoomBlurConfiguration(),
               'Add Blend': () => GPUAddBlendConfiguration(),
-              'Alpha Blend' : () => GPUAlphaBlendConfiguration(),
+              'Alpha Blend': () => GPUAlphaBlendConfiguration(),
             }
           : {};
 

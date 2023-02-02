@@ -6,23 +6,26 @@ class GPURGBConfiguration extends GPUFilterConfiguration {
   final NumberParameter _blue;
 
   GPURGBConfiguration()
-      : _red = _SliderFloatParameter(
+      : _red = _ColorIntensityParameter(
           'inputRed',
           'Red',
-          1,
+          255,
           min: 0,
+          max: 255,
         ),
-        _green = _SliderFloatParameter(
+        _green = _ColorIntensityParameter(
           'inputGreen',
           'Green',
-          1,
+          255,
           min: 0,
+          max: 255,
         ),
-        _blue = _SliderFloatParameter(
+        _blue = _ColorIntensityParameter(
           'inputBlue',
           'Blue',
-          1,
+          255,
           min: 0,
+          max: 255,
         ),
         super('RGB');
 

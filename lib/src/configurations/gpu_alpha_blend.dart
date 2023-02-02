@@ -5,8 +5,13 @@ class GPUAlphaBlendConfiguration extends GPUFilterConfiguration
   final NumberParameter _mixturePercent;
 
   GPUAlphaBlendConfiguration()
-      : _mixturePercent =
-            _FloatParameter('inputMixturePercent', 'Mixture Percent', 0),
+      : _mixturePercent = _SliderFloatParameter(
+          'inputMixturePercent',
+          'Mixture Percent',
+          0.5,
+          min: 0.0,
+          max: 1.0,
+        ),
         super('AlphaBlend');
 
   set mixturePercent(double value) {

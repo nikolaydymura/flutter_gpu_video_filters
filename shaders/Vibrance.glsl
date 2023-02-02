@@ -1,11 +1,11 @@
 precision mediump float;
-varying vec2 vTextureCoord;
+varying vec2 textureCoordinate;
 
-uniform lowp sampler2D inputSTexture;
+uniform lowp sampler2D inputImageTexture;
 uniform lowp float inputVibrance;
 
 void main() {
-    lowp vec4 color = texture2D(inputSTexture, vTextureCoord);
+    lowp vec4 color = texture2D(inputImageTexture, textureCoordinate);
     lowp float average = (color.r + color.g + color.b) / 3.0;
     lowp float mx = max(color.r, max(color.g, color.b));
     lowp float amt = (mx - average) * (-inputVibrance * 3.0);

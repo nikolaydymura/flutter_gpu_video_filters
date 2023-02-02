@@ -5,12 +5,12 @@ class GPUWhiteBalanceConfiguration extends GPUFilterConfiguration {
   final NumberParameter _tint;
 
   GPUWhiteBalanceConfiguration()
-      : _temperature = _FloatParameter(
+      : _temperature = _TemperatureParameter(
           'inputTemperature',
           'Temperature',
           5000,
         ),
-        _tint = _FloatParameter(
+        _tint = _TintParameter(
           'inputTint',
           'Tint',
           0,

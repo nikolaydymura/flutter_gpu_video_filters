@@ -9,12 +9,12 @@ class GPUBulgeDistortionConfiguration extends GPUFilterConfiguration {
   GPUBulgeDistortionConfiguration()
       : _centerX = _FloatParameter(
           'inputCenterX',
-          'CenterX',
+          'Center X',
           0.5,
         ),
         _centerY = _FloatParameter(
           'inputCenterY',
-          'CenterY',
+          'Center Y',
           0.5,
         ),
         _radius = _FloatParameter(

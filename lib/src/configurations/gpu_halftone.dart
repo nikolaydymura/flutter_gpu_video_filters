@@ -15,7 +15,7 @@ class GPUHalftoneConfiguration extends GPUFilterConfiguration {
           'AspectRatio',
           1,
         ),
-        super('Halftone');
+        super('HalfTone');
 
   set fractionalWidthOfPixel(double value) {
     _fractionalWidthOfPixel.value = value;

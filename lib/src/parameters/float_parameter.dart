@@ -12,3 +12,30 @@ class _FloatParameter extends NumberParameter {
     );
   }
 }
+
+class _TemperatureParameter extends _FloatParameter {
+  _TemperatureParameter(
+    super.name,
+    super.displayName,
+    super.value,
+  );
+
+  @override
+  num get value {
+    final temperature = super.value.toDouble();
+    return temperature < 5000
+        ? 0.0004 * (temperature - 5000.0)
+        : 0.00006 * (temperature - 5000.0);
+  }
+}
+
+class _TintParameter extends _FloatParameter {
+  _TintParameter(
+    super.shaderName,
+    super.displayName,
+    super.value,
+  );
+
+  @override
+  num get value => super.value.toDouble() / 100.0;
+}

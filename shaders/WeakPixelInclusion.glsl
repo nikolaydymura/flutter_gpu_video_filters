@@ -1,6 +1,6 @@
 precision lowp float;
 
-uniform lowp sampler2D inputSTexture;
+uniform lowp sampler2D inputImageTexture;
 
 varying vec2 textureCoordinate;
 varying vec2 leftTextureCoordinate;
@@ -15,15 +15,15 @@ varying vec2 bottomLeftTextureCoordinate;
 varying vec2 bottomRightTextureCoordinate;
 
 void main() {
-    float bottomLeftIntensity = texture2D(inputSTexture, bottomLeftTextureCoordinate).r;
-    float topRightIntensity = texture2D(inputSTexture, topRightTextureCoordinate).r;
-    float topLeftIntensity = texture2D(inputSTexture, topLeftTextureCoordinate).r;
-    float bottomRightIntensity = texture2D(inputSTexture, bottomRightTextureCoordinate).r;
-    float leftIntensity = texture2D(inputSTexture, leftTextureCoordinate).r;
-    float rightIntensity = texture2D(inputSTexture, rightTextureCoordinate).r;
-    float bottomIntensity = texture2D(inputSTexture, bottomTextureCoordinate).r;
-    float topIntensity = texture2D(inputSTexture, topTextureCoordinate).r;
-    float centerIntensity = texture2D(inputSTexture, textureCoordinate).r;
+    float bottomLeftIntensity = texture2D(inputImageTexture, bottomLeftTextureCoordinate).r;
+    float topRightIntensity = texture2D(inputImageTexture, topRightTextureCoordinate).r;
+    float topLeftIntensity = texture2D(inputImageTexture, topLeftTextureCoordinate).r;
+    float bottomRightIntensity = texture2D(inputImageTexture, bottomRightTextureCoordinate).r;
+    float leftIntensity = texture2D(inputImageTexture, leftTextureCoordinate).r;
+    float rightIntensity = texture2D(inputImageTexture, rightTextureCoordinate).r;
+    float bottomIntensity = texture2D(inputImageTexture, bottomTextureCoordinate).r;
+    float topIntensity = texture2D(inputImageTexture, topTextureCoordinate).r;
+    float centerIntensity = texture2D(inputImageTexture, textureCoordinate).r;
 
     float pixelIntensitySum = bottomLeftIntensity + topRightIntensity + topLeftIntensity + bottomRightIntensity + leftIntensity + rightIntensity + bottomIntensity + topIntensity + centerIntensity;
     float sumTest = step(1.5, pixelIntensitySum);

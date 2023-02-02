@@ -1,10 +1,11 @@
 part of flutter_gpu_video_filters;
 
-class GPUToneConfiguration extends GPUFilterConfiguration {
+class GPUToonConfiguration extends GPUFilterConfiguration
+    with Sampling3x3Mixin {
   final NumberParameter _threshold;
   final NumberParameter _quantizationLevels;
 
-  GPUToneConfiguration()
+  GPUToonConfiguration()
       : _threshold = _FloatParameter(
           'inputThreshold',
           'Threshold',
@@ -12,10 +13,10 @@ class GPUToneConfiguration extends GPUFilterConfiguration {
         ),
         _quantizationLevels = _FloatParameter(
           'inputQuantizationLevels',
-          'QuantizationLevels',
+          'Quantization Levels',
           10,
         ),
-        super('Tone');
+        super('Toon');
 
   set threshold(double value) {
     _threshold.value = value;
@@ -27,5 +28,5 @@ class GPUToneConfiguration extends GPUFilterConfiguration {
 
   @override
   List<ConfigurationParameter> get parameters =>
-      [_threshold, _quantizationLevels];
+      [_threshold, _quantizationLevels, ...super.parameters];
 }

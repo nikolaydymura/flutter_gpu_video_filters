@@ -1,6 +1,6 @@
 precision mediump float;
-uniform lowp sampler2D inputSTexture;
-varying vec2 vTextureCoord;
+uniform lowp sampler2D inputImageTexture;
+varying vec2 textureCoordinate;
 
 
 uniform lowp float inputTemperature;
@@ -13,7 +13,7 @@ const mediump mat3 YIQtoRGB = mat3(1.0, 0.956, 0.621, 1.0, -0.272, -0.647, 1.0, 
 
 void main()
 {
-    lowp vec4 source = texture2D(inputSTexture, vTextureCoord);
+    lowp vec4 source = texture2D(inputImageTexture, textureCoordinate);
 
     mediump vec3 yiq = RGBtoYIQ * source.rgb;//adjusting inputTint
     yiq.b = clamp(yiq.b + inputTint*0.5226*0.1, -0.5226, 0.5226);
