@@ -66,6 +66,7 @@ part 'src/parameters/float_parameter.dart';
 part 'src/parameters/floats_parameter_mixin.dart';
 part 'src/parameters/point_parameter.dart';
 part 'src/parameters/slider_float_parameter.dart';
+part 'src/configurations/gpu_alpha_blend.dart';
 
 class FlutterVideoFilters {
   static Iterable<String> get availableFilters =>
@@ -118,6 +119,7 @@ class FlutterVideoFilters {
               'WhiteBalance': () => GPUWhiteBalanceConfiguration(),
               'Zoom Blur': () => GPUZoomBlurConfiguration(),
               'Add Blend': () => GPUAddBlendConfiguration(),
+              'Alpha Blend' : () => GPUAlphaBlendConfiguration(),
             }
           : {};
 
