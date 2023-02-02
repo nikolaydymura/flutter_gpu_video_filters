@@ -81,7 +81,7 @@ class GPUVideoPreviewParams {
     GPUFilterConfiguration configuration,
   ) async {
     final vertexShader = await rootBundle.loadString(
-      'packages/flutter_gpu_video_filters/shaders/PreviewVertex.glsl',
+      'packages/flutter_gpu_video_filters/shaders/${configuration._previewVertex}.glsl',
     );
     final fragmentShader = await rootBundle.loadString(
       'packages/flutter_gpu_video_filters/shaders/${configuration.name}.glsl',
@@ -98,7 +98,7 @@ class GPUVideoPreviewParams {
         .singleOrNull
         ?.name;
     var glsl =
-        '#extension GL_OES_EGL_image_external : require\n${fragmentShader.replaceAll('sampler2D inputImageTexture', 'samplerExternalOES inputImageTexture')}';
+        '#extension GL_OES_EGL_image_external : require\n${fragmentShader.replaceAll('sampler2D inputImageTexture;', 'samplerExternalOES inputImageTexture;')}';
     if (textures != null) {
       glsl = glsl.replaceAll(
         RegExp(

@@ -8,12 +8,16 @@ abstract class GPUFilterConfiguration extends FilterConfiguration {
 
   bool get ready => _filterId != -1;
 
+  final String _previewVertex = 'PreviewVertex';
+
+  final String _exportVertex = 'Vertex';
+
   GPUFilterConfiguration(this.name);
 
   Future<void> prepare() async {
     if (_filterId == -1) {
       final vertexShader = await rootBundle.loadString(
-        'packages/flutter_gpu_video_filters/shaders/Vertex.glsl',
+        'packages/flutter_gpu_video_filters/shaders/$_exportVertex.glsl',
       );
       final fragmentShader = await rootBundle.loadString(
         'packages/flutter_gpu_video_filters/shaders/$name.glsl',
@@ -88,6 +92,11 @@ abstract class GPUFilterConfiguration extends FilterConfiguration {
         throw 'Unsupported format $output';
     }
   }
+
+  // coverage:ignore-start
+  @override
+  List<ConfigurationParameter> get parameters => [];
+// coverage:ignore-end
 }
 
 abstract class PathInputSource {

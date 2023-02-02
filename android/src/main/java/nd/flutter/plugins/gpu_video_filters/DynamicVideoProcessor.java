@@ -82,6 +82,12 @@ import javax.microedition.khronos.opengles.GL10;
             program.setFloatsUniform(key, checkNotNull(currentArrayFloats.get(key)));
         }
         if (secondTexture != null) {
+            if (vertexShader.contains("bTexCoords")) {
+                program.setBufferAttribute(
+                        "bTexCoords",
+                        GlUtil.getTextureCoordinateBounds(),
+                        GlUtil.HOMOGENEOUS_COORDINATE_VECTOR_SIZE);
+            }
             program.setFloatUniform(secondTexture + "Ready", 0);
             GLES20.glGenTextures(1, textures, 0);
             GLES20.glBindTexture(GL10.GL_TEXTURE_2D, textures[0]);
