@@ -82,6 +82,7 @@ import javax.microedition.khronos.opengles.GL10;
             program.setFloatsUniform(key, checkNotNull(currentArrayFloats.get(key)));
         }
         if (secondTexture != null) {
+            program.setFloatUniform(secondTexture + "Ready", 0);
             GLES20.glGenTextures(1, textures, 0);
             GLES20.glBindTexture(GL10.GL_TEXTURE_2D, textures[0]);
             GLES20.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MIN_FILTER, GL10.GL_NEAREST);
@@ -121,6 +122,7 @@ import javax.microedition.khronos.opengles.GL10;
     public void draw(int frameTexture, long frameTimestampUs, float[] transformMatrix) {
 
         if (secondTexture != null && secondBitmap != null) {
+            program.setFloatUniform(secondTexture + "Ready", 1);
             GLES20.glBindTexture(GL10.GL_TEXTURE_2D, textures[0]);
             GLUtils.texImage2D(GL10.GL_TEXTURE_2D, /* level= */ 0, secondBitmap, /* border= */ 0);
             GlUtil.checkGlError();

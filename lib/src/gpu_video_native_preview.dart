@@ -97,9 +97,30 @@ class GPUVideoPreviewParams {
         .whereType<_BitmapParameter>()
         .singleOrNull
         ?.name;
+    var glsl =
+        '#extension GL_OES_EGL_image_external : require\n${fragmentShader.replaceAll('sampler2D inputImageTexture', 'samplerExternalOES inputImageTexture')}';
+    if (textures != null) {
+      glsl = glsl.replaceAll(
+        RegExp(
+          r'^[^\n]* sampler2D ' '$textures;' r'[^\n]*$',
+          multiLine: true,
+          caseSensitive: false,
+          dotAll: true,
+        ),
+        'uniform sampler2D $textures;\nuniform lowp float ${textures}Ready;\n',
+      );
+      glsl = glsl.replaceAllMapped(
+          RegExp(
+            r'gl_FragColor\s+=\s+[^;]+;$',
+            multiLine: true,
+            dotAll: true,
+          ), (match) {
+        return 'if (${textures}Ready == 1.0) {\n\t\t${match.group(0)}\n\t} else {\n\t\tgl_FragColor = textureColor;\n\t}';
+      });
+    }
     return GPUVideoPreviewParams._(
       vertexShader,
-      '#extension GL_OES_EGL_image_external : require\n${fragmentShader.replaceAll('sampler2D inputImageTexture', 'samplerExternalOES inputImageTexture')}',
+      glsl,
       floats,
       arrays,
       textures,
