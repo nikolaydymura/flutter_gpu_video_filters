@@ -5,7 +5,8 @@ class GPUDissolveBlendConfiguration extends GPUFilterConfiguration
   final NumberParameter _mixturePercent;
 
   GPUDissolveBlendConfiguration()
-      : _mixturePercent = _FloatParameter('inputMixturePercent', 'Mixture Percent', 0),
+      : _mixturePercent =
+            _FloatParameter('inputMixturePercent', 'Mixture Percent', 0),
         super('DissolveBlend');
 
   set mixturePercent(double value) {
