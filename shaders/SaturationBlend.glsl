@@ -1,3 +1,5 @@
+precision mediump float;
+
 varying highp vec2 textureCoordinate;
 varying highp vec2 textureCoordinate2;
 
@@ -45,33 +47,33 @@ lowp vec3 setsat(lowp vec3 c, highp float s) {
     if (c.r > c.g) {
         if (c.r > c.b) {
             if (c.g > c.b) {
-                 g is mid, b is min
+                // g is mid, b is min
                 c.g = mid(c.b, c.g, c.r, s);
                 c.b = 0.0;
             } else {
-                 b is mid, g is min
+                // b is mid, g is min
                 c.b = mid(c.g, c.b, c.r, s);
-              c.g = 0.0;
+                c.g = 0.0;
             }
             c.r = s;
         } else {
-             b is max, r is mid, g is min
+            // b is max, r is mid, g is min
             c.r = mid(c.g, c.r, c.b, s);
             c.b = s;
             c.r = 0.0;
         }
     } else if (c.r > c.b) {
-         g is max, r is mid, b is min
+        // g is max, r is mid, b is min
         c.r = mid(c.b, c.r, c.g, s);
         c.g = s;
         c.b = 0.0;
     } else if (c.g > c.b) {
-         g is max, b is mid, r is min
+        // g is max, b is mid, r is min
         c.b = mid(c.r, c.b, c.g, s);
         c.g = s;
         c.r = 0.0;
     } else if (c.b > c.g) {
-         b is max, g is mid, r is min
+        // b is max, g is mid, r is min
         c.g = mid(c.r, c.g, c.b, s);
         c.b = s;
         c.r = 0.0;
@@ -81,10 +83,14 @@ lowp vec3 setsat(lowp vec3 c, highp float s) {
     return c;
 }
 
-void main()
-{
-  highp vec4 baseColor = texture2D(inputImageTexture, textureCoordinate);
-  highp vec4 overlayColor = texture2D(inputImageTexture2, textureCoordinate2);
+vec4 processColor(vec4 sourceColor) {
+    highp vec4 overlayColor = texture2D(inputImageTexture2, textureCoordinate2);
 
-    gl_FragColor = vec4(baseColor.rgb * (1.0 - overlayColor.a) + setlum(setsat(baseColor.rgb, sat(overlayColor.rgb)), lum(baseColor.rgb)) * overlayColor.a, baseColor.a);
+    return vec4(sourceColor.rgb * (1.0 - overlayColor.a) + setlum(setsat(sourceColor.rgb, sat(overlayColor.rgb)), lum(sourceColor.rgb)) * overlayColor.a, sourceColor.a);
+}
+
+void main() {
+    highp vec4 textureColor = texture2D(inputImageTexture, textureCoordinate);
+
+    gl_FragColor = processColor(textureColor);
 }
