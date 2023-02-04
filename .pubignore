@@ -1,0 +1,6 @@
+coverage/
+build/
+pigeons/
+test/
+*.iml
+pigeons_generator.sh

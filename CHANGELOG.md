@@ -1,3 +1,5 @@
 ## 0.0.1
 
-* TODO: Describe initial release.
+Initial Version of the library.
+
+- Includes the ability to display processed result using `GPUVideoNativePreview`.
