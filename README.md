@@ -21,9 +21,9 @@ import 'package:flutter_gpu_video_filters/flutter_gpu_video_filters.dart';
 final inputSource = AssetInputSource('demo.mp4');
 final output = File('result.mp4');
 final configuration = GPUGrayScaleConfiguration();
-final processStream = await configuration.exportVideoFile(VideoExportConfig(AssetInputSource(asset), output));
+final processStream =  configuration.exportVideoFile(VideoExportConfig(AssetInputSource(asset), output));
 await for (final progress in processStream) {
-  debugPrint('Exporting file ${progress.toInt()}%');
+  debugPrint('Exporting file ${(progress * 100).toInt()}%');
 }
 ```
 

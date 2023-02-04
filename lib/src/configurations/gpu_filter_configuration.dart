@@ -1,6 +1,7 @@
 part of flutter_gpu_video_filters;
 
-abstract class GPUFilterConfiguration extends FilterConfiguration {
+abstract class GPUFilterConfiguration extends FilterConfiguration
+    with VideoFilterConfiguration {
   static final FilterApi _api = FilterApi();
 
   int _filterId = -1;
@@ -58,10 +59,11 @@ abstract class GPUFilterConfiguration extends FilterConfiguration {
     }
   }
 
-  Future<Stream<int>> exportVideoFile(
+  @override
+  Stream<double> exportVideoFile(
     VideoExportConfig config, {
     Duration period = const Duration(seconds: 1),
-  }) async {
+  }) async* {
     final source = config.source;
     final output = config.output;
     var format = config.format;
@@ -71,37 +73,20 @@ abstract class GPUFilterConfiguration extends FilterConfiguration {
           : VideoExportFormat.mov;
     }
     final bool asset = source is AssetInputSource;
-    switch (format) {
-      case VideoExportFormat.mp4:
-        final sessionId = await _api.exportVideoFile(
-          _filterId,
-          asset,
-          source.path,
-          output.absolute.path,
-          'mp4',
-          period.inMilliseconds,
-        );
-        return EventChannel('Transformer_$sessionId')
-            .receiveBroadcastStream()
-            .map((event) => event as int)
-            .distinct()
-            .takeWhile((event) => event != -100);
-      case VideoExportFormat.mov:
-        final sessionId = await _api.exportVideoFile(
-          _filterId,
-          asset,
-          source.path,
-          output.absolute.path,
-          'mov',
-          period.inMilliseconds,
-        );
-        return EventChannel('Transformer_$sessionId')
-            .receiveBroadcastStream()
-            .map((event) => event as int)
-            .distinct()
-            .takeWhile((event) => event != -100);
-      default:
-        throw 'Unsupported format $output';
+    final sessionId = await _api.exportVideoFile(
+      _filterId,
+      asset,
+      source.path,
+      output.absolute.path,
+      format.platformKey,
+      period.inMilliseconds,
+    );
+
+    final stream = EventChannel('Transformer_$sessionId')
+        .receiveBroadcastStream()
+        .distinct();
+    await for (num event in stream) {
+      yield event.toDouble() / 100.0;
     }
   }
 
@@ -110,33 +95,3 @@ abstract class GPUFilterConfiguration extends FilterConfiguration {
   List<ConfigurationParameter> get parameters => [];
 // coverage:ignore-end
 }
-
-abstract class PathInputSource {
-  final String path;
-
-  PathInputSource(this.path);
-}
-
-class FileInputSource extends PathInputSource {
-  final File file;
-
-  FileInputSource(this.file) : super(file.absolute.path);
-}
-
-class AssetInputSource extends PathInputSource {
-  AssetInputSource(super.path);
-}
-
-class VideoExportConfig {
-  final PathInputSource source;
-  final File output;
-  final VideoExportFormat format;
-
-  VideoExportConfig(
-    this.source,
-    this.output, {
-    this.format = VideoExportFormat.auto,
-  });
-}
-
-enum VideoExportFormat { mp4, mov, auto }

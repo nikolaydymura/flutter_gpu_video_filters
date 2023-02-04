@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_gpu_filters_interface/flutter_gpu_filters_interface.dart';
 import 'package:flutter_gpu_video_filters/flutter_gpu_video_filters.dart';
 
 class PreviewPage extends StatefulWidget {
@@ -75,14 +76,14 @@ class _PreviewPageState extends State<PreviewPage> {
     );
     final watch = Stopwatch();
     watch.start();
-    final processStream = await configuration.exportVideoFile(
+    final processStream = configuration.exportVideoFile(
       VideoExportConfig(
         AssetInputSource(asset),
         output,
       ),
     );
     await for (final progress in processStream) {
-      debugPrint('Exporting file ${progress.toInt()}%');
+      debugPrint('Exporting file ${(progress * 100).toInt()}%');
     }
     debugPrint('Exporting file took ${watch.elapsedMilliseconds} milliseconds');
     debugPrint('Exported: ${output.absolute}');
