@@ -16,14 +16,19 @@ class VideoFilterApiImpl(private val binding: FlutterPlugin.FlutterPluginBinding
     var filters: LongSparseArray<DynamicTextureProcessor> = LongSparseArray()
     private var filterSequenceId: Long = 0
     private var transformerSequenceId: Long = 0
-    override fun create(vertexShader: String, fragmentShader: String, defaults: MutableMap<String, Double>): Long {
-        val processor = DynamicTextureProcessor(vertexShader, fragmentShader, defaults)
+
+    override fun create(vertexShader: String, fragmentShader: String, defaults: MutableMap<String, Double>, arrays: MutableMap<String, MutableList<Double>>, texture: String?): Long {
+        val processor = DynamicTextureProcessor(vertexShader, fragmentShader,
+                defaults.mapValues { it.value.toFloat() },
+                arrays.mapValues { el -> el.value.map { it.toFloat() }.toFloatArray() },
+                texture)
         val filterId = filterSequenceId
         filterSequenceId++
         filters.put(filterId, processor)
 
         return filterId
     }
+
     override fun exportVideoFile(filterId: Long, asset: Boolean, input: String, output: String, format: String, period: Long): Long {
         val processor = filters[filterId]
         val mediaUri = if (asset) {

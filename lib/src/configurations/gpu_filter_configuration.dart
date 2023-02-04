@@ -8,7 +8,7 @@ abstract class GPUFilterConfiguration extends FilterConfiguration {
 
   bool get ready => _filterId != -1;
 
-  final String _previewVertex = 'PreviewVertex';
+  final String _previewVertex = 'VertexPreview';
 
   final String _exportVertex = 'Vertex';
 
@@ -22,12 +22,24 @@ abstract class GPUFilterConfiguration extends FilterConfiguration {
       final fragmentShader = await rootBundle.loadString(
         'packages/flutter_gpu_video_filters/shaders/$name.glsl',
       );
+
+      final floats = parameters
+          .whereType<NumberParameter>()
+          .groupFoldBy((e) => e.name, (_, e) => e.value.toDouble());
+
+      final arrays = parameters
+          .whereType<_FloatsParameter>()
+          .groupFoldBy((e) => e.name, (_, e) => e.values);
+
+      final textures =
+          parameters.whereType<_BitmapParameter>().singleOrNull?.name;
+
       final filterId = await _api.create(
         vertexShader,
         fragmentShader,
-        parameters
-            .whereType<NumberParameter>()
-            .groupFoldBy((e) => e.name, (_, e) => e.value.toDouble()),
+        floats,
+        arrays,
+        textures,
       );
       _filterId = filterId;
     }

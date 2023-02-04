@@ -19,14 +19,22 @@ class FilterApi {
 
   static const MessageCodec<Object?> codec = StandardMessageCodec();
 
-  Future<int> create(String arg_vertexShader, String arg_fragmentShader,
-      Map<String?, double?> arg_defaults) async {
+  Future<int> create(
+      String arg_vertexShader,
+      String arg_fragmentShader,
+      Map<String?, double?> arg_defaults,
+      Map<String?, List<double?>?> arg_arrays,
+      String? arg_texture) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.FilterApi.create', codec,
         binaryMessenger: _binaryMessenger);
-    final List<Object?>? replyList = await channel
-            .send(<Object?>[arg_vertexShader, arg_fragmentShader, arg_defaults])
-        as List<Object?>?;
+    final List<Object?>? replyList = await channel.send(<Object?>[
+      arg_vertexShader,
+      arg_fragmentShader,
+      arg_defaults,
+      arg_arrays,
+      arg_texture
+    ]) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',

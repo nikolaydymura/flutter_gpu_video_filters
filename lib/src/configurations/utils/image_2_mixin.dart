@@ -5,7 +5,10 @@ mixin Image2Mixin on GPUFilterConfiguration {
       _BitmapParameter('inputImageTexture2', 'Image 2');
 
   @override
-  String get _previewVertex => 'TwoTexturesPreviewVertex';
+  String get _previewVertex => 'VertexPreviewTwoTextures';
+
+  @override
+  String get _exportVertex => 'VertexTwoTextures';
 
   set image2(Uint8List value) {
     _image2.data = value;

@@ -21,6 +21,8 @@ abstract class FilterApi {
     String vertexShader,
     String fragmentShader,
     Map<String, double> defaults,
+    Map<String, List<double>> arrays,
+    String? texture,
   );
 
   int exportVideoFile(

@@ -36,7 +36,7 @@ public class FilterMessages {
   public interface FilterApi {
 
     @NonNull 
-    Long create(@NonNull String vertexShader, @NonNull String fragmentShader, @NonNull Map<String, Double> defaults);
+    Long create(@NonNull String vertexShader, @NonNull String fragmentShader, @NonNull Map<String, Double> defaults, @NonNull Map<String, List<Double>> arrays, @Nullable String texture);
 
     @NonNull 
     Long exportVideoFile(@NonNull Long filterId, @NonNull Boolean asset, @NonNull String input, @NonNull String output, @NonNull String format, @NonNull Long period);
@@ -80,7 +80,12 @@ public class FilterMessages {
                   if (defaultsArg == null) {
                     throw new NullPointerException("defaultsArg unexpectedly null.");
                   }
-                  Long output = api.create(vertexShaderArg, fragmentShaderArg, defaultsArg);
+                  Map<String, List<Double>> arraysArg = (Map<String, List<Double>>) args.get(3);
+                  if (arraysArg == null) {
+                    throw new NullPointerException("arraysArg unexpectedly null.");
+                  }
+                  String textureArg = (String) args.get(4);
+                  Long output = api.create(vertexShaderArg, fragmentShaderArg, defaultsArg, arraysArg, textureArg);
                   wrapped.add(0, output);
                 } catch (Error | RuntimeException exception) {
                   ArrayList<Object> wrappedError = wrapError(exception);

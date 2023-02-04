@@ -14,7 +14,10 @@ mixin Sampling3x3Mixin on GPUFilterConfiguration {
   );
 
   @override
-  String get _previewVertex => 'Sampling3x3PreviewVertex';
+  String get _previewVertex => 'VertexPreviewSampling3x3';
+
+  @override
+  String get _exportVertex => 'VertexSampling3x3';
 
   // coverage:ignore-start
   @override
