@@ -67,6 +67,28 @@ part 'src/parameters/float_parameter.dart';
 part 'src/parameters/floats_parameter_mixin.dart';
 part 'src/parameters/point_parameter.dart';
 part 'src/parameters/slider_float_parameter.dart';
+part 'src/configurations/gpu_chroma_key_blend.dart';
+part 'src/configurations/gpu_color_blend.dart';
+part 'src/configurations/gpu_color_burn_blend.dart';
+part 'src/configurations/gpu_color_dodge_blend.dart';
+part 'src/configurations/gpu_darken_blend.dart';
+part 'src/configurations/gpu_difference_blend.dart';
+part 'src/configurations/gpu_dissolve_blend.dart';
+part 'src/configurations/gpu_divide_blend.dart';
+part 'src/configurations/gpu_exclusion_blend.dart';
+part 'src/configurations/gpu_hard_light_blend.dart';
+part 'src/configurations/gpu_hue_blend.dart';
+part 'src/configurations/gpu_lighten_blend.dart';
+part 'src/configurations/gpu_linear_burn_blend.dart';
+part 'src/configurations/gpu_luminosity_blend.dart';
+part 'src/configurations/gpu_multiply_blend.dart';
+part 'src/configurations/gpu_normal_blend.dart';
+part 'src/configurations/gpu_overlay_blend.dart';
+part 'src/configurations/gpu_saturation_blend.dart';
+part 'src/configurations/gpu_screen_blend.dart';
+part 'src/configurations/gpu_soft_light_blend.dart';
+part 'src/configurations/gpu_source_over_blend.dart';
+part 'src/configurations/gpu_subtract_blend.dart';
 
 class FlutterVideoFilters {
   static Iterable<String> get availableFilters =>
@@ -118,6 +140,27 @@ class FlutterVideoFilters {
               'Zoom Blur': () => GPUZoomBlurConfiguration(),
               'Add Blend': () => GPUAddBlendConfiguration(),
               'Alpha Blend': () => GPUAlphaBlendConfiguration(),
+              'Chroma Key Blend': () => GPUChromaKeyBlendConfiguration(),
+              'Color Blend': () => GPUColorBlendConfiguration(),
+              'Color Burn Blend': () => GPUColorBurnBlendConfiguration(),
+              'Color Dodge Blend': () => GPUColorDodgeBlendConfiguration(),
+              'Darken Blend': () => GPUDarkenBlendConfiguration(),
+              'Difference Blend': () => GPUDifferenceBlendConfiguration(),
+              'Dissolve Blend': () => GPUDissolveBlendConfiguration(),
+              'Divide Blend': () => GPUDivideBlendConfiguration(),
+              'Hard Light Blend': () => GPUHardLightBlendConfiguration(),
+              'Hue Blend': () => GPUHueBlendConfiguration(),
+              'Lighten Blend': () => GPULightenBlendConfiguration(),
+              'Linear Burn Blend': () => GPULinearBurnBlendConfiguration(),
+              'Luminosity Blend': () => GPULuminosityBlendConfiguration(),
+              'Multiply Blend': () => GPUMultiplyBlendConfiguration(),
+              'Normal Blend': () => GPUNormalBlendConfiguration(),
+              'Overlay Blend': () => GPUOverlayBlendConfiguration(),
+              'Saturation Blend': () => GPUSaturationBlendConfiguration(),
+              'Screen Blend': () => GPUScreenBlendConfiguration(),
+              'Soft Light Blend': () => GPUSoftLightBlendConfiguration(),
+              'Source Over Blend': () => GPUSourceOverBlendConfiguration(),
+              'Subtract Blend': () => GPUSubtractBlendConfiguration(),
             }
           : {};
 
