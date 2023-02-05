@@ -89,6 +89,21 @@ part 'src/configurations/gpu_screen_blend.dart';
 part 'src/configurations/gpu_soft_light_blend.dart';
 part 'src/configurations/gpu_source_over_blend.dart';
 part 'src/configurations/gpu_subtract_blend.dart';
+part 'src/configurations/gpu_3x3_convolution.dart';
+part 'src/configurations/gpu_color_balance.dart';
+part 'src/configurations/gpu_color_invert.dart';
+part 'src/configurations/gpu_color_matrix.dart';
+part 'src/configurations/gpu_directional_sobel_edge_detection.dart';
+part 'src/configurations/gpu_false_color.dart';
+part 'src/configurations/gpu_glass_sphere.dart';
+part 'src/configurations/gpu_kuwahara.dart';
+part 'src/configurations/gpu_laplacian.dart';
+part 'src/configurations/gpu_levels.dart';
+part 'src/configurations/gpu_non_maximum_suppression.dart';
+part 'src/configurations/gpu_sketch.dart';
+part 'src/configurations/gpu_sobel_edge_detection.dart';
+part 'src/configurations/gpu_sobel_threshold.dart';
+part 'src/configurations/gpu_transform.dart';
 
 class FlutterVideoFilters {
   static Iterable<String> get availableFilters =>
@@ -161,6 +176,24 @@ class FlutterVideoFilters {
               'Soft Light Blend': () => GPUSoftLightBlendConfiguration(),
               'Source Over Blend': () => GPUSourceOverBlendConfiguration(),
               'Subtract Blend': () => GPUSubtractBlendConfiguration(),
+              '3x3 Convolution': () => GPU3x3ConvolutionConfiguration(),
+              'Color Balance': () => GPUColorBalanceConfiguration(),
+              'Color Invert': () => GPUColorInvertConfiguration(),
+              'Color Matrix': () => GPUColorMatrixConfiguration(),
+              'Directional Sobel Edge Detection': () =>
+                  GPUDirectionalSobelEdgeDetectionConfiguration(),
+              'False Color': () => GPUFalseColorConfiguration(),
+              'Glass Sphere': () => GPUGlassSphereConfiguration(),
+              'Kuwahara': () => GPUKuwaharaConfiguration(),
+              'Laplacian': () => GPULaplacianConfiguration(),
+              'Levels': () => GPULevelsConfiguration(),
+              'Non Maximum Suppression': () =>
+                  GPUNonMaximumSuppressionConfiguration(),
+              'Sketch': () => GPUSketchConfiguration(),
+              'Sobel Edge Detection': () =>
+                  GPUSobelEdgeDetectionConfiguration(),
+              'Sobel Threshold': () => GPUSobelThresholdConfiguration(),
+              'Transform': () => GPUTransformConfiguration(),
             }
           : {};
 
