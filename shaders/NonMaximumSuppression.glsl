@@ -1,3 +1,5 @@
+precision highp float;
+
 uniform sampler2D inputImageTexture;
 
 varying highp vec2 textureCoordinate;
@@ -12,8 +14,7 @@ varying highp vec2 bottomTextureCoordinate;
 varying highp vec2 bottomLeftTextureCoordinate;
 varying highp vec2 bottomRightTextureCoordinate;
 
-void main()
-{
+void main() {
     lowp float bottomColor = texture2D(inputImageTexture, bottomTextureCoordinate).r;
     lowp float bottomLeftColor = texture2D(inputImageTexture, bottomLeftTextureCoordinate).r;
     lowp float bottomRightColor = texture2D(inputImageTexture, bottomRightTextureCoordinate).r;

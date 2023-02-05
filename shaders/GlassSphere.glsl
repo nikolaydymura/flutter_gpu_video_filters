@@ -1,25 +1,23 @@
 varying highp vec2 textureCoordinate;
 
 uniform sampler2D inputImageTexture;
-uniform highp vec2 center;
+uniform highp vec2 inputCenter;
 uniform highp float inputRadius;
 uniform highp float inputAspectRatio;
 uniform highp float inputRefractiveIndex;
-uniform vec3 lightPosition;
 
 const highp vec3 lightPosition = vec3(-0.5, 0.5, 1.0);
 const highp vec3 ambientLightPosition = vec3(0.0, 0.0, 1.0);
 
-void main()
-{
+void main(){
     highp vec2 textureCoordinateToUse = vec2(textureCoordinate.x, (textureCoordinate.y * inputAspectRatio + 0.5 - 0.5 * inputAspectRatio));
-    highp float distanceFromCenter = distance(center, textureCoordinateToUse);
+    highp float distanceFromCenter = distance(inputCenter, textureCoordinateToUse);
     lowp float checkForPresenceWithinSphere = step(distanceFromCenter, inputRadius);
-    
+
     distanceFromCenter = distanceFromCenter / inputRadius;
 
     highp float normalizedDepth = inputRadius * sqrt(1.0 - distanceFromCenter * distanceFromCenter);
-    highp vec3 sphereNormal = normalize(vec3(textureCoordinateToUse - center, normalizedDepth));
+    highp vec3 sphereNormal = normalize(vec3(textureCoordinateToUse - inputCenter, normalizedDepth));
     highp vec3 refractedVector = 2.0 * refract(vec3(0.0, 0.0, -1.0), sphereNormal, inputRefractiveIndex);
 
     refractedVector.xy = -refractedVector.xy;

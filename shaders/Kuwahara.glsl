@@ -1,47 +1,46 @@
 varying highp vec2 textureCoordinate;
 
 uniform sampler2D inputImageTexture;
-uniform int radius;
+uniform int inputRadius;
 
 precision highp float;
 
 const vec2 src_size = vec2 (1.0 / 768.0, 1.0 / 1024.0);
 
-void main (void) 
-{
-   vec2 uv = textureCoordinate;
-   float n = float((radius + 1) * (radius + 1));
-   int i; int j;
-   vec3 m0 = vec3(0.0); vec3 m1 = vec3(0.0); vec3 m2 = vec3(0.0); vec3 m3 = vec3(0.0);
-   vec3 s0 = vec3(0.0); vec3 s1 = vec3(0.0); vec3 s2 = vec3(0.0); vec3 s3 = vec3(0.0);
-   vec3 c;
+void main (void) {
+    vec2 uv = textureCoordinate;
+    float n = float((inputRadius + 1) * (inputRadius + 1));
+    int i; int j;
+    vec3 m0 = vec3(0.0); vec3 m1 = vec3(0.0); vec3 m2 = vec3(0.0); vec3 m3 = vec3(0.0);
+    vec3 s0 = vec3(0.0); vec3 s1 = vec3(0.0); vec3 s2 = vec3(0.0); vec3 s3 = vec3(0.0);
+    vec3 c;
 
-   for (j = -radius; j <= 0; ++j)  {
-     for (i = -radius; i <= 0; ++i)  {
-       c = texture2D(inputImageTexture, uv + vec2(i,j) * src_size).rgb;
-       m0 += c;
-       s0 += c * c;
-     }
-   }
+    for (j = -inputRadius; j <= 0; ++j)  {
+        for (i = -inputRadius; i <= 0; ++i)  {
+            c = texture2D(inputImageTexture, uv + vec2(i, j) * src_size).rgb;
+            m0 += c;
+            s0 += c * c;
+        }
+    }
 
-   for (j = -radius; j <= 0; ++j)  {
-     for (i = 0; i <= radius; ++i)  {
-       c = texture2D(inputImageTexture, uv + vec2(i,j) * src_size).rgb;
-       m1 += c;
-       s1 += c * c;
-     }
-   }
+    for (j = -inputRadius; j <= 0; ++j)  {
+        for (i = 0; i <= inputRadius; ++i)  {
+            c = texture2D(inputImageTexture, uv + vec2(i, j) * src_size).rgb;
+            m1 += c;
+            s1 += c * c;
+        }
+    }
 
-   for (j = 0; j <= radius; ++j)  {
-     for (i = 0; i <= radius; ++i)  {
-       c = texture2D(inputImageTexture, uv + vec2(i,j) * src_size).rgb;
-       m2 += c;
-       s2 += c * c;
-     }
-   }
+    for (j = 0; j <= inputRadius; ++j)  {
+        for (i = 0; i <= inputRadius; ++i)  {
+            c = texture2D(inputImageTexture, uv + vec2(i, j) * src_size).rgb;
+            m2 += c;
+            s2 += c * c;
+        }
+    }
 
-   for (j = 0; j <= radius; ++j)  {
-     for (i = -radius; i <= 0; ++i)  {
+   for (j = 0; j <= inputRadius; ++j)  {
+     for (i = -inputRadius; i <= 0; ++i)  {
        c = texture2D(inputImageTexture, uv + vec2(i,j) * src_size).rgb;
        m3 += c;
        s3 += c * c;

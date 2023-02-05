@@ -13,6 +13,32 @@ class _FloatParameter extends NumberParameter {
   }
 }
 
+class _IntParameter extends NumberParameter {
+  _IntParameter(super.name, super.displayName, super.value);
+
+  @override
+  FutureOr<void> update(covariant GPUFilterConfiguration configuration) async {
+    await GPUFilterConfiguration._api.setFloatParameter(
+      configuration._filterId,
+      name,
+      value.toInt().toDouble(),
+    );
+  }
+}
+
+class _BoolParameter extends BoolParameter {
+  _BoolParameter(super.name, super.displayName, super.value);
+
+  @override
+  FutureOr<void> update(covariant GPUFilterConfiguration configuration) async {
+    await GPUFilterConfiguration._api.setFloatParameter(
+      configuration._filterId,
+      name,
+      value ? 1.0 : 0.0,
+    );
+  }
+}
+
 class _TemperatureParameter extends _FloatParameter {
   _TemperatureParameter(
     super.name,

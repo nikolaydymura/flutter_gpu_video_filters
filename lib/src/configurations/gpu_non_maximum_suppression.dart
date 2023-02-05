@@ -1,6 +1,6 @@
 part of flutter_gpu_video_filters;
 
 class GPUNonMaximumSuppressionConfiguration extends GPUFilterConfiguration
-    with Image2Mixin {
+    with Sampling3x3Mixin {
   GPUNonMaximumSuppressionConfiguration() : super('NonMaximumSuppression');
 }
