@@ -15,6 +15,7 @@ import 'package:flutter_gpu_filters_interface/flutter_gpu_filters_interface.dart
 import 'src/messages/filter_messages.g.dart';
 import 'src/messages/preview_messages.g.dart';
 
+part 'src/configurations/gpu_3x3_convolution.dart';
 part 'src/configurations/gpu_add_blend.dart';
 part 'src/configurations/gpu_alpha_blend.dart';
 part 'src/configurations/gpu_bilateral.dart';
@@ -22,32 +23,67 @@ part 'src/configurations/gpu_box_blur.dart';
 part 'src/configurations/gpu_brightness.dart';
 part 'src/configurations/gpu_bulge_distortion.dart';
 part 'src/configurations/gpu_cga_colorspace.dart';
+part 'src/configurations/gpu_chroma_key_blend.dart';
+part 'src/configurations/gpu_color_balance.dart';
+part 'src/configurations/gpu_color_blend.dart';
+part 'src/configurations/gpu_color_burn_blend.dart';
+part 'src/configurations/gpu_color_dodge_blend.dart';
+part 'src/configurations/gpu_color_invert.dart';
+part 'src/configurations/gpu_color_matrix.dart';
 part 'src/configurations/gpu_contrast.dart';
 part 'src/configurations/gpu_crosshatch.dart';
+part 'src/configurations/gpu_darken_blend.dart';
+part 'src/configurations/gpu_difference_blend.dart';
+part 'src/configurations/gpu_directional_sobel_edge_detection.dart';
+part 'src/configurations/gpu_dissolve_blend.dart';
+part 'src/configurations/gpu_divide_blend.dart';
+part 'src/configurations/gpu_emboss.dart';
+part 'src/configurations/gpu_exclusion_blend.dart';
 part 'src/configurations/gpu_exposure.dart';
+part 'src/configurations/gpu_false_color.dart';
 part 'src/configurations/gpu_filter_configuration.dart';
 part 'src/configurations/gpu_gamma.dart';
 part 'src/configurations/gpu_gaussian_blur.dart';
+part 'src/configurations/gpu_glass_sphere.dart';
 part 'src/configurations/gpu_gray_scale.dart';
 part 'src/configurations/gpu_halftone.dart';
+part 'src/configurations/gpu_hard_light_blend.dart';
 part 'src/configurations/gpu_haze.dart';
 part 'src/configurations/gpu_highlight_shadow.dart';
 part 'src/configurations/gpu_hue.dart';
+part 'src/configurations/gpu_hue_blend.dart';
 part 'src/configurations/gpu_invert.dart';
+part 'src/configurations/gpu_kuwahara.dart';
+part 'src/configurations/gpu_laplacian.dart';
+part 'src/configurations/gpu_levels.dart';
+part 'src/configurations/gpu_lighten_blend.dart';
+part 'src/configurations/gpu_linear_burn_blend.dart';
 part 'src/configurations/gpu_lookup_table.dart';
 part 'src/configurations/gpu_luminance.dart';
 part 'src/configurations/gpu_luminance_threshold.dart';
+part 'src/configurations/gpu_luminosity_blend.dart';
 part 'src/configurations/gpu_monochrome.dart';
+part 'src/configurations/gpu_multiply_blend.dart';
+part 'src/configurations/gpu_non_maximum_suppression.dart';
+part 'src/configurations/gpu_normal_blend.dart';
 part 'src/configurations/gpu_opacity.dart';
 part 'src/configurations/gpu_overlay.dart';
+part 'src/configurations/gpu_overlay_blend.dart';
 part 'src/configurations/gpu_pixelation.dart';
 part 'src/configurations/gpu_posterize.dart';
 part 'src/configurations/gpu_rgb.dart';
 part 'src/configurations/gpu_saturation.dart';
+part 'src/configurations/gpu_saturation_blend.dart';
+part 'src/configurations/gpu_screen_blend.dart';
 part 'src/configurations/gpu_sepia.dart';
+part 'src/configurations/gpu_sepia_tone.dart';
 part 'src/configurations/gpu_sharpen.dart';
+part 'src/configurations/gpu_sobel_threshold.dart';
+part 'src/configurations/gpu_soft_light_blend.dart';
 part 'src/configurations/gpu_solarize.dart';
+part 'src/configurations/gpu_source_over_blend.dart';
 part 'src/configurations/gpu_sphere_refraction.dart';
+part 'src/configurations/gpu_subtract_blend.dart';
 part 'src/configurations/gpu_swirl.dart';
 part 'src/configurations/gpu_tone_curve.dart';
 part 'src/configurations/gpu_toon.dart';
@@ -61,34 +97,16 @@ part 'src/configurations/utils/image_2_mixin.dart';
 part 'src/configurations/utils/sampling_3x3_mixin.dart';
 part 'src/gpu_video_native_preview.dart';
 part 'src/gpu_video_texture_preview.dart';
+part 'src/parameters/aspect_ratio_parameter.dart';
 part 'src/parameters/bitmap_parameter.dart';
 part 'src/parameters/color_parameter.dart';
 part 'src/parameters/float_parameter.dart';
 part 'src/parameters/floats_parameter_mixin.dart';
+part 'src/parameters/mat3_parameter.dart';
+part 'src/parameters/mat4_parameter.dart';
 part 'src/parameters/point_parameter.dart';
 part 'src/parameters/slider_float_parameter.dart';
-part 'src/configurations/gpu_chroma_key_blend.dart';
-part 'src/configurations/gpu_color_blend.dart';
-part 'src/configurations/gpu_color_burn_blend.dart';
-part 'src/configurations/gpu_color_dodge_blend.dart';
-part 'src/configurations/gpu_darken_blend.dart';
-part 'src/configurations/gpu_difference_blend.dart';
-part 'src/configurations/gpu_dissolve_blend.dart';
-part 'src/configurations/gpu_divide_blend.dart';
-part 'src/configurations/gpu_exclusion_blend.dart';
-part 'src/configurations/gpu_hard_light_blend.dart';
-part 'src/configurations/gpu_hue_blend.dart';
-part 'src/configurations/gpu_lighten_blend.dart';
-part 'src/configurations/gpu_linear_burn_blend.dart';
-part 'src/configurations/gpu_luminosity_blend.dart';
-part 'src/configurations/gpu_multiply_blend.dart';
-part 'src/configurations/gpu_normal_blend.dart';
-part 'src/configurations/gpu_overlay_blend.dart';
-part 'src/configurations/gpu_saturation_blend.dart';
-part 'src/configurations/gpu_screen_blend.dart';
-part 'src/configurations/gpu_soft_light_blend.dart';
-part 'src/configurations/gpu_source_over_blend.dart';
-part 'src/configurations/gpu_subtract_blend.dart';
+part 'src/parameters/vec3_parameter.dart';
 
 class FlutterVideoFilters {
   static Iterable<String> get availableFilters =>
@@ -161,6 +179,22 @@ class FlutterVideoFilters {
               'Soft Light Blend': () => GPUSoftLightBlendConfiguration(),
               'Source Over Blend': () => GPUSourceOverBlendConfiguration(),
               'Subtract Blend': () => GPUSubtractBlendConfiguration(),
+              '3x3 Convolution': () => GPU3x3ConvolutionConfiguration(),
+              'Color Balance': () => GPUColorBalanceConfiguration(),
+              'Color Invert': () => GPUColorInvertConfiguration(),
+              'Color Matrix': () => GPUColorMatrixConfiguration(),
+              'Directional Sobel Edge Detection': () =>
+                  GPUDirectionalSobelEdgeDetectionConfiguration(),
+              'False Color': () => GPUFalseColorConfiguration(),
+              'Glass Sphere': () => GPUGlassSphereConfiguration(),
+              'Kuwahara': () => GPUKuwaharaConfiguration(),
+              'Laplacian': () => GPULaplacianConfiguration(),
+              'Levels': () => GPULevelsConfiguration(),
+              'Non Maximum Suppression': () =>
+                  GPUNonMaximumSuppressionConfiguration(),
+              'Sobel Threshold': () => GPUSobelThresholdConfiguration(),
+              'Emboss': () => GPUEmbossConfiguration(),
+              'Sepia Tone': () => GPUSepiaToneConfiguration(),
             }
           : {};
 
