@@ -5,6 +5,10 @@ class _AspectRatioParameter extends AspectRatioParameter {
 
   @override
   FutureOr<void> update(covariant GPUFilterConfiguration configuration) async {
+    if (!configuration.ready) {
+      debugPrint('Invoke `prepare()` before updating parameter $name');
+      return;
+    }
     await GPUFilterConfiguration._api.setFloatParameter(
       configuration._filterId,
       name,

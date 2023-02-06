@@ -5,6 +5,10 @@ class _BitmapParameter extends DataParameter {
 
   @override
   FutureOr<void> update(covariant GPUFilterConfiguration configuration) async {
+    if (!configuration.ready) {
+      debugPrint('Invoke `prepare()` before updating parameter $name');
+      return;
+    }
     if (asset != null) {
       await GPUFilterConfiguration._api.setBitmapSourceParameter(
         configuration._filterId,

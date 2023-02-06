@@ -5,6 +5,10 @@ class _FloatParameter extends NumberParameter {
 
   @override
   FutureOr<void> update(covariant GPUFilterConfiguration configuration) async {
+    if (!configuration.ready) {
+      debugPrint('Invoke `prepare()` before updating parameter $name');
+      return;
+    }
     await GPUFilterConfiguration._api.setFloatParameter(
       configuration._filterId,
       name,
@@ -18,6 +22,10 @@ class _IntParameter extends NumberParameter {
 
   @override
   FutureOr<void> update(covariant GPUFilterConfiguration configuration) async {
+    if (!configuration.ready) {
+      debugPrint('Invoke `prepare()` before updating parameter $name');
+      return;
+    }
     await GPUFilterConfiguration._api.setFloatParameter(
       configuration._filterId,
       name,
@@ -31,6 +39,10 @@ class _BoolParameter extends BoolParameter {
 
   @override
   FutureOr<void> update(covariant GPUFilterConfiguration configuration) async {
+    if (!configuration.ready) {
+      debugPrint('Invoke `prepare()` before updating parameter $name');
+      return;
+    }
     await GPUFilterConfiguration._api.setFloatParameter(
       configuration._filterId,
       name,

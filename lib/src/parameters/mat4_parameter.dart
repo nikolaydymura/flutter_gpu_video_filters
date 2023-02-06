@@ -5,6 +5,10 @@ class _Mat4Parameter extends Matrix4Parameter {
 
   @override
   FutureOr<void> update(covariant GPUFilterConfiguration configuration) async {
+    if (!configuration.ready) {
+      debugPrint('Invoke `prepare()` before updating parameter $name');
+      return;
+    }
     await GPUFilterConfiguration._api.setFloatArrayParameter(
       configuration._filterId,
       name,
