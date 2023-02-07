@@ -12,7 +12,7 @@ class GPUSquareLookupTableConfiguration extends GPUFilterConfiguration {
           min: 0,
           max: 1,
         ),
-        _lutImage = _BitmapParameter('inputTextureCubeData', 'LUT'),
+        _lutImage = _BitmapParameter('inputTextureCubeData', 'Lookup Image'),
         super('SquareLookupTable');
 
   set intensity(double value) {
@@ -53,7 +53,7 @@ class GPUHALDLookupTableConfiguration extends GPUFilterConfiguration {
           min: 0,
           max: 1,
         ),
-        _lutImage = _BitmapParameter('inputTextureCubeData', 'LUT'),
+        _lutImage = _BitmapParameter('inputTextureCubeData', 'Lookup Image'),
         super('HALDLookupTable');
 
   set intensity(double value) {
