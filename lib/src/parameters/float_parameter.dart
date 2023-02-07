@@ -1,6 +1,10 @@
 part of flutter_gpu_video_filters;
 
-class _FloatParameter extends NumberParameter {
+mixin _NumberParameter on NumberParameter {
+  double get floatValue => value.toDouble();
+}
+
+class _FloatParameter extends NumberParameter with _NumberParameter {
   _FloatParameter(super.name, super.displayName, super.value);
 
   @override
@@ -12,12 +16,12 @@ class _FloatParameter extends NumberParameter {
     await GPUFilterConfiguration._api.setFloatParameter(
       configuration._filterId,
       name,
-      value.toDouble(),
+      floatValue,
     );
   }
 }
 
-class _IntParameter extends NumberParameter {
+class _IntParameter extends NumberParameter with _NumberParameter {
   _IntParameter(super.name, super.displayName, super.value);
 
   @override
@@ -29,9 +33,12 @@ class _IntParameter extends NumberParameter {
     await GPUFilterConfiguration._api.setFloatParameter(
       configuration._filterId,
       name,
-      value.toInt().toDouble(),
+      floatValue,
     );
   }
+
+  @override
+  double get floatValue => value.toInt().toDouble();
 }
 
 class _BoolParameter extends BoolParameter {
@@ -49,6 +56,8 @@ class _BoolParameter extends BoolParameter {
       value ? 1.0 : 0.0,
     );
   }
+
+  double get floatValue => value ? 1.0 : 0.0;
 }
 
 class _TemperatureParameter extends _FloatParameter {
@@ -59,8 +68,8 @@ class _TemperatureParameter extends _FloatParameter {
   );
 
   @override
-  num get value {
-    final temperature = super.value.toDouble();
+  double get floatValue {
+    final temperature = value.toDouble();
     return temperature < 5000
         ? 0.0004 * (temperature - 5000.0)
         : 0.00006 * (temperature - 5000.0);
@@ -75,5 +84,5 @@ class _TintParameter extends _FloatParameter {
   );
 
   @override
-  num get value => super.value.toDouble() / 100.0;
+  double get floatValue => value.toDouble() / 100.0;
 }

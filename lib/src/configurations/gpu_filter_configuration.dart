@@ -25,8 +25,12 @@ abstract class GPUFilterConfiguration extends FilterConfiguration
       );
 
       final floats = parameters
-          .whereType<NumberParameter>()
-          .groupFoldBy((e) => e.name, (_, e) => e.value.toDouble());
+          .whereType<_NumberParameter>()
+          .groupFoldBy((e) => e.name, (_, e) => e.floatValue);
+
+      final booleans = parameters
+          .whereType<_BoolParameter>()
+          .groupFoldBy((e) => e.name, (_, e) => e.floatValue);
 
       final arrays = parameters
           .whereType<_FloatsParameter>()
@@ -38,7 +42,7 @@ abstract class GPUFilterConfiguration extends FilterConfiguration
       final filterId = await _api.create(
         vertexShader,
         fragmentShader,
-        floats,
+        floats..addAll(booleans),
         arrays,
         textures,
       );

@@ -11,10 +11,12 @@ class GPUSwirlConfiguration extends GPUFilterConfiguration {
           'Angle',
           1.0,
         ),
-        _radius = _FloatParameter(
+        _radius = _SliderFloatParameter(
           'inputRadius',
           'Radius',
           0.5,
+          min: 0.0,
+          max: 1.0,
         ),
         _center = _PointParameter(
           'inputCenter',

@@ -1,9 +1,9 @@
+precision highp float;
+
 varying highp vec2 textureCoordinate;
 
 uniform sampler2D inputImageTexture;
 uniform int inputRadius;
-
-precision highp float;
 
 const vec2 src_size = vec2 (1.0 / 768.0, 1.0 / 1024.0);
 

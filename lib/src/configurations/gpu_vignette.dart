@@ -1,40 +1,40 @@
 part of flutter_gpu_video_filters;
 
 class GPUVignetteConfiguration extends GPUFilterConfiguration {
-  final NumberParameter _centerX;
-  final NumberParameter _centerY;
+  final PointParameter _center;
+  final ColorParameter _color;
   final NumberParameter _vignetteStart;
   final NumberParameter _vignetteEnd;
 
   GPUVignetteConfiguration()
-      : _centerX = _FloatParameter(
-          'inputCenterX',
-          'CenterX',
-          0.5,
+      : _center = _PointParameter(
+          'inputVignetteCenter',
+          'Vignette Center',
+          const Point(0.0, 0.0),
         ),
-        _centerY = _FloatParameter(
-          'inputCenterY',
-          'CenterY',
-          0.5,
+        _color = _ColorParameter(
+          'inputVignetteColor',
+          'Vignette Color',
+          Colors.black,
         ),
         _vignetteStart = _FloatParameter(
           'inputVignetteStart',
-          'Start',
-          0.2,
+          'Vignette Start',
+          0.3,
         ),
         _vignetteEnd = _FloatParameter(
           'inputVignetteEnd',
-          'VignetteEnd',
-          0.85,
+          'Vignette End',
+          0.75,
         ),
         super('Vignette');
 
-  set centerX(double value) {
-    _centerX.value = value;
+  set center(Point<double> value) {
+    _center.value = value;
   }
 
-  set centerY(double value) {
-    _centerY.value = value;
+  set color(Color value) {
+    _color.value = value;
   }
 
   set vignetteStart(double value) {
@@ -47,5 +47,5 @@ class GPUVignetteConfiguration extends GPUFilterConfiguration {
 
   @override
   List<ConfigurationParameter> get parameters =>
-      [_centerX, _centerY, _vignetteStart, _vignetteEnd];
+      [_center, _color, _vignetteStart, _vignetteEnd];
 }

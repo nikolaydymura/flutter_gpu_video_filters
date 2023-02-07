@@ -9,24 +9,7 @@ class GPUColorMatrixConfiguration extends GPUFilterConfiguration {
         _colorMatrix = _Mat4Parameter(
           'inputColorMatrix',
           'Color Matrix',
-          Matrix4(
-            1.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            1.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            1.0,
-            0.0,
-            0.0,
-            0.0,
-            0.0,
-            1.0,
-          ),
+          Matrix4.identity(),
         ),
         super('ColorMatrix');
 

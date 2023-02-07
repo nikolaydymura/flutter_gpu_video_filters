@@ -1,40 +1,44 @@
 part of flutter_gpu_video_filters;
 
 class GPUBulgeDistortionConfiguration extends GPUFilterConfiguration {
-  final NumberParameter _centerX;
-  final NumberParameter _centerY;
+  final PointParameter _center;
+  final AspectRatioParameter _aspectRatio;
   final NumberParameter _radius;
   final NumberParameter _scale;
 
   GPUBulgeDistortionConfiguration()
-      : _centerX = _FloatParameter(
-          'inputCenterX',
-          'Center X',
-          0.5,
+      : _center = _PointParameter(
+          'inputCenter',
+          'Center',
+          const Point(0.5, 0.5),
         ),
-        _centerY = _FloatParameter(
-          'inputCenterY',
-          'Center Y',
-          0.5,
+        _aspectRatio = _AspectRatioParameter(
+          'inputAspectRatio',
+          'Aspect Ratio',
+          const Size(1.0, 1.0),
         ),
-        _radius = _FloatParameter(
+        _radius = _SliderFloatParameter(
           'inputRadius',
           'Radius',
           0.25,
+          min: 0.0,
+          max: 1.0,
         ),
-        _scale = _FloatParameter(
+        _scale = _SliderFloatParameter(
           'inputScale',
           'Scale',
           0.5,
+          min: -1.0,
+          max: 1.0,
         ),
         super('BulgeDistortion');
 
-  set centerX(double value) {
-    _centerX.value = value;
+  set center(Point<double> value) {
+    _center.value = value;
   }
 
-  set centerY(double value) {
-    _centerY.value = value;
+  set aspectRatio(Size value) {
+    _aspectRatio.value = value;
   }
 
   set radius(double value) {
@@ -47,5 +51,5 @@ class GPUBulgeDistortionConfiguration extends GPUFilterConfiguration {
 
   @override
   List<ConfigurationParameter> get parameters =>
-      [_centerX, _centerY, _radius, _scale];
+      [_center, _aspectRatio, _radius, _scale];
 }

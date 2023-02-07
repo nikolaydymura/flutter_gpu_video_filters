@@ -1,6 +1,6 @@
 part of flutter_gpu_video_filters;
 
-class _SliderFloatParameter extends RangeNumberParameter {
+class _SliderFloatParameter extends RangeNumberParameter with _NumberParameter {
   _SliderFloatParameter(
     super.name,
     super.displayName,
@@ -18,12 +18,13 @@ class _SliderFloatParameter extends RangeNumberParameter {
     await GPUFilterConfiguration._api.setFloatParameter(
       configuration._filterId,
       name,
-      value.toDouble(),
+      floatValue,
     );
   }
 }
 
-class _ColorIntensityParameter extends _SliderFloatParameter {
+class _ColorIntensityParameter extends _SliderFloatParameter
+    with _NumberParameter {
   _ColorIntensityParameter(
     super.shaderName,
     super.displayName,
@@ -41,7 +42,10 @@ class _ColorIntensityParameter extends _SliderFloatParameter {
     await GPUFilterConfiguration._api.setFloatParameter(
       configuration._filterId,
       name,
-      value.toDouble() / 255.0,
+      floatValue,
     );
   }
+
+  @override
+  double get floatValue => value.toDouble() / 255.0;
 }

@@ -1,7 +1,7 @@
 part of flutter_gpu_video_filters;
 
 class GPUSobelThresholdConfiguration extends GPUFilterConfiguration
-    with Image2Mixin {
+    with Sampling3x3Mixin {
   final NumberParameter _threshold;
 
   GPUSobelThresholdConfiguration()

@@ -87,8 +87,13 @@ class GPUVideoPreviewParams {
       'packages/flutter_gpu_video_filters/shaders/${configuration.name}.glsl',
     );
     final floats = configuration.parameters
-        .whereType<NumberParameter>()
-        .groupFoldBy((e) => e.name, (_, e) => e.value.toDouble());
+        .whereType<_NumberParameter>()
+        .groupFoldBy((e) => e.name, (_, e) => e.floatValue);
+
+    final booleans = configuration.parameters
+        .whereType<_BoolParameter>()
+        .groupFoldBy((e) => e.name, (_, e) => e.floatValue);
+
     final arrays = configuration.parameters
         .whereType<_FloatsParameter>()
         .groupFoldBy((e) => e.name, (_, e) => e.floats);
@@ -121,7 +126,7 @@ class GPUVideoPreviewParams {
     return GPUVideoPreviewParams._(
       vertexShader,
       glsl,
-      floats,
+      floats..addAll(booleans),
       arrays,
       textures,
     );

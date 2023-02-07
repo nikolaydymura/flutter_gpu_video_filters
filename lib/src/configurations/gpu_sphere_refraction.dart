@@ -1,53 +1,45 @@
 part of flutter_gpu_video_filters;
 
 class GPUSphereRefractionConfiguration extends GPUFilterConfiguration {
-  final NumberParameter _centerX;
-  final NumberParameter _centerY;
+  final PointParameter _center;
   final NumberParameter _radius;
-  final NumberParameter _aspectRatio;
+  final AspectRatioParameter _aspectRatio;
   final NumberParameter _refractiveIndex;
 
   GPUSphereRefractionConfiguration()
-      : _centerX = _FloatParameter(
-          'inputCenterX',
-          'CenterX',
-          0.5,
+      : _center = _PointParameter(
+          'inputCenter',
+          'Center',
+          const Point(0.5, 0.5),
         ),
-        _centerY = _FloatParameter(
-          'inputCenterY',
-          'CenterY',
-          0.5,
-        ),
-        _radius = _FloatParameter(
+        _radius = _SliderFloatParameter(
           'inputRadius',
           'Radius',
-          0.5,
+          0.25,
+          min: 0.0,
+          max: 1.0,
         ),
-        _aspectRatio = _FloatParameter(
+        _aspectRatio = _AspectRatioParameter(
           'inputAspectRatio',
-          'AspectRatio',
-          1.0,
+          'Aspect Ratio',
+          const Size.square(1),
         ),
         _refractiveIndex = _FloatParameter(
           'inputRefractiveIndex',
-          'RefractiveIndex',
+          'Refractive Index',
           0.71,
         ),
         super('SphereRefraction');
 
-  set centerX(double value) {
-    _centerX.value = value;
-  }
-
-  set centerY(double value) {
-    _centerY.value = value;
+  set centerX(Point<double> value) {
+    _center.value = value;
   }
 
   set radius(double value) {
     _radius.value = value;
   }
 
-  set aspectRatio(double value) {
+  set aspectRatio(Size value) {
     _aspectRatio.value = value;
   }
 
@@ -57,5 +49,5 @@ class GPUSphereRefractionConfiguration extends GPUFilterConfiguration {
 
   @override
   List<ConfigurationParameter> get parameters =>
-      [_centerX, _centerY, _radius, _aspectRatio, _refractiveIndex];
+      [_center, _radius, _aspectRatio, _refractiveIndex];
 }

@@ -11,7 +11,7 @@ class GPULuminanceThresholdConfiguration extends GPUFilterConfiguration {
         ),
         super('LuminanceThreshold');
 
-  set hue(double value) {
+  set threshold(double value) {
     _threshold.value = value;
   }
 
