@@ -12,6 +12,7 @@ import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.util.EventLogger
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.FlutterPlugin.FlutterPluginBinding
+import io.flutter.plugin.common.EventChannel
 import io.flutter.plugin.common.StandardMessageCodec
 import io.flutter.plugin.platform.PlatformView
 import io.flutter.plugin.platform.PlatformViewFactory
@@ -67,7 +68,6 @@ class VideoPreviewApiImpl(private val binding: FlutterPluginBinding, private val
     }
 
     override fun disconnect(textureId: Long, embedded: Boolean) {
-
     }
 
     override fun setSource(msg: PreviewMessages.SourcePreviewMessage, embedded: Boolean) {
@@ -153,6 +153,8 @@ class VideoPreviewApiImpl(private val binding: FlutterPluginBinding, private val
             }
         }
         val preview = VideoPreview(context!!, vertex, fragment, defaultFloats, defaultArrayFloats, texture)
+        val eventChannel = EventChannel(binding.binaryMessenger, "GPUVideoPreviewEvent_$viewId")
+        eventChannel.setStreamHandler(preview.processor)
         videosPreviews.put(viewId.toLong(), preview)
         return preview
     }
@@ -163,10 +165,10 @@ class VideoPreview(context: Context,
                    fragmentGlsl: String,
                    defaultFloats: Map<String, Float>,
                    defaultArrayFloats: Map<String, FloatArray>,
-                   textureName: String? = null) : PlatformView, OnUniformsUpdater {
+                   textureName: String? = null,) : PlatformView, OnUniformsUpdater {
 
     val player: ExoPlayer = ExoPlayer.Builder(context).build()
-    private val processor: DynamicVideoProcessor = DynamicVideoProcessor(vertexGlsl, fragmentGlsl, defaultFloats, defaultArrayFloats, textureName)
+    internal val processor = DynamicVideoProcessor(vertexGlsl, fragmentGlsl, defaultFloats, defaultArrayFloats, textureName)
     val videoProcessingGLSurfaceView: VideoProcessingGLSurfaceView = VideoProcessingGLSurfaceView(
             context, false, processor)
 

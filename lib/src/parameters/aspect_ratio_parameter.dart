@@ -12,7 +12,9 @@ class _AspectRatioParameter extends AspectRatioParameter {
     await GPUFilterConfiguration._api.setFloatParameter(
       configuration._filterId,
       name,
-      value.width / value.height,
+      floatValue,
     );
   }
+
+  double get floatValue => value.width / value.height;
 }

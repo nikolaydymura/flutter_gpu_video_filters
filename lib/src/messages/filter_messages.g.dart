@@ -23,7 +23,7 @@ class FilterApi {
       String arg_vertexShader,
       String arg_fragmentShader,
       Map<String?, double?> arg_defaults,
-      Map<String?, List<double?>?> arg_arrays,
+      Map<String?, Float64List?> arg_arrays,
       String? arg_texture) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.FilterApi.create', codec,

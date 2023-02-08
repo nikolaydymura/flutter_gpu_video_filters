@@ -1,7 +1,8 @@
 part of flutter_gpu_video_filters;
 
 class GPUVideoNativePreview extends StatelessWidget {
-  final void Function(GPUVideoPreviewController) onViewCreated;
+  final void Function(GPUVideoPreviewController, Stream<Size>) onViewCreated;
+  final void Function(Stream<Size>)? onSizeUpdated;
   final GPUFilterConfiguration configuration;
   final GPUVideoPreviewParams params;
 
@@ -10,6 +11,7 @@ class GPUVideoNativePreview extends StatelessWidget {
     required this.onViewCreated,
     required this.params,
     required this.configuration,
+    this.onSizeUpdated,
   }) : super(key: key);
 
   @override
@@ -21,8 +23,49 @@ class GPUVideoNativePreview extends StatelessWidget {
       creationParams: params.toJson(),
       onPlatformViewCreated: (id) {
         final controller = GPUVideoPreviewController._(id, true);
-        controller.connect(configuration);
-        onViewCreated(controller);
+        controller.connect(configuration).whenComplete(
+              () => onViewCreated(
+                controller,
+                EventChannel('GPUVideoPreviewEvent_$id')
+                    .receiveBroadcastStream()
+                    .map((event) {
+                  return Size(
+                    event['width'].toDouble(),
+                    event['height'].toDouble(),
+                  );
+                }).asyncMap((event) async {
+                  if (configuration is Sampling3x3Mixin) {
+                    final width = configuration.parameters
+                        .whereType<NumberParameter>()
+                        .firstWhere((e) => e.name == 'inputTexelWidth');
+                    width.value = 1 / event.width;
+                    final height = configuration.parameters
+                        .whereType<NumberParameter>()
+                        .firstWhere((e) => e.name == 'inputTexelHeight');
+                    height.value = 1 / event.height;
+                    await configuration.apply();
+                  } else if (configuration is GPUSharpenConfiguration) {
+                    final width = configuration.parameters
+                        .whereType<NumberParameter>()
+                        .firstWhere((e) => e.name == 'inputImageWidthFactor');
+                    width.value = 1 / event.width;
+                    final height = configuration.parameters
+                        .whereType<NumberParameter>()
+                        .firstWhere((e) => e.name == 'inputImageHeightFactor');
+                    height.value = 1 / event.height;
+                    await configuration.apply();
+                  }
+                  final aspectRatio = configuration.parameters
+                      .whereType<AspectRatioParameter>()
+                      .firstOrNull;
+                  aspectRatio?.value = event;
+                  if (aspectRatio != null) {
+                    await aspectRatio.update(configuration);
+                  }
+                  return event;
+                }),
+              ),
+            );
       },
     );
   }
@@ -87,16 +130,24 @@ class GPUVideoPreviewParams {
       'packages/flutter_gpu_video_filters/shaders/${configuration.name}.glsl',
     );
     final floats = configuration.parameters
+        .whereNot((e) => e.compute)
         .whereType<_NumberParameter>()
         .groupFoldBy((e) => e.name, (_, e) => e.floatValue);
 
     final booleans = configuration.parameters
+        .whereNot((e) => e.compute)
         .whereType<_BoolParameter>()
         .groupFoldBy((e) => e.name, (_, e) => e.floatValue);
 
+    final ratios = configuration.parameters
+        .whereNot((e) => e.compute)
+        .whereType<_AspectRatioParameter>()
+        .groupFoldBy((e) => e.name, (_, e) => e.floatValue);
+
     final arrays = configuration.parameters
-        .whereType<_FloatsParameter>()
-        .groupFoldBy((e) => e.name, (_, e) => e.floats);
+        .whereNot((e) => e.compute)
+        .whereType<VectorParameter>()
+        .groupFoldBy((e) => e.name, (_, e) => e.float32);
 
     final textures = configuration.parameters
         .whereType<_BitmapParameter>()
@@ -126,7 +177,9 @@ class GPUVideoPreviewParams {
     return GPUVideoPreviewParams._(
       vertexShader,
       glsl,
-      floats..addAll(booleans),
+      floats
+        ..addAll(booleans)
+        ..addAll(ratios),
       arrays,
       textures,
     );

@@ -23,6 +23,30 @@ class _SliderFloatParameter extends RangeNumberParameter with _NumberParameter {
   }
 }
 
+class _SliderComputeFloatParameter extends RangeNumberParameter
+    with _NumberParameter {
+  VoidCallback? onChange;
+  FutureOr<void> Function(GPUFilterConfiguration)? onUpdate;
+
+  _SliderComputeFloatParameter(
+    super.name,
+    super.displayName,
+    super.value, {
+    super.min,
+    super.max,
+  }) : super(compute: true);
+
+  @override
+  set value(num value) {
+    super.value = value;
+    onChange?.call();
+  }
+
+  @override
+  FutureOr<void> update(covariant GPUFilterConfiguration configuration) =>
+      onUpdate?.call(configuration);
+}
+
 class _ColorIntensityParameter extends _SliderFloatParameter
     with _NumberParameter {
   _ColorIntensityParameter(

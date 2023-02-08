@@ -1,6 +1,6 @@
 part of flutter_gpu_video_filters;
 
-class _PointParameter extends PointParameter with _FloatsParameter {
+class _PointParameter extends PointParameter {
   _PointParameter(super.name, super.displayName, super.value);
 
   @override
@@ -12,10 +12,7 @@ class _PointParameter extends PointParameter with _FloatsParameter {
     await GPUFilterConfiguration._api.setFloatArrayParameter(
       configuration._filterId,
       name,
-      Float64List.fromList(values),
+      floats64,
     );
   }
-
-  @override
-  List<double> get values => [value.x, value.y];
 }

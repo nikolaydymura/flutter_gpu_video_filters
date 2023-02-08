@@ -1,6 +1,6 @@
 part of flutter_gpu_video_filters;
 
-class _Mat3Parameter extends VectorParameter {
+class _Mat3Parameter extends ListParameter {
   _Mat3Parameter(super.name, super.displayName, super.value, {super.hidden});
 
   @override
@@ -12,7 +12,7 @@ class _Mat3Parameter extends VectorParameter {
     await GPUFilterConfiguration._api.setFloatArrayParameter(
       configuration._filterId,
       name,
-      Float64List.fromList(value),
+      floats64,
     );
   }
 }

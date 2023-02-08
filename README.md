@@ -136,7 +136,7 @@ class _PreviewPageState extends State<PreviewPage> {
 | :white_check_mark: | GPUMultiplyBlendConfiguration                 | Multiply Blend                   |
 | :white_check_mark: | GPUNonMaximumSuppressionConfiguration         | Non Maximum Suppression          |
 | :white_check_mark: | GPUNormalBlendConfiguration                   | Normal Blend                     |
-| :white_check_mark: | GPUOpacityConfiguration                       | Opacity                          |
+| :interrobang:      | GPUOpacityConfiguration                       | Opacity                          |
 | :white_check_mark: | GPUOverlayBlendConfiguration                  | Overlay Blend                    |
 | :white_check_mark: | GPUOverlayConfiguration                       | Overlay                          |
 | :white_check_mark: | GPUPixelationConfiguration                    | Pixelation                       |

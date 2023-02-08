@@ -21,6 +21,8 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.opengl.GLES20;
 import android.opengl.GLUtils;
+import android.os.Handler;
+import android.os.Looper;
 
 import com.google.android.exoplayer2.util.GlProgram;
 import com.google.android.exoplayer2.util.GlUtil;
@@ -30,12 +32,14 @@ import java.util.Map;
 
 import javax.microedition.khronos.opengles.GL10;
 
+import io.flutter.plugin.common.EventChannel;
+
 /**
  * Video processor that demonstrates how to overlay a bitmap on video output using a GL shader. The
  * bitmap is drawn using an Android {@link Canvas}.
  */
-/* package */ final class DynamicVideoProcessor
-        implements VideoProcessingGLSurfaceView.VideoProcessor {
+/* package */ public final class DynamicVideoProcessor
+        implements VideoProcessingGLSurfaceView.VideoProcessor, EventChannel.StreamHandler {
 
     private final String vertexShader;
     private final String fragmentShader;
@@ -45,6 +49,12 @@ import javax.microedition.khronos.opengles.GL10;
     private final String secondTexture;
     private Bitmap secondBitmap;
     private GlProgram program;
+
+    private EventChannel.EventSink eventSink;
+    private int outputWith = -1;
+    private int outputHeight = -1;
+
+    private Handler mainHandler = new Handler(Looper.getMainLooper());
 
     public DynamicVideoProcessor(String vertexShader,
                                  String fragmentShader,
@@ -63,7 +73,6 @@ import javax.microedition.khronos.opengles.GL10;
         this.secondTexture = secondTexture;
         this.textures = new int[secondTexture != null ? 1 : 0];
     }
-
     @Override
     public void initialize() {
         program = new GlProgram(vertexShader, fragmentShader);
@@ -120,10 +129,34 @@ import javax.microedition.khronos.opengles.GL10;
     public void setSecondBitmap(Bitmap secondBitmap) {
         this.secondBitmap = secondBitmap;
     }
+
     @Override
     public void setSurfaceSize(int width, int height) {
+        if (eventSink != null) {
+            final Map<String, Integer> result = new HashMap<>();
+            result.put("width", width);
+            result.put("height", height);
+            mainHandler.post(() -> eventSink.success(result));
+        }
+        outputWith = width;
+        outputHeight = height;
     }
 
+    @Override
+    public void onListen(Object arguments, EventChannel.EventSink events) {
+        eventSink = events;
+        if (outputWith != -1 && outputHeight != -1) {
+            final Map<String, Integer> result = new HashMap<>();
+            result.put("width", outputWith);
+            result.put("height", outputHeight);
+            mainHandler.post(() -> eventSink.success(result));
+        }
+    }
+
+    @Override
+    public void onCancel(Object arguments) {
+        eventSink = null;
+    }
     @Override
     public void draw(int frameTexture, long frameTimestampUs, float[] transformMatrix) {
 
@@ -148,6 +181,10 @@ import javax.microedition.khronos.opengles.GL10;
 
     @Override
     public void release() {
+        eventSink.endOfStream();
+        eventSink = null;
+        outputWith = -1;
+        outputHeight = -1;
         if (program != null) {
             program.delete();
         }

@@ -50,9 +50,12 @@ class _PreviewPageState extends State<PreviewPage> {
               ? GPUVideoNativePreview(
                   params: previewParams,
                   configuration: configuration,
-                  onViewCreated: (controller) {
+                  onViewCreated: (controller, outputSizeStream) async {
                     controller = controller;
                     controller.setVideoAsset(_assetPath);
+                    await for (final size in outputSizeStream) {
+                      setState(() {});
+                    }
                   },
                 )
               : const Center(

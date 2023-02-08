@@ -1,6 +1,6 @@
 part of flutter_gpu_video_filters;
 
-class _ColorParameter extends ColorParameter with _FloatsParameter {
+class _ColorParameter extends ColorParameter {
   _ColorParameter(super.name, super.displayName, super.value);
 
   @override
@@ -12,11 +12,7 @@ class _ColorParameter extends ColorParameter with _FloatsParameter {
     await GPUFilterConfiguration._api.setFloatArrayParameter(
       configuration._filterId,
       name,
-      Float64List.fromList(values),
+      floats64,
     );
   }
-
-  @override
-  List<double> get values =>
-      [value.red / 255.0, value.green / 255.0, value.blue / 255.0];
 }

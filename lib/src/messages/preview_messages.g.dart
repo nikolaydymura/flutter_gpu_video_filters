@@ -75,8 +75,10 @@ class VideoPreviewApi {
 
   Future<int> create() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.VideoPreviewApi.create', codec,
-        binaryMessenger: _binaryMessenger);
+      'dev.flutter.pigeon.VideoPreviewApi.create',
+      codec,
+      binaryMessenger: _binaryMessenger,
+    );
     final List<Object?>? replyList = await channel.send(null) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
@@ -100,10 +102,15 @@ class VideoPreviewApi {
   }
 
   Future<void> connect(
-      int arg_textureId, int arg_filterId, bool arg_embedded) async {
+    int arg_textureId,
+    int arg_filterId,
+    bool arg_embedded,
+  ) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.VideoPreviewApi.connect', codec,
-        binaryMessenger: _binaryMessenger);
+      'dev.flutter.pigeon.VideoPreviewApi.connect',
+      codec,
+      binaryMessenger: _binaryMessenger,
+    );
     final List<Object?>? replyList =
         await channel.send(<Object?>[arg_textureId, arg_filterId, arg_embedded])
             as List<Object?>?;
@@ -125,8 +132,10 @@ class VideoPreviewApi {
 
   Future<void> disconnect(int arg_textureId, bool arg_embedded) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.VideoPreviewApi.disconnect', codec,
-        binaryMessenger: _binaryMessenger);
+      'dev.flutter.pigeon.VideoPreviewApi.disconnect',
+      codec,
+      binaryMessenger: _binaryMessenger,
+    );
     final List<Object?>? replyList = await channel
         .send(<Object?>[arg_textureId, arg_embedded]) as List<Object?>?;
     if (replyList == null) {
@@ -146,10 +155,14 @@ class VideoPreviewApi {
   }
 
   Future<void> setSource(
-      SourcePreviewMessage arg_msg, bool arg_embedded) async {
+    SourcePreviewMessage arg_msg,
+    bool arg_embedded,
+  ) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.VideoPreviewApi.setSource', codec,
-        binaryMessenger: _binaryMessenger);
+      'dev.flutter.pigeon.VideoPreviewApi.setSource',
+      codec,
+      binaryMessenger: _binaryMessenger,
+    );
     final List<Object?>? replyList =
         await channel.send(<Object?>[arg_msg, arg_embedded]) as List<Object?>?;
     if (replyList == null) {
@@ -170,8 +183,10 @@ class VideoPreviewApi {
 
   Future<void> resume(int arg_textureId, bool arg_embedded) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.VideoPreviewApi.resume', codec,
-        binaryMessenger: _binaryMessenger);
+      'dev.flutter.pigeon.VideoPreviewApi.resume',
+      codec,
+      binaryMessenger: _binaryMessenger,
+    );
     final List<Object?>? replyList = await channel
         .send(<Object?>[arg_textureId, arg_embedded]) as List<Object?>?;
     if (replyList == null) {
@@ -192,8 +207,10 @@ class VideoPreviewApi {
 
   Future<void> pause(int arg_textureId, bool arg_embedded) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.VideoPreviewApi.pause', codec,
-        binaryMessenger: _binaryMessenger);
+      'dev.flutter.pigeon.VideoPreviewApi.pause',
+      codec,
+      binaryMessenger: _binaryMessenger,
+    );
     final List<Object?>? replyList = await channel
         .send(<Object?>[arg_textureId, arg_embedded]) as List<Object?>?;
     if (replyList == null) {
@@ -214,8 +231,10 @@ class VideoPreviewApi {
 
   Future<void> dispose(int arg_textureId, bool arg_embedded) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.VideoPreviewApi.dispose', codec,
-        binaryMessenger: _binaryMessenger);
+      'dev.flutter.pigeon.VideoPreviewApi.dispose',
+      codec,
+      binaryMessenger: _binaryMessenger,
+    );
     final List<Object?>? replyList = await channel
         .send(<Object?>[arg_textureId, arg_embedded]) as List<Object?>?;
     if (replyList == null) {

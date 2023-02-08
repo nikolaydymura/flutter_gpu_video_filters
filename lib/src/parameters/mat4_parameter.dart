@@ -12,7 +12,7 @@ class _Mat4Parameter extends Matrix4Parameter {
     await GPUFilterConfiguration._api.setFloatArrayParameter(
       configuration._filterId,
       name,
-      value.storage,
+      floats64,
     );
   }
 }

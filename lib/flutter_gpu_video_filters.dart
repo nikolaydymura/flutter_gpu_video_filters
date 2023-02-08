@@ -101,7 +101,6 @@ part 'src/parameters/aspect_ratio_parameter.dart';
 part 'src/parameters/bitmap_parameter.dart';
 part 'src/parameters/color_parameter.dart';
 part 'src/parameters/float_parameter.dart';
-part 'src/parameters/floats_parameter_mixin.dart';
 part 'src/parameters/mat3_parameter.dart';
 part 'src/parameters/mat4_parameter.dart';
 part 'src/parameters/point_parameter.dart';

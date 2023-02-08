@@ -8,20 +8,28 @@ class GPUSharpenConfiguration extends GPUFilterConfiguration {
   GPUSharpenConfiguration()
       : _imageWidthFactor = _FloatParameter(
           'inputImageWidthFactor',
-          'ImageWidthFactor',
+          'Image Width Factor',
           0.004,
         ),
         _imageHeightFactor = _FloatParameter(
           'inputImageHeightFactor',
-          'ImageHeightFactor',
+          'Image Height Factor',
           0.004,
         ),
-        _sharpness = _FloatParameter(
+        _sharpness = _SliderFloatParameter(
           'inputSharpness',
           'Sharpness',
-          1.0,
+          0.0,
+          min: -4,
+          max: 4,
         ),
         super('Sharpen');
+
+  @override
+  String get _previewVertex => 'VertexPreviewSharpen';
+
+  @override
+  String get _exportVertex => 'VertexSharpen';
 
   set imageWidthFactor(double value) {
     _imageWidthFactor.value = value;

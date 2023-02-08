@@ -17,7 +17,7 @@ class VideoFilterApiImpl(private val binding: FlutterPlugin.FlutterPluginBinding
     private var filterSequenceId: Long = 0
     private var transformerSequenceId: Long = 0
 
-    override fun create(vertexShader: String, fragmentShader: String, defaults: MutableMap<String, Double>, arrays: MutableMap<String, MutableList<Double>>, texture: String?): Long {
+    override fun create(vertexShader: String, fragmentShader: String, defaults: MutableMap<String, Double>, arrays: MutableMap<String, DoubleArray>, texture: String?): Long {
         val processor = DynamicTextureProcessor(vertexShader, fragmentShader,
                 defaults.mapValues { it.value.toFloat() },
                 arrays.mapValues { el -> el.value.map { it.toFloat() }.toFloatArray() },
