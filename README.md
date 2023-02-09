@@ -67,13 +67,16 @@ class _PreviewPageState extends State<PreviewPage> {
 
   @override
   Widget build(BuildContext context) {
-    return controllerReady
+    return paramsReady
         ? GPUVideoNativePreview(
       params: previewParams,
       configuration: configuration,
-      onViewCreated: (controller) {
-        this.controller = controller;
-        this.controller.setVideoAsset(_assetPath);
+      onViewCreated: (controller, outputSizeStream) async {
+        controller = controller;
+        controller.setVideoAsset(_assetPath);
+        await for (final size in outputSizeStream) {
+          setState(() {});
+        }
       },
     )
         : const Offstage();
@@ -90,8 +93,8 @@ class _PreviewPageState extends State<PreviewPage> {
 | :white_check_mark: | GPU3x3ConvolutionConfiguration                | 3x3 Convolution                  |
 | :white_check_mark: | GPUAddBlendConfiguration                      | Add Blend                        |
 | :white_check_mark: | GPUAlphaBlendConfiguration                    | Alpha Blend                      |
-| :white_check_mark: | GPUBilateralConfiguration                     | Bilateral                        |
-| :white_check_mark: | GPUBoxBlurConfiguration                       | Box Blur                         |
+| :x:                | GPUBilateralConfiguration                     | Bilateral                        |
+| :x:                | GPUBoxBlurConfiguration                       | Box Blur                         |
 | :white_check_mark: | GPUBrightnessConfiguration                    | Brightness                       |
 | :white_check_mark: | GPUBulgeDistortionConfiguration               | Bulge Distortion Configuration   |
 | :white_check_mark: | GPUCGAColorspaceConfiguration                 | CGA Colorspace                   |
@@ -113,7 +116,7 @@ class _PreviewPageState extends State<PreviewPage> {
 | :white_check_mark: | GPUExposureConfiguration                      | Exposure                         |
 | :white_check_mark: | GPUFalseColorConfiguration                    | False Color                      |
 | :white_check_mark: | GPUGammaConfiguration                         | Gamma                            |
-| :white_check_mark: | GPUGaussianBlurConfiguration                  | Gaussian Blur                    |
+| :x:                | GPUGaussianBlurConfiguration                  | Gaussian Blur                    |
 | :white_check_mark: | GPUGlassSphereConfiguration                   | Glass Sphere                     |
 | :white_check_mark: | GPUGrayScaleConfiguration                     | Gray Scale                       |
 | :white_check_mark: | GPUHALDLookupTableConfiguration               | HALD Lookup Table                |
