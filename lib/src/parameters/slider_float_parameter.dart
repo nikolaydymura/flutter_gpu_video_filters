@@ -1,6 +1,6 @@
 part of flutter_gpu_video_filters;
 
-class _SliderFloatParameter extends RangeNumberParameter  {
+class _SliderFloatParameter extends RangeNumberParameter {
   _SliderFloatParameter(
     super.name,
     super.displayName,
