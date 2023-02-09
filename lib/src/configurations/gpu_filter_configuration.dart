@@ -26,17 +26,17 @@ abstract class GPUFilterConfiguration extends FilterConfiguration
 
       final floats = parameters
           .whereNot((e) => e.compute)
-          .whereType<_NumberParameter>()
+          .whereType<NumberParameter>()
           .groupFoldBy((e) => e.name, (_, e) => e.floatValue);
 
       final booleans = parameters
           .whereNot((e) => e.compute)
-          .whereType<_BoolParameter>()
+          .whereType<BoolParameter>()
           .groupFoldBy((e) => e.name, (_, e) => e.floatValue);
 
       final ratios = parameters
           .whereNot((e) => e.compute)
-          .whereType<_AspectRatioParameter>()
+          .whereType<AspectRatioParameter>()
           .groupFoldBy((e) => e.name, (_, e) => e.floatValue);
 
       final arrays = parameters

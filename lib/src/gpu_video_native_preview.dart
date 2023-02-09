@@ -131,17 +131,17 @@ class GPUVideoPreviewParams {
     );
     final floats = configuration.parameters
         .whereNot((e) => e.compute)
-        .whereType<_NumberParameter>()
+        .whereType<NumberParameter>()
         .groupFoldBy((e) => e.name, (_, e) => e.floatValue);
 
     final booleans = configuration.parameters
         .whereNot((e) => e.compute)
-        .whereType<_BoolParameter>()
+        .whereType<BoolParameter>()
         .groupFoldBy((e) => e.name, (_, e) => e.floatValue);
 
     final ratios = configuration.parameters
         .whereNot((e) => e.compute)
-        .whereType<_AspectRatioParameter>()
+        .whereType<AspectRatioParameter>()
         .groupFoldBy((e) => e.name, (_, e) => e.floatValue);
 
     final arrays = configuration.parameters

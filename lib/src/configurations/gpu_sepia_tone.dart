@@ -2,7 +2,7 @@ part of flutter_gpu_video_filters;
 
 class GPUSepiaToneConfiguration extends GPUFilterConfiguration {
   final NumberParameter _intensity;
-  final Matrix4Parameter _colorMatrix;
+  final Mat4Parameter _colorMatrix;
 
   GPUSepiaToneConfiguration()
       : _intensity = _FloatParameter('inputIntensity', 'Intensity', 1.0),

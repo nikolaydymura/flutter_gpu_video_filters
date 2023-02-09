@@ -15,6 +15,4 @@ class _AspectRatioParameter extends AspectRatioParameter {
       floatValue,
     );
   }
-
-  double get floatValue => value.width / value.height;
 }

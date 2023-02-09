@@ -1,6 +1,6 @@
 part of flutter_gpu_video_filters;
 
-class _Mat3Parameter extends ListParameter {
+class _Mat3Parameter extends Mat3Parameter {
   _Mat3Parameter(super.name, super.displayName, super.value, {super.hidden});
 
   @override
