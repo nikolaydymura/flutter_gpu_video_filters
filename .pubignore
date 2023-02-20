@@ -2,5 +2,11 @@ coverage/
 build/
 pigeons/
 test/
+example/android
+example/README.md
+example/analysis_options.yaml
+example/pubspec.lock
+example/pubspec.yaml
+example/videos
 *.iml
 pigeons_generator.sh
