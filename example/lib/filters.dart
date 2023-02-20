@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter_gpu_video_filters/flutter_gpu_video_filters.dart';
