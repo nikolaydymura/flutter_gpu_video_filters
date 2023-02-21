@@ -4,6 +4,7 @@ abstract class GPUFilterConfiguration extends FilterConfiguration
     with VideoFilterConfiguration {
   final FilterApi _api;
   final AssetBundle _assetBundle;
+  final String shadersPath;
 
   int _filterId = -1;
   final String name;
@@ -17,6 +18,7 @@ abstract class GPUFilterConfiguration extends FilterConfiguration
 
   GPUFilterConfiguration(
     this.name, {
+    this.shadersPath = 'packages/flutter_gpu_video_filters/shaders',
     @visibleForTesting FilterApi? filterApi,
     @visibleForTesting AssetBundle? assetBundle,
   })  : _api = filterApi ?? FilterApi(),
@@ -26,10 +28,10 @@ abstract class GPUFilterConfiguration extends FilterConfiguration
   FutureOr<void> prepare() async {
     if (_filterId == -1) {
       final vertexShader = await _assetBundle.loadString(
-        'packages/flutter_gpu_video_filters/shaders/$_exportVertex.glsl',
+        '$shadersPath/$_exportVertex.glsl',
       );
       final fragmentShader = await _assetBundle.loadString(
-        'packages/flutter_gpu_video_filters/shaders/$name.glsl',
+        '$shadersPath/$name.glsl',
       );
 
       final floats = parameters
@@ -116,4 +118,19 @@ abstract class GPUFilterConfiguration extends FilterConfiguration
   @override
   List<ConfigurationParameter> get parameters => [];
 // coverage:ignore-end
+}
+
+
+class BunchFilterConfiguration extends GPUFilterConfiguration {
+  final List<GPUFilterConfiguration> _configurations;
+
+  BunchFilterConfiguration(String shaders, this._configurations)
+      : super(_configurations.map((e) => e.name).join('+'));
+
+  T configuration<T extends GPUFilterConfiguration>({required int at}) =>
+      _configurations[at] as T;
+
+  @override
+  List<ConfigurationParameter> get parameters =>
+      _configurations.map((e) => e.parameters).expand((e) => e).toList();
 }
