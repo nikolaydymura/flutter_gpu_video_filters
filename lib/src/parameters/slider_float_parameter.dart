@@ -1,7 +1,8 @@
 part of flutter_gpu_video_filters;
 
-class _SliderFloatParameter extends RangeNumberParameter {
-  _SliderFloatParameter(
+@visibleForTesting
+class GLSliderFloatParameter extends RangeNumberParameter {
+  GLSliderFloatParameter(
     super.name,
     super.displayName,
     super.value, {
@@ -15,7 +16,7 @@ class _SliderFloatParameter extends RangeNumberParameter {
       debugPrint('Invoke `prepare()` before updating parameter $name');
       return;
     }
-    await GPUFilterConfiguration._api.setFloatParameter(
+    await configuration._api.setFloatParameter(
       configuration._filterId,
       name,
       floatValue,
@@ -23,11 +24,12 @@ class _SliderFloatParameter extends RangeNumberParameter {
   }
 }
 
-class _SliderComputeFloatParameter extends RangeNumberParameter {
+@visibleForTesting
+class GLSliderComputeFloatParameter extends RangeNumberParameter {
   VoidCallback? onChange;
   FutureOr<void> Function(GPUFilterConfiguration)? onUpdate;
 
-  _SliderComputeFloatParameter(
+  GLSliderComputeFloatParameter(
     super.name,
     super.displayName,
     super.value, {
@@ -46,27 +48,13 @@ class _SliderComputeFloatParameter extends RangeNumberParameter {
       onUpdate?.call(configuration);
 }
 
-class _ColorIntensityParameter extends _SliderFloatParameter {
-  _ColorIntensityParameter(
+@visibleForTesting
+class GLColorIntensityParameter extends GLSliderFloatParameter {
+  GLColorIntensityParameter(
     super.shaderName,
     super.displayName,
-    super.value, {
-    super.min,
-    super.max,
-  });
-
-  @override
-  FutureOr<void> update(covariant GPUFilterConfiguration configuration) async {
-    if (!configuration.ready) {
-      debugPrint('Invoke `prepare()` before updating parameter $name');
-      return;
-    }
-    await GPUFilterConfiguration._api.setFloatParameter(
-      configuration._filterId,
-      name,
-      floatValue,
-    );
-  }
+    super.value,
+  ) : super(min: 0, max: 255);
 
   @override
   double get floatValue => value.toDouble() / 255.0;

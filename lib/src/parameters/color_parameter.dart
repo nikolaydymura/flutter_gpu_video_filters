@@ -1,7 +1,8 @@
 part of flutter_gpu_video_filters;
 
-class _ColorParameter extends ColorParameter {
-  _ColorParameter(super.name, super.displayName, super.value);
+@visibleForTesting
+class GLColorParameter extends ColorParameter {
+  GLColorParameter(super.name, super.displayName, super.value);
 
   @override
   FutureOr<void> update(covariant GPUFilterConfiguration configuration) async {
@@ -9,7 +10,7 @@ class _ColorParameter extends ColorParameter {
       debugPrint('Invoke `prepare()` before updating parameter $name');
       return;
     }
-    await GPUFilterConfiguration._api.setFloatArrayParameter(
+    await configuration._api.setFloatArrayParameter(
       configuration._filterId,
       name,
       floats64,

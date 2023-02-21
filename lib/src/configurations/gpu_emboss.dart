@@ -3,13 +3,13 @@ part of flutter_gpu_video_filters;
 class GPUEmbossConfiguration extends GPUFilterConfiguration
     with Sampling3x3Mixin {
   final Mat3Parameter _convolutionMatrix;
-  final _SliderComputeFloatParameter _intensity;
+  final GLSliderComputeFloatParameter _intensity;
 
   GPUEmbossConfiguration()
-      : _convolutionMatrix = _Mat3Parameter(
+      : _convolutionMatrix = GLMat3Parameter(
           'inputConvolutionMatrix',
           'Convolution Matrix',
-          Mat3([
+          Matrix3.fromList([
             1.0 * (-2.0),
             -1.0,
             0.0,
@@ -22,7 +22,7 @@ class GPUEmbossConfiguration extends GPUFilterConfiguration
           ]),
           hidden: true,
         ),
-        _intensity = _SliderComputeFloatParameter(
+        _intensity = GLSliderComputeFloatParameter(
           'inputIntensity',
           'Intensity',
           1,
@@ -40,7 +40,7 @@ class GPUEmbossConfiguration extends GPUFilterConfiguration
 
   void _updateMatrix() {
     final value = _intensity.value.toDouble();
-    _convolutionMatrix.value = Mat3([
+    _convolutionMatrix.value = Matrix3.fromList([
       value * (-2.0),
       -value,
       0.0,

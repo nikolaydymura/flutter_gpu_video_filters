@@ -4,7 +4,7 @@ class GPUSaturationConfiguration extends GPUFilterConfiguration {
   final NumberParameter _saturation;
 
   GPUSaturationConfiguration()
-      : _saturation = _FloatParameter(
+      : _saturation = GLFloatParameter(
           'inputSaturation',
           'Saturation',
           1,

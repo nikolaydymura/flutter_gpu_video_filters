@@ -6,17 +6,17 @@ class GPUBoxBlurConfiguration extends GPUFilterConfiguration {
   final NumberParameter _blurSize;
 
   GPUBoxBlurConfiguration()
-      : _texelWidthOffset = _FloatParameter(
+      : _texelWidthOffset = GLFloatParameter(
           'inputTexelWidthOffset',
           'TexelWidthOffset',
           0.003,
         ),
-        _texelHeightOffset = _FloatParameter(
+        _texelHeightOffset = GLFloatParameter(
           'inputHeightOffset',
           'TexelHeightOffset',
           0.003,
         ),
-        _blurSize = _FloatParameter(
+        _blurSize = GLFloatParameter(
           'inputBlurSize',
           'BlurSize',
           1.0,

@@ -6,17 +6,17 @@ class GPUBilateralConfiguration extends GPUFilterConfiguration {
   final NumberParameter _blurSize;
 
   GPUBilateralConfiguration()
-      : _texelWidthOffset = _FloatParameter(
+      : _texelWidthOffset = GLFloatParameter(
           'inputTexelWidthOffset',
           'TexelWidthOffset',
           0.004,
         ),
-        _texelHeightOffset = _FloatParameter(
+        _texelHeightOffset = GLFloatParameter(
           'inputTexelHeightOffset',
           'TexelHeightOffset',
           0.004,
         ),
-        _blurSize = _FloatParameter(
+        _blurSize = GLFloatParameter(
           'inputBlurSize',
           'BlurSize',
           1.0,

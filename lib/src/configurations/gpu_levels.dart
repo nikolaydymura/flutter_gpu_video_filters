@@ -1,48 +1,57 @@
 part of flutter_gpu_video_filters;
 
 class GPULevelsConfiguration extends GPUFilterConfiguration {
-  final VectorParameter _levelMinimum;
-  final VectorParameter _levelMiddle;
-  final VectorParameter _levelMaximum;
-  final VectorParameter _minOutput;
-  final VectorParameter _maxOutput;
+  final Vector3Parameter _levelMinimum;
+  final Vector3Parameter _levelMiddle;
+  final Vector3Parameter _levelMaximum;
+  final Vector3Parameter _minOutput;
+  final Vector3Parameter _maxOutput;
 
   GPULevelsConfiguration()
-      : _levelMinimum = _Vec3Parameter(
+      : _levelMinimum = GLVec3Parameter(
           'inputLevelMinimum',
           'Level Minimum',
-          [0.0, 0.0, 0.0],
+          Vector3(0.0, 0.0, 0.0),
         ),
-        _levelMiddle =
-            _Vec3Parameter('inputLevelMiddle', 'Level Middle', [1.0, 1.0, 1.0]),
-        _levelMaximum = _Vec3Parameter(
+        _levelMiddle = GLVec3Parameter(
+          'inputLevelMiddle',
+          'Level Middle',
+          Vector3(1.0, 1.0, 1.0),
+        ),
+        _levelMaximum = GLVec3Parameter(
           'inputLevelMaximum',
           'Level Maximum',
-          [1.0, 1.0, 1.0],
+          Vector3(1.0, 1.0, 1.0),
         ),
-        _minOutput =
-            _Vec3Parameter('inputMinOutput', 'Min Output', [0.0, 0.0, 0.0]),
-        _maxOutput =
-            _Vec3Parameter('inputMaxOutput', 'Max Output', [1.0, 1.0, 1.0]),
+        _minOutput = GLVec3Parameter(
+          'inputMinOutput',
+          'Min Output',
+          Vector3(0.0, 0.0, 0.0),
+        ),
+        _maxOutput = GLVec3Parameter(
+          'inputMaxOutput',
+          'Max Output',
+          Vector3(1.0, 1.0, 1.0),
+        ),
         super('Levels');
 
-  set maxOutput(List<double> value) {
+  set maxOutput(Vector3 value) {
     _maxOutput.value = value;
   }
 
-  set minOutput(List<double> value) {
+  set minOutput(Vector3 value) {
     _minOutput.value = value;
   }
 
-  set levelMaximum(List<double> value) {
+  set levelMaximum(Vector3 value) {
     _levelMaximum.value = value;
   }
 
-  set levelMiddle(List<double> value) {
+  set levelMiddle(Vector3 value) {
     _levelMiddle.value = value;
   }
 
-  set levelMinimum(List<double> value) {
+  set levelMinimum(Vector3 value) {
     _levelMinimum.value = value;
   }
 

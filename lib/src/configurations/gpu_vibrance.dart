@@ -4,7 +4,7 @@ class GPUVibranceConfiguration extends GPUFilterConfiguration {
   final NumberParameter _vibrance;
 
   GPUVibranceConfiguration()
-      : _vibrance = _FloatParameter(
+      : _vibrance = GLFloatParameter(
           'inputVibrance',
           'Vibrance',
           0,

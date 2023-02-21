@@ -4,7 +4,7 @@ class GPUBrightnessConfiguration extends GPUFilterConfiguration {
   final NumberParameter _brightness;
 
   GPUBrightnessConfiguration()
-      : _brightness = _SliderFloatParameter(
+      : _brightness = GLSliderFloatParameter(
           'inputBrightness',
           'Brightness',
           0,

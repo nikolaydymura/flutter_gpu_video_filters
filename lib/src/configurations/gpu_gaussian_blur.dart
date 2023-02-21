@@ -6,17 +6,17 @@ class GPUGaussianBlurConfiguration extends GPUFilterConfiguration {
   final NumberParameter _blurSize;
 
   GPUGaussianBlurConfiguration()
-      : _texelWidthOffset = _SliderFloatParameter(
+      : _texelWidthOffset = GLSliderFloatParameter(
           'inputTexelWidthOffset',
           'TexelWidthOffset',
           0.01,
         ),
-        _texelHeightOffset = _SliderFloatParameter(
+        _texelHeightOffset = GLSliderFloatParameter(
           'inputHeightOffset',
           'TexelHeightOffset',
           0.01,
         ),
-        _blurSize = _SliderFloatParameter(
+        _blurSize = GLSliderFloatParameter(
           'inputBlurSize',
           'BlurSize',
           0.2,

@@ -150,7 +150,7 @@ class GPUVideoPreviewParams {
         .groupFoldBy((e) => e.name, (_, e) => e.float32);
 
     final textures = configuration.parameters
-        .whereType<_BitmapParameter>()
+        .whereType<GLBitmapParameter>()
         .singleOrNull
         ?.name;
     var glsl =

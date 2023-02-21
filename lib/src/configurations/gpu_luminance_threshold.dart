@@ -4,7 +4,7 @@ class GPULuminanceThresholdConfiguration extends GPUFilterConfiguration {
   final NumberParameter _threshold;
 
   GPULuminanceThresholdConfiguration()
-      : _threshold = _FloatParameter(
+      : _threshold = GLFloatParameter(
           'inputThreshold',
           'Threshold',
           0.5,

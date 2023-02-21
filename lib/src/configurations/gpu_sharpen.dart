@@ -6,17 +6,17 @@ class GPUSharpenConfiguration extends GPUFilterConfiguration {
   final NumberParameter _sharpness;
 
   GPUSharpenConfiguration()
-      : _imageWidthFactor = _FloatParameter(
+      : _imageWidthFactor = GLFloatParameter(
           'inputImageWidthFactor',
           'Image Width Factor',
           0.004,
         ),
-        _imageHeightFactor = _FloatParameter(
+        _imageHeightFactor = GLFloatParameter(
           'inputImageHeightFactor',
           'Image Height Factor',
           0.004,
         ),
-        _sharpness = _SliderFloatParameter(
+        _sharpness = GLSliderFloatParameter(
           'inputSharpness',
           'Sharpness',
           0.0,

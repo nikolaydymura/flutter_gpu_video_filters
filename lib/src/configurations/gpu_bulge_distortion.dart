@@ -7,24 +7,24 @@ class GPUBulgeDistortionConfiguration extends GPUFilterConfiguration {
   final NumberParameter _scale;
 
   GPUBulgeDistortionConfiguration()
-      : _center = _PointParameter(
+      : _center = GLPointParameter(
           'inputCenter',
           'Center',
           const Point(0.5, 0.5),
         ),
-        _aspectRatio = _AspectRatioParameter(
+        _aspectRatio = GLAspectRatioParameter(
           'inputAspectRatio',
           'Aspect Ratio',
           const Size(1.0, 1.0),
         ),
-        _radius = _SliderFloatParameter(
+        _radius = GLSliderFloatParameter(
           'inputRadius',
           'Radius',
           0.25,
           min: 0.0,
           max: 1.0,
         ),
-        _scale = _SliderFloatParameter(
+        _scale = GLSliderFloatParameter(
           'inputScale',
           'Scale',
           0.5,

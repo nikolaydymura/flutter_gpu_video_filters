@@ -6,19 +6,19 @@ class GPUSwirlConfiguration extends GPUFilterConfiguration {
   final PointParameter _center;
 
   GPUSwirlConfiguration()
-      : _angle = _FloatParameter(
+      : _angle = GLFloatParameter(
           'inputAngle',
           'Angle',
           1.0,
         ),
-        _radius = _SliderFloatParameter(
+        _radius = GLSliderFloatParameter(
           'inputRadius',
           'Radius',
           0.5,
           min: 0.0,
           max: 1.0,
         ),
-        _center = _PointParameter(
+        _center = GLPointParameter(
           'inputCenter',
           'Center',
           const Point(0.5, 0.5),

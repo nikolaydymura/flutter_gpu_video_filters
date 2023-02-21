@@ -4,7 +4,7 @@ class GPUKuwaharaConfiguration extends GPUFilterConfiguration {
   final NumberParameter _radius;
 
   GPUKuwaharaConfiguration()
-      : _radius = _IntParameter('inputRadius', 'Radius', 3),
+      : _radius = GLIntParameter('inputRadius', 'Radius', 3),
         super('Kuwahara');
 
   set radius(int value) {

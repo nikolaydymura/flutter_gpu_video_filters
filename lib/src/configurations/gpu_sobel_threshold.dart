@@ -5,7 +5,7 @@ class GPUSobelThresholdConfiguration extends GPUFilterConfiguration
   final NumberParameter _threshold;
 
   GPUSobelThresholdConfiguration()
-      : _threshold = _FloatParameter('inputThreshold', 'Threshold', 0.9),
+      : _threshold = GLFloatParameter('inputThreshold', 'Threshold', 0.9),
         super('SobelThreshold');
 
   set intensity(double value) {

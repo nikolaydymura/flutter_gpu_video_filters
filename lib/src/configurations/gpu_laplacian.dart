@@ -5,14 +5,14 @@ class GPULaplacianConfiguration extends GPUFilterConfiguration
   final Mat3Parameter _convolutionKernel;
 
   GPULaplacianConfiguration()
-      : _convolutionKernel = _Mat3Parameter(
+      : _convolutionKernel = GLMat3Parameter(
           'inputConvolutionMatrix',
           'Convolution Matrix',
-          Mat3([0.5, 1.0, 0.5, 1.0, -6.0, 1.0, 0.5, 1.0, 0.5]),
+          Matrix3.fromList([0.5, 1.0, 0.5, 1.0, -6.0, 1.0, 0.5, 1.0, 0.5]),
         ),
         super('Laplacian');
 
-  set convolutionKernel(Mat3 value) {
+  set convolutionKernel(Matrix3 value) {
     _convolutionKernel.value = value;
   }
 

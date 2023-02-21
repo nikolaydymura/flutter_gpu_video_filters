@@ -7,22 +7,22 @@ class GPUColorBalanceConfiguration extends GPUFilterConfiguration {
   final BoolParameter _preserveLuminosity;
 
   GPUColorBalanceConfiguration()
-      : _shadowsShift = _Vec3Parameter(
+      : _shadowsShift = GLVec3Parameter(
           'inputShadowsShift',
           'Shadows Shift',
-          [0.0, 0.0, 0.0],
+          Vector3(0.0, 0.0, 0.0),
         ),
-        _midtonesShift = _Vec3Parameter(
+        _midtonesShift = GLVec3Parameter(
           'inputMidtonesShift',
           'Midtones Shift',
-          [0.0, 0.0, 0.0],
+          Vector3(0.0, 0.0, 0.0),
         ),
-        _highlightsShift = _Vec3Parameter(
+        _highlightsShift = GLVec3Parameter(
           'inputHighlightsShift',
           'Highlights Shift',
-          [0.0, 0.0, 0.0],
+          Vector3(0.0, 0.0, 0.0),
         ),
-        _preserveLuminosity = _BoolParameter(
+        _preserveLuminosity = GLBoolParameter(
           'inputPreserveLuminosity',
           'Preserve Luminosity',
           true,

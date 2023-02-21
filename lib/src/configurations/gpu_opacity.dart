@@ -4,7 +4,7 @@ class GPUOpacityConfiguration extends GPUFilterConfiguration {
   final NumberParameter _opacity;
 
   GPUOpacityConfiguration()
-      : _opacity = _SliderFloatParameter(
+      : _opacity = GLSliderFloatParameter(
           'inputOpacity',
           'Opacity',
           1,

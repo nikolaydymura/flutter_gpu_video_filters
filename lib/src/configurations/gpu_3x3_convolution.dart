@@ -5,14 +5,14 @@ class GPU3x3ConvolutionConfiguration extends GPUFilterConfiguration
   final Mat3Parameter _convolutionMatrix;
 
   GPU3x3ConvolutionConfiguration()
-      : _convolutionMatrix = _Mat3Parameter(
+      : _convolutionMatrix = GLMat3Parameter(
           'inputConvolutionMatrix',
           'Convolution Matrix',
-          Mat3([0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0]),
+          Matrix3.fromList([0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0]),
         ),
         super('3x3Convolution');
 
-  set convolutionMatrix(Mat3 value) {
+  set convolutionMatrix(Matrix3 value) {
     _convolutionMatrix.value = value;
   }
 

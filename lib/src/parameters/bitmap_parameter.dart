@@ -1,7 +1,8 @@
 part of flutter_gpu_video_filters;
 
-class _BitmapParameter extends DataParameter {
-  _BitmapParameter(super.name, super.displayName);
+@visibleForTesting
+class GLBitmapParameter extends DataParameter {
+  GLBitmapParameter(super.name, super.displayName);
 
   @override
   FutureOr<void> update(covariant GPUFilterConfiguration configuration) async {
@@ -10,21 +11,21 @@ class _BitmapParameter extends DataParameter {
       return;
     }
     if (asset != null) {
-      await GPUFilterConfiguration._api.setBitmapSourceParameter(
+      await configuration._api.setBitmapSourceParameter(
         configuration._filterId,
         name,
         true,
         asset!,
       );
     } else if (file != null) {
-      await GPUFilterConfiguration._api.setBitmapSourceParameter(
+      await configuration._api.setBitmapSourceParameter(
         configuration._filterId,
         name,
         false,
         file!.absolute.path,
       );
     } else if (data != null) {
-      await GPUFilterConfiguration._api.setBitmapParameter(
+      await configuration._api.setBitmapParameter(
         configuration._filterId,
         name,
         data!,

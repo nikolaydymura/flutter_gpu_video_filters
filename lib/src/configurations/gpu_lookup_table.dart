@@ -5,14 +5,14 @@ class GPUSquareLookupTableConfiguration extends GPUFilterConfiguration {
   final DataParameter _lutImage;
 
   GPUSquareLookupTableConfiguration()
-      : _intensity = _SliderFloatParameter(
+      : _intensity = GLSliderFloatParameter(
           'inputIntensity',
           'Intensity',
           1.0,
           min: 0,
           max: 1,
         ),
-        _lutImage = _BitmapParameter('inputTextureCubeData', 'Lookup Image'),
+        _lutImage = GLBitmapParameter('inputTextureCubeData', 'Lookup Image'),
         super('SquareLookupTable');
 
   set intensity(double value) {
@@ -46,14 +46,14 @@ class GPUHALDLookupTableConfiguration extends GPUFilterConfiguration {
   final DataParameter _lutImage;
 
   GPUHALDLookupTableConfiguration()
-      : _intensity = _SliderFloatParameter(
+      : _intensity = GLSliderFloatParameter(
           'inputIntensity',
           'Intensity',
           1.0,
           min: 0,
           max: 1,
         ),
-        _lutImage = _BitmapParameter('inputTextureCubeData', 'Lookup Image'),
+        _lutImage = GLBitmapParameter('inputTextureCubeData', 'Lookup Image'),
         super('HALDLookupTable');
 
   set intensity(double value) {

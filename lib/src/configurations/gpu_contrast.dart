@@ -4,7 +4,7 @@ class GPUContrastConfiguration extends GPUFilterConfiguration {
   final NumberParameter _contrast;
 
   GPUContrastConfiguration()
-      : _contrast = _SliderFloatParameter(
+      : _contrast = GLSliderFloatParameter(
           'inputContrast',
           'Contrast',
           1.2,

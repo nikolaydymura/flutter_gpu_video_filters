@@ -5,12 +5,12 @@ class GPUHalftoneConfiguration extends GPUFilterConfiguration {
   final NumberParameter _aspectRatio;
 
   GPUHalftoneConfiguration()
-      : _fractionalWidthOfPixel = _FloatParameter(
+      : _fractionalWidthOfPixel = GLFloatParameter(
           'inputFractionalWidthOfPixel',
           'FractionalWidthOfPixel',
           0.01,
         ),
-        _aspectRatio = _FloatParameter(
+        _aspectRatio = GLFloatParameter(
           'inputAspectRatio',
           'AspectRatio',
           1,

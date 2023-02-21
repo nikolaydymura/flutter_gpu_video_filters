@@ -4,7 +4,7 @@ class GPUHueConfiguration extends GPUFilterConfiguration {
   final NumberParameter _hue;
 
   GPUHueConfiguration()
-      : _hue = _FloatParameter(
+      : _hue = GLFloatParameter(
           'inputHueAdjust',
           'Hue Adjust',
           1.57,

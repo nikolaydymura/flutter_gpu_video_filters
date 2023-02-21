@@ -1,13 +1,13 @@
 part of flutter_gpu_video_filters;
 
 mixin Sampling3x3Mixin on GPUFilterConfiguration {
-  final NumberParameter _texelWidth = _FloatParameter(
+  final NumberParameter _texelWidth = GLFloatParameter(
     'inputTexelWidth',
     'Texel Width',
     0.0,
   );
 
-  final NumberParameter _texelHeight = _FloatParameter(
+  final NumberParameter _texelHeight = GLFloatParameter(
     'inputTexelHeight',
     'Texel Height',
     0.0,

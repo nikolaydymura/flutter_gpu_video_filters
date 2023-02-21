@@ -6,17 +6,17 @@ class GPUPixelationConfiguration extends GPUFilterConfiguration {
   final NumberParameter _imageHeightFactor;
 
   GPUPixelationConfiguration()
-      : _pixel = _FloatParameter(
+      : _pixel = GLFloatParameter(
           'inputPixel',
           'Pixel',
           1,
         ),
-        _imageWidthFactor = _FloatParameter(
+        _imageWidthFactor = GLFloatParameter(
           'inputImageWidthFactor',
           'ImageWidthFactor',
           1 / 720,
         ),
-        _imageHeightFactor = _FloatParameter(
+        _imageHeightFactor = GLFloatParameter(
           'inputImageHeightFactor',
           'ImageHeightFactor',
           1 / 720,

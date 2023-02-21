@@ -4,7 +4,7 @@ class GPUExposureConfiguration extends GPUFilterConfiguration {
   final NumberParameter _exposure;
 
   GPUExposureConfiguration()
-      : _exposure = _SliderFloatParameter(
+      : _exposure = GLSliderFloatParameter(
           'inputExposure',
           'Exposure',
           0,

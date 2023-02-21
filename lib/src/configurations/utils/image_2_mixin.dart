@@ -2,7 +2,7 @@ part of flutter_gpu_video_filters;
 
 mixin Image2Mixin on GPUFilterConfiguration {
   final DataParameter _image2 =
-      _BitmapParameter('inputImageTexture2', 'Image 2');
+      GLBitmapParameter('inputImageTexture2', 'Image 2');
 
   @override
   String get _previewVertex => 'VertexPreviewTwoTextures';

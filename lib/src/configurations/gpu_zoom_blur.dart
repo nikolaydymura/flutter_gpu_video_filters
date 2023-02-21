@@ -5,12 +5,12 @@ class GPUZoomBlurConfiguration extends GPUFilterConfiguration {
   final NumberParameter _blurSize;
 
   GPUZoomBlurConfiguration()
-      : _center = _PointParameter(
+      : _center = GLPointParameter(
           'inputBlurCenter',
           'Center',
           const Point(0.5, 0.5),
         ),
-        _blurSize = _FloatParameter(
+        _blurSize = GLFloatParameter(
           'inputBlurSize',
           'Blur Size',
           1.0,

@@ -7,16 +7,16 @@ class GPUGlassSphereConfiguration extends GPUFilterConfiguration {
   final PointParameter _center;
 
   GPUGlassSphereConfiguration()
-      : _radius = _FloatParameter('inputRadius', 'Radius', 0.25),
-        _aspectRatio = _AspectRatioParameter(
+      : _radius = GLFloatParameter('inputRadius', 'Radius', 0.25),
+        _aspectRatio = GLAspectRatioParameter(
           'inputAspectRatio',
           'Aspect Ratio',
           const Size(1.0, 1.0),
         ),
         _refractiveIndex =
-            _FloatParameter('inputRefractiveIndex', 'Refractive Index', 0.71),
+            GLFloatParameter('inputRefractiveIndex', 'Refractive Index', 0.71),
         _center =
-            _PointParameter('inputCenter', 'Center', const Point(0.5, 0.5)),
+            GLPointParameter('inputCenter', 'Center', const Point(0.5, 0.5)),
         super('GlassSphere');
 
   set radius(double value) {

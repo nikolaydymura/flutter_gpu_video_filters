@@ -1,7 +1,8 @@
 part of flutter_gpu_video_filters;
 
-class _FloatParameter extends NumberParameter {
-  _FloatParameter(super.name, super.displayName, super.value);
+@visibleForTesting
+class GLFloatParameter extends NumberParameter {
+  GLFloatParameter(super.name, super.displayName, super.value);
 
   @override
   FutureOr<void> update(covariant GPUFilterConfiguration configuration) async {
@@ -9,7 +10,7 @@ class _FloatParameter extends NumberParameter {
       debugPrint('Invoke `prepare()` before updating parameter $name');
       return;
     }
-    await GPUFilterConfiguration._api.setFloatParameter(
+    await configuration._api.setFloatParameter(
       configuration._filterId,
       name,
       floatValue,
@@ -17,28 +18,17 @@ class _FloatParameter extends NumberParameter {
   }
 }
 
-class _IntParameter extends NumberParameter {
-  _IntParameter(super.name, super.displayName, super.value);
-
-  @override
-  FutureOr<void> update(covariant GPUFilterConfiguration configuration) async {
-    if (!configuration.ready) {
-      debugPrint('Invoke `prepare()` before updating parameter $name');
-      return;
-    }
-    await GPUFilterConfiguration._api.setFloatParameter(
-      configuration._filterId,
-      name,
-      floatValue,
-    );
-  }
+@visibleForTesting
+class GLIntParameter extends GLFloatParameter {
+  GLIntParameter(super.name, super.displayName, super.value);
 
   @override
   double get floatValue => intValue.toDouble();
 }
 
-class _BoolParameter extends BoolParameter {
-  _BoolParameter(super.name, super.displayName, super.value);
+@visibleForTesting
+class GLBoolParameter extends BoolParameter {
+  GLBoolParameter(super.name, super.displayName, super.value);
 
   @override
   FutureOr<void> update(covariant GPUFilterConfiguration configuration) async {
@@ -46,7 +36,7 @@ class _BoolParameter extends BoolParameter {
       debugPrint('Invoke `prepare()` before updating parameter $name');
       return;
     }
-    await GPUFilterConfiguration._api.setFloatParameter(
+    await configuration._api.setFloatParameter(
       configuration._filterId,
       name,
       floatValue,
@@ -54,8 +44,9 @@ class _BoolParameter extends BoolParameter {
   }
 }
 
-class _TemperatureParameter extends _FloatParameter {
-  _TemperatureParameter(
+@visibleForTesting
+class GLTemperatureParameter extends GLFloatParameter {
+  GLTemperatureParameter(
     super.name,
     super.displayName,
     super.value,
@@ -70,8 +61,9 @@ class _TemperatureParameter extends _FloatParameter {
   }
 }
 
-class _TintParameter extends _FloatParameter {
-  _TintParameter(
+@override
+class GLTintParameter extends GLFloatParameter {
+  GLTintParameter(
     super.shaderName,
     super.displayName,
     super.value,

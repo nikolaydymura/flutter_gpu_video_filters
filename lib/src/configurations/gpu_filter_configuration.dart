@@ -2,25 +2,33 @@ part of flutter_gpu_video_filters;
 
 abstract class GPUFilterConfiguration extends FilterConfiguration
     with VideoFilterConfiguration {
-  static final FilterApi _api = FilterApi();
+  final FilterApi _api;
+  final AssetBundle _assetBundle;
 
   int _filterId = -1;
   final String name;
 
+  @override
   bool get ready => _filterId != -1;
 
   final String _previewVertex = 'VertexPreview';
 
   final String _exportVertex = 'Vertex';
 
-  GPUFilterConfiguration(this.name);
+  GPUFilterConfiguration(
+    this.name, {
+    @visibleForTesting FilterApi? filterApi,
+    @visibleForTesting AssetBundle? assetBundle,
+  })  : _api = filterApi ?? FilterApi(),
+        _assetBundle = assetBundle ?? rootBundle;
 
-  Future<void> prepare() async {
+  @override
+  FutureOr<void> prepare() async {
     if (_filterId == -1) {
-      final vertexShader = await rootBundle.loadString(
+      final vertexShader = await _assetBundle.loadString(
         'packages/flutter_gpu_video_filters/shaders/$_exportVertex.glsl',
       );
-      final fragmentShader = await rootBundle.loadString(
+      final fragmentShader = await _assetBundle.loadString(
         'packages/flutter_gpu_video_filters/shaders/$name.glsl',
       );
 
@@ -45,7 +53,7 @@ abstract class GPUFilterConfiguration extends FilterConfiguration
           .groupFoldBy((e) => e.name, (_, e) => e.floats64);
 
       final textures =
-          parameters.whereType<_BitmapParameter>().singleOrNull?.name;
+          parameters.whereType<GLBitmapParameter>().singleOrNull?.name;
 
       final filterId = await _api.create(
         vertexShader,

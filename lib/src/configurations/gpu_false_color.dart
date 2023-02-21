@@ -5,12 +5,12 @@ class GPUFalseColorConfiguration extends GPUFilterConfiguration {
   final ColorParameter _secondColor;
 
   GPUFalseColorConfiguration()
-      : _firstColor = _ColorParameter(
+      : _firstColor = GLColorParameter(
           'inputFirstColor',
           'First Color',
           const Color.fromRGBO(0, 0, 127, 1.0),
         ),
-        _secondColor = _ColorParameter(
+        _secondColor = GLColorParameter(
           'inputSecondColor',
           'Second Color',
           const Color.fromRGBO(255, 0, 0, 1.0),

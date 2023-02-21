@@ -5,12 +5,12 @@ class GPUCrosshatchConfiguration extends GPUFilterConfiguration {
   final NumberParameter _lineWidth;
 
   GPUCrosshatchConfiguration()
-      : _crossHatchSpacing = _FloatParameter(
+      : _crossHatchSpacing = GLFloatParameter(
           'inputCrossHatchSpacing',
           'CrossHatchSpacing',
           0.03,
         ),
-        _lineWidth = _FloatParameter(
+        _lineWidth = GLFloatParameter(
           'inputLineWidth',
           'LineWidth',
           0.003,

@@ -1,7 +1,8 @@
 part of flutter_gpu_video_filters;
 
-class _AspectRatioParameter extends AspectRatioParameter {
-  _AspectRatioParameter(super.name, super.displayName, super.value);
+@visibleForTesting
+class GLAspectRatioParameter extends AspectRatioParameter {
+  GLAspectRatioParameter(super.name, super.displayName, super.value);
 
   @override
   FutureOr<void> update(covariant GPUFilterConfiguration configuration) async {
@@ -9,7 +10,7 @@ class _AspectRatioParameter extends AspectRatioParameter {
       debugPrint('Invoke `prepare()` before updating parameter $name');
       return;
     }
-    await GPUFilterConfiguration._api.setFloatParameter(
+    await configuration._api.setFloatParameter(
       configuration._filterId,
       name,
       floatValue,
