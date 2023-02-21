@@ -10,8 +10,7 @@ void main() {
   group('GPUExposureConfiguration', () {
     test('change inputExposure', () {
       final parameter = configuration.parameters
-          .firstWhere((e) => e.name == 'inputExposure')
-      as NumberParameter;
+          .firstWhere((e) => e.name == 'inputExposure') as NumberParameter;
       expect(parameter.value, 0);
       configuration.exposure = 5;
       expect(parameter.value, 5);

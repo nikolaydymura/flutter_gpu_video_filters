@@ -18,7 +18,8 @@ void main() {
 
     test('change inputMidtonesShift', () {
       final parameter = configuration.parameters
-          .firstWhere((e) => e.name == 'inputMidtonesShift') as Vector3Parameter;
+              .firstWhere((e) => e.name == 'inputMidtonesShift')
+          as Vector3Parameter;
       expect(parameter.value.storage, [0.0, 0.0, 0.0]);
       configuration.midtonesShift = Vector3(0.0, 0.0, 1.0);
       expect(parameter.value.storage, [0.0, 0.0, 1.0]);
