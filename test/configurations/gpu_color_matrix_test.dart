@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_gpu_filters_interface/flutter_gpu_filters_interface.dart';
 import 'package:flutter_gpu_video_filters/flutter_gpu_video_filters.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -15,8 +14,10 @@ void main() {
       expect(parameter.value, Matrix4.identity());
       configuration.colorMatrix =
           Matrix4(0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-      expect(parameter.value,
-          Matrix4(0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
+      expect(
+        parameter.value,
+        Matrix4(0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+      );
     });
 
     test('change inputIntensity', () {

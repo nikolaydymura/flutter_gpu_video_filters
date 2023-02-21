@@ -17,7 +17,7 @@ void main() {
         [0.5, 1.0, 0.5, 1.0, -6.0, 1.0, 0.5, 1.0, 0.5],
       );
       configuration.convolutionKernel =
-          Mat3([0.0, 1.0, 0.5, 1.0, -6.0, 1.0, 0.5, 1.0, 0.0]);
+          Matrix3.fromList([0.0, 1.0, 0.5, 1.0, -6.0, 1.0, 0.5, 1.0, 0.0]);
       expect(
         parameter.value.storage,
         [0.0, 1.0, 0.5, 1.0, -6.0, 1.0, 0.5, 1.0, 0.0],

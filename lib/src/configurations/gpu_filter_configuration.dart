@@ -120,7 +120,6 @@ abstract class GPUFilterConfiguration extends FilterConfiguration
 // coverage:ignore-end
 }
 
-
 class BunchFilterConfiguration extends GPUFilterConfiguration {
   final List<GPUFilterConfiguration> _configurations;
 

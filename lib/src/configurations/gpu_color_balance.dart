@@ -1,26 +1,26 @@
 part of flutter_gpu_video_filters;
 
 class GPUColorBalanceConfiguration extends GPUFilterConfiguration {
-  final VectorParameter _shadowsShift;
-  final VectorParameter _midtonesShift;
-  final VectorParameter _highlightsShift;
+  final Vector3Parameter _shadowsShift;
+  final Vector3Parameter _midtonesShift;
+  final Vector3Parameter _highlightsShift;
   final BoolParameter _preserveLuminosity;
 
   GPUColorBalanceConfiguration()
       : _shadowsShift = GLVec3Parameter(
           'inputShadowsShift',
           'Shadows Shift',
-          Vector3(0.0, 0.0, 0.0),
+          Vector3.zero(),
         ),
         _midtonesShift = GLVec3Parameter(
           'inputMidtonesShift',
           'Midtones Shift',
-          Vector3(0.0, 0.0, 0.0),
+          Vector3.zero(),
         ),
         _highlightsShift = GLVec3Parameter(
           'inputHighlightsShift',
           'Highlights Shift',
-          Vector3(0.0, 0.0, 0.0),
+          Vector3.zero(),
         ),
         _preserveLuminosity = GLBoolParameter(
           'inputPreserveLuminosity',
@@ -29,15 +29,15 @@ class GPUColorBalanceConfiguration extends GPUFilterConfiguration {
         ),
         super('ColorBalance');
 
-  set shadowsShift(List<double> value) {
+  set shadowsShift(Vector3 value) {
     _shadowsShift.value = value;
   }
 
-  set midtonesShift(List<double> value) {
+  set midtonesShift(Vector3 value) {
     _midtonesShift.value = value;
   }
 
-  set highlightsShift(List<double> value) {
+  set highlightsShift(Vector3 value) {
     _highlightsShift.value = value;
   }
 
