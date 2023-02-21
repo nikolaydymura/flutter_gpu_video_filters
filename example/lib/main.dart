@@ -53,7 +53,7 @@ class ListPage extends StatelessWidget {
           slivers: [
             SliverFixedExtentList(
               delegate: SliverChildBuilderDelegate(
-                    (context, index) {
+                (context, index) {
                   final item = kFailedFilters[index];
                   return Card(
                     child: ListTile(
@@ -83,7 +83,7 @@ class ListPage extends StatelessWidget {
             ),
             SliverFixedExtentList(
               delegate: SliverChildBuilderDelegate(
-                    (context, index) {
+                (context, index) {
                   final item = kFilters[index];
                   return Card(
                     child: ListTile(
@@ -172,23 +172,23 @@ class _FilterPageState extends State<FilterPage> {
         child: Container(
           child: previewParamsReady
               ? GPUVideoNativePreview(
-            params: previewParams,
-            configuration: widget.configuration,
-            onViewCreated: (controller, outputSizeStream) async {
-              this.controller = controller;
-              final picker = ImagePicker();
-              final v =
-              await picker.pickVideo(source: ImageSource.gallery);
-              await this.controller.setVideoFile(File(v!.path));
-              // controller.setVideoAsset(_assetPath);
-              await for (final _ in outputSizeStream) {
-                setState(() {});
-              }
-            },
-          )
+                  params: previewParams,
+                  configuration: widget.configuration,
+                  onViewCreated: (controller, outputSizeStream) async {
+                    this.controller = controller;
+                    final picker = ImagePicker();
+                    final v =
+                        await picker.pickVideo(source: ImageSource.gallery);
+                    await this.controller.setVideoFile(File(v!.path));
+                    // controller.setVideoAsset(_assetPath);
+                    await for (final _ in outputSizeStream) {
+                      setState(() {});
+                    }
+                  },
+                )
               : const Center(
-            child: CircularProgressIndicator(),
-          ),
+                  child: CircularProgressIndicator(),
+                ),
         ),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );

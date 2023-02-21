@@ -72,8 +72,8 @@ class _PreviewPageState extends State<PreviewPage> {
       params: previewParams,
       configuration: configuration,
       onViewCreated: (controller, outputSizeStream) async {
-        controller = controller;
-        controller.setVideoAsset(_assetPath);
+        this.controller = controller;
+        await this.controller.setVideoAsset(_assetPath);
         await for (final size in outputSizeStream) {
           setState(() {});
         }

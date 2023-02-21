@@ -31,8 +31,8 @@ String get userHome =>
 
 Future<void> main(List<String> arguments) async {
   if (arguments.firstOrNull == 'generate') {
-    String glslRoot = '/Users/nd/IdeaProjects/home/flutter_gpu_filters/image_filters_example/gpu_flutter_dependencies/flutter_gpu_video_filters/shaders';
-        //'$userHome/.pub-cache/hosted/pub.dev/flutter_gpu_video_filters-0.0.1/shaders';
+    String glslRoot =
+        '$userHome/.pub-cache/hosted/pub.dev/flutter_gpu_video_filters-0.0.1/shaders';
     String? glslOutput;
     String? filters;
     for (int i = 0; i < arguments.length; i++) {
@@ -89,14 +89,11 @@ Future<void> main(List<String> arguments) async {
 }
 
 void generateShader(
-    Directory sourcesFolder,
-    List<String> shaders,
-    Directory targetFolder,
-    ) {
-  List<String> finalShader = [
-    'precision mediump float;',
-    '\n'
-  ];
+  Directory sourcesFolder,
+  List<String> shaders,
+  Directory targetFolder,
+) {
+  List<String> finalShader = ['precision mediump float;', '\n'];
   List<String> shaderInputs = [];
   List<String> processFunctions = [];
   List<String> shaderConstants = [];
@@ -111,7 +108,6 @@ void generateShader(
   shaderInputs.add(
     'uniform sampler2D inputImageTexture;',
   );
-
 
   finalShader.addAll(shaderInputs);
   finalShader.add('\n');
@@ -129,7 +125,7 @@ void generateShader(
   for (final func in processFunctions) {
     if (func.startsWith('vec4 processColor')) {
       final index =
-      int.parse(func.replaceAll('vec4', '').replaceAll(RegExp(r'\D'), ''));
+          int.parse(func.replaceAll('vec4', '').replaceAll(RegExp(r'\D'), ''));
       finalShader.add(
         '\tvec4 processedColor$index = processColor$index(${index == 0 ? 'textureColor' : 'processedColor${index - 1}'});',
       );
@@ -141,18 +137,18 @@ void generateShader(
   );
   finalShader.add('}');
   final outputFile =
-  File('${targetFolder.absolute.path}/${shaders.join('+')}.glsl');
+      File('${targetFolder.absolute.path}/${shaders.join('+')}.glsl');
   outputFile.writeAsStringSync(
     finalShader.join('\n').replaceAll(RegExp('\n{3,}'), '\n\n'),
   );
 }
 
 void processShader(
-    File shader,
-    List<String> finalInputs,
-    List<String> processFunctions,
-    List<String> shaderConstants,
-    ) {
+  File shader,
+  List<String> finalInputs,
+  List<String> processFunctions,
+  List<String> shaderConstants,
+) {
   List<String> shaderLines = shader
       .readAsLinesSync()
       .whereNot((e) => e.trim().isEmpty)
