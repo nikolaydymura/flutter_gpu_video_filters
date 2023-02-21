@@ -124,10 +124,10 @@ class GPUVideoPreviewParams {
     GPUFilterConfiguration configuration,
   ) async {
     final vertexShader = await rootBundle.loadString(
-      '${configuration.shadersPath}/${configuration._previewVertex}.glsl',
+      '${configuration._vertexShadersPath}/${configuration._previewVertex}.glsl',
     );
     final fragmentShader = await rootBundle.loadString(
-      '${configuration.shadersPath}/${configuration.name}.glsl',
+      '${configuration._fragmentShadersPath}/${configuration.name}.glsl',
     );
     final floats = configuration.parameters
         .whereNot((e) => e.compute)

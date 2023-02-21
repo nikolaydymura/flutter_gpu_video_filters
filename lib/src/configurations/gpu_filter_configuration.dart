@@ -4,7 +4,8 @@ abstract class GPUFilterConfiguration extends FilterConfiguration
     with VideoFilterConfiguration {
   final FilterApi _api;
   final AssetBundle _assetBundle;
-  final String shadersPath;
+  final String _vertexShadersPath;
+  final String _fragmentShadersPath;
 
   int _filterId = -1;
   final String name;
@@ -18,20 +19,23 @@ abstract class GPUFilterConfiguration extends FilterConfiguration
 
   GPUFilterConfiguration(
     this.name, {
-    this.shadersPath = 'packages/flutter_gpu_video_filters/shaders',
+    String vertexShadersPath = 'packages/flutter_gpu_video_filters/shaders',
+    String fragmentShadersPath = 'packages/flutter_gpu_video_filters/shaders',
     @visibleForTesting FilterApi? filterApi,
     @visibleForTesting AssetBundle? assetBundle,
   })  : _api = filterApi ?? FilterApi(),
-        _assetBundle = assetBundle ?? rootBundle;
+        _assetBundle = assetBundle ?? rootBundle,
+        _vertexShadersPath = vertexShadersPath,
+        _fragmentShadersPath = fragmentShadersPath;
 
   @override
   FutureOr<void> prepare() async {
     if (_filterId == -1) {
       final vertexShader = await _assetBundle.loadString(
-        '$shadersPath/$_exportVertex.glsl',
+        '$_vertexShadersPath/$_exportVertex.glsl',
       );
       final fragmentShader = await _assetBundle.loadString(
-        '$shadersPath/$name.glsl',
+        '$_fragmentShadersPath/$name.glsl',
       );
 
       final floats = parameters
@@ -123,8 +127,11 @@ abstract class GPUFilterConfiguration extends FilterConfiguration
 class BunchFilterConfiguration extends GPUFilterConfiguration {
   final List<GPUFilterConfiguration> _configurations;
 
-  BunchFilterConfiguration(String shaders, this._configurations)
-      : super(_configurations.map((e) => e.name).join('+'));
+  BunchFilterConfiguration(String fragmentShaders, this._configurations)
+      : super(
+          _configurations.map((e) => e.name).join('+'),
+          fragmentShadersPath: fragmentShaders,
+        );
 
   T configuration<T extends GPUFilterConfiguration>({required int at}) =>
       _configurations[at] as T;
