@@ -8,17 +8,17 @@ class GPUBoxBlurConfiguration extends GPUFilterConfiguration {
   GPUBoxBlurConfiguration()
       : _texelWidthOffset = GLFloatParameter(
           'inputTexelWidthOffset',
-          'TexelWidthOffset',
+          'Texel Width Offset',
           0.003,
         ),
         _texelHeightOffset = GLFloatParameter(
           'inputHeightOffset',
-          'TexelHeightOffset',
+          'Texel Height Offset',
           0.003,
         ),
         _blurSize = GLFloatParameter(
           'inputBlurSize',
-          'BlurSize',
+          'Blur Size',
           1.0,
         ),
         super('BoxBlur');
@@ -28,7 +28,7 @@ class GPUBoxBlurConfiguration extends GPUFilterConfiguration {
   }
 
   set texelHeightOffset(double value) {
-    _texelWidthOffset.value = value;
+    _texelHeightOffset.value = value;
   }
 
   set blurSize(double value) {
