@@ -6,46 +6,38 @@ import 'package:flutter_gpu_video_filters/flutter_gpu_video_filters.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  late GPUHALDLookupTableConfiguration configuration;
+  late GPUToneCurveConfiguration configuration;
   setUp(() {
-    configuration = GPUHALDLookupTableConfiguration();
+    configuration = GPUToneCurveConfiguration();
   });
-  group('GPUHALDLookupTableConfiguration', () {
-    test('change inputIntensity', () {
-      final parameter = configuration.parameters
-          .firstWhere((e) => e.name == 'inputIntensity') as NumberParameter;
-      expect(parameter.value, 1.0);
-      configuration.intensity = 0.5;
-      expect(parameter.value, 0.5);
-    });
-
-    group('GPUSquareLookupTableConfiguration', () {
+  group('GPUToneCurveConfiguration', () {
+    group('inputTextureToneCurve', () {
       test('change from asset', () {
         final parameter = configuration.parameters
-                .firstWhere((e) => e.name == 'inputTextureCubeData')
+                .firstWhere((e) => e.name == 'inputTextureToneCurve')
             as DataParameter;
         expect(parameter.asset, isNull);
-        configuration.lutImageAsset = 'demo.jpeg';
+        configuration.toneCurveImageAsset = 'demo.jpeg';
         expect(parameter.asset, 'demo.jpeg');
       });
 
       test('change from binary', () {
         final parameter = configuration.parameters
-                .firstWhere((e) => e.name == 'inputTextureCubeData')
+                .firstWhere((e) => e.name == 'inputTextureToneCurve')
             as DataParameter;
         expect(parameter.data, isNull);
         final imageData = Uint8List(0);
-        configuration.lutImage = imageData;
+        configuration.toneCurveImage = imageData;
         expect(parameter.data, imageData);
       });
 
       test('change from file', () {
         final parameter = configuration.parameters
-                .firstWhere((e) => e.name == 'inputTextureCubeData')
+                .firstWhere((e) => e.name == 'inputTextureToneCurve')
             as DataParameter;
         expect(parameter.file, isNull);
         final file = File('demo.jpeg');
-        configuration.lutImageFile = file;
+        configuration.toneCurveImageFile = file;
         expect(parameter.file, file);
       });
     });
