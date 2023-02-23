@@ -25,11 +25,13 @@ class GPUSharpenConfiguration extends GPUFilterConfiguration {
         ),
         super('Sharpen');
 
+  // coverage:ignore-start
   @override
   String get _previewVertex => 'VertexPreviewSharpen';
 
   @override
   String get _exportVertex => 'VertexSharpen';
+  // coverage:ignore-end
 
   set imageWidthFactor(double value) {
     _imageWidthFactor.value = value;

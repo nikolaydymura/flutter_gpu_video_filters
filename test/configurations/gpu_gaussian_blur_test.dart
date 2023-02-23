@@ -16,7 +16,6 @@ void main() {
       configuration.intensity = 0.5;
       expect(parameter.value, 0.5);
     });
-    /*
     test('change inputHeightOffset', () {
       final parameter = configuration.parameters
           .firstWhere((e) => e.name == 'inputHeightOffset') as NumberParameter;
@@ -24,7 +23,6 @@ void main() {
       configuration.texelHeightOffset = 0.005;
       expect(parameter.value, 0.005);
     });
-  */
     test('change inputBlurSize', () {
       final parameter = configuration.parameters
           .firstWhere((e) => e.name == 'inputBlurSize') as NumberParameter;

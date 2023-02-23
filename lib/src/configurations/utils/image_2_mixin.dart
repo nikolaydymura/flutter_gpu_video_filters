@@ -4,11 +4,13 @@ mixin Image2Mixin on GPUFilterConfiguration {
   final DataParameter _image2 =
       GLBitmapParameter('inputImageTexture2', 'Image 2');
 
+  // coverage:ignore-start
   @override
   String get _previewVertex => 'VertexPreviewTwoTextures';
 
   @override
   String get _exportVertex => 'VertexTwoTextures';
+  // coverage:ignore-end
 
   set image2(Uint8List value) {
     _image2.data = value;

@@ -4,15 +4,15 @@ class GPUHueConfiguration extends GPUFilterConfiguration {
   final NumberParameter _hue;
 
   GPUHueConfiguration()
-      : _hue = GLFloatParameter(
+      : _hue = GLHueParameter(
           'inputHueAdjust',
           'Hue Adjust',
-          1.57,
+          90.0,
         ),
         super('Hue');
 
   set hue(double value) {
-    _hue.value = (value % 360.0) * pi / 180.0;
+    _hue.value = value;
   }
 
   @override

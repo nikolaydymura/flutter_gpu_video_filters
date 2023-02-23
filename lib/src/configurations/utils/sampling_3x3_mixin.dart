@@ -13,11 +13,13 @@ mixin Sampling3x3Mixin on GPUFilterConfiguration {
     0.0,
   );
 
+  // coverage:ignore-start
   @override
   String get _previewVertex => 'VertexPreviewSampling3x3';
 
   @override
   String get _exportVertex => 'VertexSampling3x3';
+  // coverage:ignore-end
 
   set texelWidth(double value) {
     _texelWidth.value = value;

@@ -72,3 +72,15 @@ class GLTintParameter extends GLFloatParameter {
   @override
   double get floatValue => value.toDouble() / 100.0;
 }
+
+@override
+class GLHueParameter extends GLFloatParameter {
+  GLHueParameter(
+    super.shaderName,
+    super.displayName,
+    super.value,
+  );
+
+  @override
+  double get floatValue => (value % 360.0) * pi / 180.0;
+}

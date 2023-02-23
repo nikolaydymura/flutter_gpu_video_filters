@@ -28,7 +28,7 @@ class GPUGaussianBlurConfiguration extends GPUFilterConfiguration {
   }
 
   set texelHeightOffset(double value) {
-    _texelWidthOffset.value = value;
+    _texelHeightOffset.value = value;
   }
 
   set blurSize(double value) {
