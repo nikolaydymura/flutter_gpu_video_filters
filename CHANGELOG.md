@@ -1,3 +1,7 @@
+## 0.0.4
+
+Fixed size for `GPUHALDLookupTableConfiguration`
+
 ## 0.0.3
 
 Fixed vertex and fragments locations for `BunchFilterConfiguration`

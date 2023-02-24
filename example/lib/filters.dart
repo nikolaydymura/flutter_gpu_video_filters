@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter_gpu_video_filters/flutter_gpu_video_filters.dart';
 
@@ -11,11 +10,19 @@ class FilterItem {
 
 final kFailedFilters = [
   FilterItem(
-    'Monochrome',
-    FlutterVideoFilters.createFilter<GPUMonochromeConfiguration>(
-      displayName: 'Monochrome',
+    'Square Lookup Table',
+    FlutterVideoFilters.createFilter<GPUSquareLookupTableConfiguration>(
+      displayName: 'Square Lookup Table',
     )
-      ..color = Colors.orange
+      ..lutImageAsset = 'images/lookup_amatorka.png'
+      ..intensity = 0.75,
+  ),
+  FilterItem(
+    'HALD Lookup Table',
+    FlutterVideoFilters.createFilter<GPUHALDLookupTableConfiguration>(
+      displayName: 'HALD Lookup Table',
+    )
+      ..lutImageAsset = 'images/HotBlackColorCube.png'
       ..intensity = 0.75,
   ),
   FilterItem(
