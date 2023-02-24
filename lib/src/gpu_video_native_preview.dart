@@ -1,3 +1,4 @@
+// coverage:ignore-file
 part of flutter_gpu_video_filters;
 
 class GPUVideoNativePreview extends StatelessWidget {

@@ -8,7 +8,13 @@ void main() {
       greaterThanOrEqualTo(77),
     );
   });
-  test('enlist all', () async {
+  test('filter not defined', () {
+    expect(
+      () => FlutterVideoFilters.createFilter(displayName: 'Big Filter'),
+      throwsA(isA<String>()),
+    );
+  });
+  test('enlist all', () {
     final filters = [
       '3x3 Convolution',
       'Add Blend',

@@ -196,7 +196,7 @@ class FlutterVideoFilters {
   }) {
     final configuration = _availableFilters[displayName]?.call();
     if (configuration == null) {
-      debugPrint('Configuration not found for $displayName');
+      throw 'Configuration not found for $displayName';
     }
     return configuration as T;
   }

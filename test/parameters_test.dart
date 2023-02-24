@@ -102,6 +102,14 @@ void main() {
         mockFilterApi.setFloatParameter(101, 'inputValue', 0.99),
       );
     });
+    test('GLHueParameter', () async {
+      final parameter = GLHueParameter('inputValue', 'Value', 100);
+      parameter.value = 180;
+      await parameter.update(configuration);
+      verify(
+        mockFilterApi.setFloatParameter(101, 'inputValue', 3.141592653589793),
+      );
+    });
     test('GLSliderFloatParameter', () async {
       final parameter = GLSliderFloatParameter('inputValue', 'Value', 0);
       parameter.value = 1;
