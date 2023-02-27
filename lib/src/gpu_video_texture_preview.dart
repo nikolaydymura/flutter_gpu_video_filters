@@ -20,22 +20,24 @@ class GPUVideoPreviewController {
 
   GPUVideoPreviewController._(this._textureId, this._embedded);
 
-  Future<void> setVideoAsset(String asset) async {
-    await _api.setSource(
-      SourcePreviewMessage(textureId: _textureId, path: asset, asset: true),
-      _embedded,
-    );
-  }
-
-  Future<void> setVideoFile(File file) async {
-    await _api.setSource(
-      SourcePreviewMessage(
-        textureId: _textureId,
-        path: file.absolute.path,
-        asset: false,
-      ),
-      _embedded,
-    );
+  Future<void> setVideoSource(PathInputSource source) async {
+    if (source is FileInputSource) {
+      await _api.setSource(
+        SourcePreviewMessage(
+          textureId: _textureId,
+          path: source.path,
+          asset: false,
+        ), _embedded,
+      );
+    } else if (source is AssetInputSource) {
+      await _api.setSource(
+        SourcePreviewMessage(
+          textureId: _textureId,
+          path: source.path,
+          asset: true,
+        ), _embedded,
+      );
+    }
   }
 
   static Future<GPUVideoPreviewController> initialize() async {
@@ -45,13 +47,13 @@ class GPUVideoPreviewController {
 
   static Future<GPUVideoPreviewController> fromFile(File file) async {
     final controller = await initialize();
-    await controller.setVideoFile(file);
+    await controller.setVideoSource(FileInputSource(file));
     return controller;
   }
 
   static Future<GPUVideoPreviewController> fromAsset(String asset) async {
     final controller = await initialize();
-    await controller.setVideoAsset(asset);
+    await controller.setVideoSource(AssetInputSource(asset));
     return controller;
   }
 
