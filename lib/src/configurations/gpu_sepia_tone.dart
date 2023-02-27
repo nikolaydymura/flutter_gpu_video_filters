@@ -31,6 +31,10 @@ class GPUSepiaToneConfiguration extends GPUFilterConfiguration {
         ),
         super('ColorMatrix');
 
+  set intensity(double value) {
+    _intensity.value = value;
+  }
+
   @override
   List<ConfigurationParameter> get parameters => [_intensity, _colorMatrix];
 }
