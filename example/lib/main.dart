@@ -179,7 +179,9 @@ class _FilterPageState extends State<FilterPage> {
                     final picker = ImagePicker();
                     final v =
                         await picker.pickVideo(source: ImageSource.gallery);
-                    await this.controller.setVideoSource(FileInputSource(File(v!.path)));
+                    await this
+                        .controller
+                        .setVideoSource(FileInputSource(File(v!.path)));
                     // controller.setVideoAsset(_assetPath);
                     await for (final _ in outputSizeStream) {
                       setState(() {});

@@ -27,7 +27,8 @@ class GPUVideoPreviewController {
           textureId: _textureId,
           path: source.path,
           asset: false,
-        ), _embedded,
+        ),
+        _embedded,
       );
     } else if (source is AssetInputSource) {
       await _api.setSource(
@@ -35,7 +36,8 @@ class GPUVideoPreviewController {
           textureId: _textureId,
           path: source.path,
           asset: true,
-        ), _embedded,
+        ),
+        _embedded,
       );
     }
   }
