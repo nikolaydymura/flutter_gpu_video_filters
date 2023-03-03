@@ -1,3 +1,7 @@
+## 0.0.5
+
+Updated `GPUVideoPreviewController`
+
 ## 0.0.4
 
 Fixed size for `GPUHALDLookupTableConfiguration`

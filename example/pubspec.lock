@@ -90,17 +90,17 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_gpu_filters_interface
-      sha256: e0f9e6befce616d3f198ec2b8c262c378f16c234e9a2bfec793a1b4eaffeff71
+      sha256: "5729d6f3c5c6034c698100ceab48ef745c7ed1c88d4250861f0fcf7bca347d0e"
       url: "https://pub.dev"
     source: hosted
-    version: "0.0.16"
+    version: "0.0.18"
   flutter_gpu_video_filters:
     dependency: "direct main"
     description:
       path: ".."
       relative: true
     source: path
-    version: "0.0.3"
+    version: "0.0.5"
   flutter_lints:
     dependency: "direct dev"
     description:

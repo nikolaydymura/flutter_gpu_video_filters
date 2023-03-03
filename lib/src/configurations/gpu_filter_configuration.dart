@@ -74,6 +74,7 @@ abstract class GPUFilterConfiguration extends FilterConfiguration
     }
   }
 
+  @override
   Future<void> dispose() async {
     if (_filterId >= 0) {
       await _api.dispose(_filterId);
@@ -81,7 +82,8 @@ abstract class GPUFilterConfiguration extends FilterConfiguration
     _filterId = -1;
   }
 
-  Future<void> apply() async {
+  @override
+  Future<void> update() async {
     for (final parameter in parameters) {
       await parameter.update(this);
     }

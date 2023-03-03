@@ -22,7 +22,7 @@ final kFailedFilters = [
     FlutterVideoFilters.createFilter<GPUHALDLookupTableConfiguration>(
       displayName: 'HALD Lookup Table',
     )
-      ..lutImageAsset = 'images/HotBlackColorCube.png'
+      ..lutImageAsset = 'images/lookup_hald.png'
       ..intensity = 0.75,
   ),
   FilterItem(

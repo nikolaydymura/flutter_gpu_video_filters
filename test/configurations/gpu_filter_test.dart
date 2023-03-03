@@ -101,7 +101,7 @@ void main() {
         const asset = 'demo.mov';
         final output = File(asset);
         final config = VideoExportConfig(AssetInputSource(asset), output);
-        await configuration.apply();
+        await configuration.update();
         configuration.exportVideoFile(config).listen((event) {});
         await Future.delayed(const Duration(milliseconds: 100));
         verify(

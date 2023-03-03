@@ -2,7 +2,7 @@
 part of flutter_gpu_video_filters;
 
 class GPUVideoNativePreview extends StatelessWidget {
-  final void Function(GPUVideoPreviewController, Stream<Size>) onViewCreated;
+  final void Function(VideoPreviewController, Stream<Size>) onViewCreated;
   final void Function(Stream<Size>)? onSizeUpdated;
   final GPUFilterConfiguration configuration;
   final GPUVideoPreviewParams params;
@@ -22,7 +22,7 @@ class GPUVideoNativePreview extends StatelessWidget {
       layoutDirection: TextDirection.ltr,
       creationParamsCodec: const StandardMessageCodec(),
       creationParams: params.toJson(),
-      onPlatformViewCreated: (id) {
+      onPlatformViewCreated: (id) async {
         final controller = GPUVideoPreviewController._(id, true);
         controller.connect(configuration).whenComplete(
               () => onViewCreated(
@@ -44,7 +44,7 @@ class GPUVideoNativePreview extends StatelessWidget {
                         .whereType<NumberParameter>()
                         .firstWhere((e) => e.name == 'inputTexelHeight');
                     height.value = 1 / event.height;
-                    await configuration.apply();
+                    await configuration.update();
                   } else if (configuration is GPUSharpenConfiguration) {
                     final width = configuration.parameters
                         .whereType<NumberParameter>()
@@ -54,7 +54,7 @@ class GPUVideoNativePreview extends StatelessWidget {
                         .whereType<NumberParameter>()
                         .firstWhere((e) => e.name == 'inputImageHeightFactor');
                     height.value = 1 / event.height;
-                    await configuration.apply();
+                    await configuration.update();
                   }
                   final aspectRatio = configuration.parameters
                       .whereType<AspectRatioParameter>()

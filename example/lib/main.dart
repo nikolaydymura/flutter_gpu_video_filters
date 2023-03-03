@@ -1,6 +1,5 @@
 import 'dart:io' show File;
 
-import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/material.dart' hide Rect;
 import 'package:flutter_gpu_video_filters/flutter_gpu_video_filters.dart';
@@ -128,7 +127,7 @@ class FilterPage extends StatefulWidget {
 }
 
 class _FilterPageState extends State<FilterPage> {
-  late final GPUVideoPreviewController controller;
+  late final VideoPreviewController controller;
   late final GPUVideoPreviewParams previewParams;
   bool previewParamsReady = false;
   static const _videoAsset = 'videos/demo.mp4';
@@ -148,7 +147,6 @@ class _FilterPageState extends State<FilterPage> {
 
   Future<void> _prepare() async {
     await widget.configuration.prepare();
-    await widget.configuration.apply();
     previewParams = await GPUVideoPreviewParams.create(widget.configuration);
     previewParamsReady = true;
   }
@@ -176,13 +174,9 @@ class _FilterPageState extends State<FilterPage> {
                   configuration: widget.configuration,
                   onViewCreated: (controller, outputSizeStream) async {
                     this.controller = controller;
-                    final picker = ImagePicker();
-                    final v =
-                        await picker.pickVideo(source: ImageSource.gallery);
-                    await this
-                        .controller
-                        .setVideoSource(FileInputSource(File(v!.path)));
-                    // controller.setVideoAsset(_assetPath);
+                    await controller
+                        .setVideoSource(AssetInputSource(_videoAsset));
+                    await widget.configuration.update();
                     await for (final _ in outputSizeStream) {
                       setState(() {});
                     }

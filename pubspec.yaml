@@ -1,6 +1,6 @@
 name: flutter_gpu_video_filters
 description: Image filters based on OpenGL fragment shaders with useful video preview widgets
-version: 0.0.4
+version: 0.0.5
 homepage: https://github.com/nikolaydymura/flutter_gpu_video_filters
 repository: https://github.com/nikolaydymura/flutter_gpu_video_filters
 platforms:
@@ -14,7 +14,7 @@ dependencies:
   flutter:
     sdk: flutter
   plugin_platform_interface: ^2.0.2
-  flutter_gpu_filters_interface: ^0.0.16
+  flutter_gpu_filters_interface: ^0.0.18
   collection: ^1.16.0
 
 dev_dependencies:

@@ -1,30 +1,20 @@
 // coverage:ignore-file
 part of flutter_gpu_video_filters;
 
-class GPUVideoTexturePreview extends StatelessWidget {
-  final GPUVideoPreviewController controller;
-
-  const GPUVideoTexturePreview({Key? key, required this.controller})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Texture(textureId: controller._textureId);
-  }
-}
-
-class GPUVideoPreviewController {
+class GPUVideoPreviewController extends VideoPreviewController {
   static final VideoPreviewApi _api = VideoPreviewApi();
-  final int _textureId;
+  @override
+  final int textureId;
   final bool _embedded;
 
-  GPUVideoPreviewController._(this._textureId, this._embedded);
+  GPUVideoPreviewController._(this.textureId, this._embedded);
 
+  @override
   Future<void> setVideoSource(PathInputSource source) async {
     if (source is FileInputSource) {
       await _api.setSource(
         SourcePreviewMessage(
-          textureId: _textureId,
+          textureId: textureId,
           path: source.path,
           asset: false,
         ),
@@ -33,7 +23,7 @@ class GPUVideoPreviewController {
     } else if (source is AssetInputSource) {
       await _api.setSource(
         SourcePreviewMessage(
-          textureId: _textureId,
+          textureId: textureId,
           path: source.path,
           asset: true,
         ),
@@ -42,53 +32,50 @@ class GPUVideoPreviewController {
     }
   }
 
-  static Future<GPUVideoPreviewController> initialize() async {
+  static Future<VideoPreviewController> initialize() async {
     final textureId = await _api.create();
     return GPUVideoPreviewController._(textureId, false);
   }
 
-  static Future<GPUVideoPreviewController> fromFile(File file) async {
+  static Future<VideoPreviewController> fromFile(File file) async {
     final controller = await initialize();
     await controller.setVideoSource(FileInputSource(file));
     return controller;
   }
 
-  static Future<GPUVideoPreviewController> fromAsset(String asset) async {
+  static Future<VideoPreviewController> fromAsset(String asset) async {
     final controller = await initialize();
     await controller.setVideoSource(AssetInputSource(asset));
     return controller;
   }
 
-  Future<void> connect(GPUFilterConfiguration configuration) async {
-    if (!configuration.ready) {
-      await configuration.prepare();
-    }
+  @override
+  Future<void> connect(covariant GPUFilterConfiguration configuration) async {
+    await super.connect(configuration);
     await _api.connect(
-      _textureId,
+      textureId,
       configuration._filterId,
       _embedded,
     );
   }
 
-  Future<void> disconnect(
-    GPUFilterConfiguration configuration, {
-    bool disposeConfiguration = false,
-  }) async {
-    if (disposeConfiguration && configuration.ready) {
-      await configuration.dispose();
-    }
-    await _api.dispose(_textureId, _embedded);
+  @override
+  Future<void> disconnect() async {
+    await _api.disconnect(textureId, _embedded);
   }
 
+  @override
   Future<void> dispose() async {
-    await _api.dispose(_textureId, _embedded);
+    await _api.dispose(textureId, _embedded);
   }
 
+  @override
   Future<void> play() async {
-    await _api.resume(_textureId, _embedded);
+    await _api.resume(textureId, _embedded);
   }
 
+  @override
   Future<void> pause() async {
-    await _api.pause(_textureId, _embedded);
+    await _api.pause(textureId, _embedded);
   }
 }
