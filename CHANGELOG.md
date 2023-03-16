@@ -1,3 +1,7 @@
+## 0.0.6
+
+Fixed `HALDLookupTable.glsl`
+
 ## 0.0.5
 
 Updated `GPUVideoPreviewController`
