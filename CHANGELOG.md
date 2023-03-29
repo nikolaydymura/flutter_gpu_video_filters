@@ -1,3 +1,7 @@
+## 0.0.7
+
+Added clamp to `HALDLookupTable.glsl` & `SquareLookupTable.glsl`
+
 ## 0.0.6
 
 Fixed `HALDLookupTable.glsl`
