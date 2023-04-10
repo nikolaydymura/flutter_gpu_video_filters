@@ -30,7 +30,21 @@ void main() {
     gl_FragColor = processColor(textureColor);
 }
 ```
+
 ### 2. Create class extended from `GPUFilterConfiguration` and define inputs of filter
+
+| uniform   | Parameter              | 
+|:----------|:-----------------------|
+| sampler2D | GLBitmapParameter      | 
+| vec3      | GLColorParameter       | 
+| vec3      | GLVec3Parameter        | 
+| mat3      | GLMat3Parameter        | 
+| mat4      | GLMat4Parameter        | 
+| vec2      | GLPointParameter       |
+| float     | GLSliderFloatParameter |
+| float     | GLFloatParameter       |
+| float     | GLIntParameter         |
+| float     | GLBoolParameter        |
 
 ## Example
 
