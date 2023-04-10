@@ -13,6 +13,11 @@ A flutter package for Android for applying OpenGL filters to video.
 
 ## Usage
 
+### [How to generate and use a bunch of filters](https://github.com/nikolaydymura/flutter_gpu_video_filters/blob/main/GENERATE.md)
+
+### [How to add custom filters](https://github.com/nikolaydymura/flutter_gpu_video_filters/blob/main/CUSTOM.md)
+
+
 ### Export & save video
 
 ```dart
