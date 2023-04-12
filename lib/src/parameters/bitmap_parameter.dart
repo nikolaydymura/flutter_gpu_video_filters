@@ -1,9 +1,11 @@
 part of flutter_gpu_video_filters;
 
+/// Describes Bitmap Parameter updating
 @visibleForTesting
 class GLBitmapParameter extends DataParameter {
   GLBitmapParameter(super.name, super.displayName);
 
+  /// Updates the Bitmap Parameter value.
   @override
   FutureOr<void> update(covariant GPUFilterConfiguration configuration) async {
     if (!configuration.ready) {

@@ -1,9 +1,11 @@
 part of flutter_gpu_video_filters;
 
+/// Describes Float Parameter updating
 @visibleForTesting
 class GLFloatParameter extends NumberParameter {
   GLFloatParameter(super.name, super.displayName, super.value);
 
+  /// Updates the Float Parameter value.
   @override
   FutureOr<void> update(covariant GPUFilterConfiguration configuration) async {
     if (!configuration.ready) {
