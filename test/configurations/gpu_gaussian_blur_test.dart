@@ -13,7 +13,7 @@ void main() {
               .firstWhere((e) => e.name == 'inputTexelWidthOffset')
           as NumberParameter;
       expect(parameter.value, 0.01);
-      configuration.intensity = 0.5;
+      configuration.texelWidthOffset = 0.5;
       expect(parameter.value, 0.5);
     });
     test('change inputHeightOffset', () {
