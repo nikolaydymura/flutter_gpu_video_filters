@@ -1,5 +1,6 @@
 part of flutter_gpu_video_filters;
 
+/// Describes sphere refraction manipulations
 class GPUSphereRefractionConfiguration extends GPUFilterConfiguration {
   final PointParameter _center;
   final NumberParameter _radius;
@@ -31,18 +32,24 @@ class GPUSphereRefractionConfiguration extends GPUFilterConfiguration {
         ),
         super('SphereRefraction');
 
+  /// Updates the [centerX] value.
   set centerX(Point<double> value) {
     _center.value = value;
   }
 
+  /// Updates the [radius] value.
+  ///
+  /// The [value] must be in 0.0 and 1.0 range.
   set radius(double value) {
     _radius.value = value;
   }
 
+  /// Updates the [aspectRatio] value.
   set aspectRatio(Size value) {
     _aspectRatio.value = value;
   }
 
+  /// Updates the [refractiveIndex] value.
   set refractiveIndex(double value) {
     _refractiveIndex.value = value;
   }

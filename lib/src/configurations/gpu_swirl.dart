@@ -1,5 +1,6 @@
 part of flutter_gpu_video_filters;
 
+/// Describes swirl manipulations
 class GPUSwirlConfiguration extends GPUFilterConfiguration {
   final NumberParameter _angle;
   final NumberParameter _radius;
@@ -25,14 +26,19 @@ class GPUSwirlConfiguration extends GPUFilterConfiguration {
         ),
         super('Swirl');
 
+  /// Updates the [scale] value.
   set scale(double value) {
     _angle.value = value;
   }
 
+  /// Updates the [radius] value.
+  ///
+  /// The [value] must be in 0.0 and 1.0 range.
   set radius(double value) {
     _radius.value = value;
   }
 
+  /// Updates the [center] value.
   set center(Point<double> value) {
     _center.value = value;
   }
