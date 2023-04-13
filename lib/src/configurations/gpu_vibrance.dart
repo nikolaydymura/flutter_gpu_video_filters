@@ -1,5 +1,6 @@
 part of flutter_gpu_video_filters;
 
+/// Describes vibrance manipulations
 class GPUVibranceConfiguration extends GPUFilterConfiguration {
   final NumberParameter _vibrance;
 
@@ -11,6 +12,7 @@ class GPUVibranceConfiguration extends GPUFilterConfiguration {
         ),
         super('Vibrance');
 
+  /// Updates the [vibrance] value.
   set vibrance(double value) {
     _vibrance.value = value;
   }

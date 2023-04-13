@@ -1,5 +1,6 @@
 part of flutter_gpu_video_filters;
 
+/// Describes toon manipulations
 class GPUToonConfiguration extends GPUFilterConfiguration
     with Sampling3x3Mixin {
   final NumberParameter _threshold;
@@ -18,10 +19,12 @@ class GPUToonConfiguration extends GPUFilterConfiguration
         ),
         super('Toon');
 
+  /// Updates the [threshold] value.
   set threshold(double value) {
     _threshold.value = value;
   }
 
+  /// Updates the [quantizationLevels] value.
   set quantizationLevels(double value) {
     _quantizationLevels.value = value;
   }
