@@ -1,5 +1,6 @@
 part of flutter_gpu_video_filters;
 
+/// Describes levels manipulations
 class GPULevelsConfiguration extends GPUFilterConfiguration {
   final Vector3Parameter _levelMinimum;
   final Vector3Parameter _levelMiddle;
@@ -35,22 +36,27 @@ class GPULevelsConfiguration extends GPUFilterConfiguration {
         ),
         super('Levels');
 
+  /// Updates the [maxOutput] value.
   set maxOutput(Vector3 value) {
     _maxOutput.value = value;
   }
 
+  /// Updates the [minOutput] value.
   set minOutput(Vector3 value) {
     _minOutput.value = value;
   }
 
+  /// Updates the [levelMaximum] value.
   set levelMaximum(Vector3 value) {
     _levelMaximum.value = value;
   }
 
+  /// Updates the [levelMiddle] value.
   set levelMiddle(Vector3 value) {
     _levelMiddle.value = value;
   }
 
+  /// Updates the [levelMinimum] value.
   set levelMinimum(Vector3 value) {
     _levelMinimum.value = value;
   }

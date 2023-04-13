@@ -1,5 +1,6 @@
 part of flutter_gpu_video_filters;
 
+/// Describes hue manipulations
 class GPUHueConfiguration extends GPUFilterConfiguration {
   final NumberParameter _hue;
 
@@ -11,6 +12,7 @@ class GPUHueConfiguration extends GPUFilterConfiguration {
         ),
         super('Hue');
 
+  /// Updates the [hue] value.
   set hue(double value) {
     _hue.value = value;
   }

@@ -1,5 +1,6 @@
 part of flutter_gpu_video_filters;
 
+/// Describes half tone manipulations
 class GPUHalftoneConfiguration extends GPUFilterConfiguration {
   final NumberParameter _fractionalWidthOfPixel;
   final NumberParameter _aspectRatio;
@@ -17,10 +18,12 @@ class GPUHalftoneConfiguration extends GPUFilterConfiguration {
         ),
         super('HalfTone');
 
+  /// Updates the [fractionalWidthOfPixel] value.
   set fractionalWidthOfPixel(double value) {
     _fractionalWidthOfPixel.value = value;
   }
 
+  /// Updates the [aspectRatio] value.
   set aspectRatio(double value) {
     _aspectRatio.value = value;
   }

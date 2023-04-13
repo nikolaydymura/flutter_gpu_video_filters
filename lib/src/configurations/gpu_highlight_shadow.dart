@@ -1,5 +1,6 @@
 part of flutter_gpu_video_filters;
 
+/// Describes highlight shadow manipulations
 class GPUHighlightShadowConfiguration extends GPUFilterConfiguration {
   final NumberParameter _shadows;
   final NumberParameter _highlights;
@@ -17,10 +18,12 @@ class GPUHighlightShadowConfiguration extends GPUFilterConfiguration {
         ),
         super('HighlightShadow');
 
+  /// Updates the [shadows] value.
   set shadows(double value) {
     _shadows.value = value;
   }
 
+  /// Updates the [highlights] value.
   set highlights(double value) {
     _highlights.value = value;
   }

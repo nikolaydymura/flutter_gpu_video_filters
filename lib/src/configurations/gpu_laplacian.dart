@@ -1,5 +1,6 @@
 part of flutter_gpu_video_filters;
 
+/// Describes laplacian manipulations
 class GPULaplacianConfiguration extends GPUFilterConfiguration
     with Sampling3x3Mixin {
   final Mat3Parameter _convolutionKernel;
@@ -12,6 +13,7 @@ class GPULaplacianConfiguration extends GPUFilterConfiguration
         ),
         super('Laplacian');
 
+  /// Updates the [convolutionKernel] value.
   set convolutionKernel(Matrix3 value) {
     _convolutionKernel.value = value;
   }
