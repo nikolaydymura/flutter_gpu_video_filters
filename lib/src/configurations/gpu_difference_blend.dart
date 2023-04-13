@@ -1,5 +1,6 @@
 part of flutter_gpu_video_filters;
 
+/// Describes difference blend manipulations
 class GPUDifferenceBlendConfiguration extends GPUFilterConfiguration
     with Image2Mixin {
   GPUDifferenceBlendConfiguration() : super('DifferenceBlend');

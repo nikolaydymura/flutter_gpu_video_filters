@@ -1,5 +1,6 @@
 part of flutter_gpu_video_filters;
 
+///Describes color changes using the values of a 4x4 matrix
 class GPUColorMatrixConfiguration extends GPUFilterConfiguration {
   final NumberParameter _intensity;
   final Mat4Parameter _colorMatrix;
@@ -13,10 +14,12 @@ class GPUColorMatrixConfiguration extends GPUFilterConfiguration {
         ),
         super('ColorMatrix');
 
+  /// Updates the [intensity] value.
   set intensity(double value) {
     _intensity.value = value;
   }
 
+  /// Updates the [colorMatrix] value.
   set colorMatrix(Matrix4 value) {
     _colorMatrix.value = value;
   }

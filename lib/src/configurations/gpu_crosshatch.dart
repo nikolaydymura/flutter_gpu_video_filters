@@ -1,5 +1,6 @@
 part of flutter_gpu_video_filters;
 
+/// Describes crosshatch manipulations
 class GPUCrosshatchConfiguration extends GPUFilterConfiguration {
   final NumberParameter _crossHatchSpacing;
   final NumberParameter _lineWidth;
@@ -17,10 +18,12 @@ class GPUCrosshatchConfiguration extends GPUFilterConfiguration {
         ),
         super('Crosshatch');
 
+  /// Updates the [crossHatchSpacing] value.
   set crossHatchSpacing(double value) {
     _crossHatchSpacing.value = value;
   }
 
+  /// Updates the [lineWidth] value.
   set lineWidth(double value) {
     _lineWidth.value = value;
   }

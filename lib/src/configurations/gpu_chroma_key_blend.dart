@@ -35,7 +35,7 @@ class GPUChromaKeyBlendConfiguration extends GPUFilterConfiguration
     _smoothing.value = value;
   }
 
-  /// Updates the [color] value.
+  /// Updates the [colorToReplace] value.
   ///
   /// The [value] must be three channels each in the range 0.0 to 255.0.
   set colorToReplace(Color value) {
