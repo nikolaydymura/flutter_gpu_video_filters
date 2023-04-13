@@ -1,5 +1,6 @@
 part of flutter_gpu_video_filters;
 
+/// Describes glass sphere manipulations
 class GPUGlassSphereConfiguration extends GPUFilterConfiguration {
   final NumberParameter _radius;
   final AspectRatioParameter _aspectRatio;
@@ -19,18 +20,22 @@ class GPUGlassSphereConfiguration extends GPUFilterConfiguration {
             GLPointParameter('inputCenter', 'Center', const Point(0.5, 0.5)),
         super('GlassSphere');
 
+  /// Updates the [radius] value.
   set radius(double value) {
     _radius.value = value;
   }
 
+  /// Updates the [aspectRatio] value.
   set aspectRatio(Size value) {
     _aspectRatio.value = value;
   }
 
+  /// Updates the [refractiveIndex] value.
   set refractiveIndex(double value) {
     _refractiveIndex.value = value;
   }
 
+  /// Updates the [center] value.
   set center(Point<double> value) {
     _center.value = value;
   }

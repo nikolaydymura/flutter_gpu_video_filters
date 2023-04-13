@@ -1,5 +1,6 @@
 part of flutter_gpu_video_filters;
 
+/// Describes false colors manipulations
 class GPUFalseColorConfiguration extends GPUFilterConfiguration {
   final ColorParameter _firstColor;
   final ColorParameter _secondColor;
@@ -17,10 +18,13 @@ class GPUFalseColorConfiguration extends GPUFilterConfiguration {
         ),
         super('FalseColor');
 
+
+  /// Updates the [firstColor] value.
   set firstColor(Color value) {
     _firstColor.value = value;
   }
 
+  /// Updates the [secondColor] value.
   set secondColor(Color value) {
     _secondColor.value = value;
   }

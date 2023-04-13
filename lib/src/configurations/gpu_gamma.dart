@@ -1,5 +1,6 @@
 part of flutter_gpu_video_filters;
 
+/// Describes gamma manipulations
 class GPUGammaConfiguration extends GPUFilterConfiguration {
   final NumberParameter _gamma;
 
@@ -11,6 +12,7 @@ class GPUGammaConfiguration extends GPUFilterConfiguration {
         ),
         super('Gamma');
 
+  /// Updates the [gamma] value.
   set gamma(double value) {
     _gamma.value = value;
   }

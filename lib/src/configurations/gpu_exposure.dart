@@ -1,5 +1,6 @@
 part of flutter_gpu_video_filters;
 
+/// Describes exposure manipulations
 class GPUExposureConfiguration extends GPUFilterConfiguration {
   final NumberParameter _exposure;
 
@@ -13,6 +14,9 @@ class GPUExposureConfiguration extends GPUFilterConfiguration {
         ),
         super('Exposure');
 
+  /// Updates the [brightness] value.
+  ///
+  /// The [value] must be in -10.0 and 10.0 range.
   set exposure(double value) {
     _exposure.value = value;
   }
