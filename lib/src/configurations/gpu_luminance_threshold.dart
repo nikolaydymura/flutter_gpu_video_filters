@@ -1,5 +1,6 @@
 part of flutter_gpu_video_filters;
 
+/// Describes luminance threshold manipulations
 class GPULuminanceThresholdConfiguration extends GPUFilterConfiguration {
   final NumberParameter _threshold;
 
@@ -11,6 +12,7 @@ class GPULuminanceThresholdConfiguration extends GPUFilterConfiguration {
         ),
         super('LuminanceThreshold');
 
+  /// Updates the [threshold] value.
   set threshold(double value) {
     _threshold.value = value;
   }
