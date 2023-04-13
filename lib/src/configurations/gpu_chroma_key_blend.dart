@@ -1,5 +1,6 @@
 part of flutter_gpu_video_filters;
 
+/// Describes chroma key blend manipulations
 class GPUChromaKeyBlendConfiguration extends GPUFilterConfiguration
     with Image2Mixin {
   final NumberParameter _thresholdSensitivity;
@@ -24,14 +25,19 @@ class GPUChromaKeyBlendConfiguration extends GPUFilterConfiguration
         ),
         super('ChromaKeyBlend');
 
+  /// Updates the [thresholdSensitivity] value.
   set thresholdSensitivity(double value) {
     _thresholdSensitivity.value = value;
   }
 
+  /// Updates the [smoothing] value.
   set smoothing(double value) {
     _smoothing.value = value;
   }
 
+  /// Updates the [color] value.
+  ///
+  /// The [value] must be three channels each in the range 0.0 to 255.0.
   set colorToReplace(Color value) {
     _colorToReplace.value = value;
   }
