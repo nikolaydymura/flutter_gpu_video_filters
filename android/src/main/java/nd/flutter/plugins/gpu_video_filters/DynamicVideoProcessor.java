@@ -26,7 +26,9 @@ import android.os.Looper;
 
 import com.google.android.exoplayer2.util.GlProgram;
 import com.google.android.exoplayer2.util.GlUtil;
+import com.google.android.exoplayer2.util.Log;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -75,7 +77,13 @@ import io.flutter.plugin.common.EventChannel;
     }
     @Override
     public void initialize() {
-        program = new GlProgram(vertexShader, fragmentShader);
+        try {
+            program = new GlProgram(vertexShader, fragmentShader);
+        } catch (GlUtil.GlException e) {
+            Log.e(getClass().getSimpleName(), "Failed to initialize the shader program", e);
+            return;
+        }
+
         program.setBufferAttribute(
                 "aFramePosition",
                 GlUtil.getNormalizedCoordinateBounds(),
@@ -164,7 +172,11 @@ import io.flutter.plugin.common.EventChannel;
             program.setFloatUniform(secondTexture + "Ready", 1);
             GLES20.glBindTexture(GL10.GL_TEXTURE_2D, textures[0]);
             GLUtils.texImage2D(GL10.GL_TEXTURE_2D, /* level= */ 0, secondBitmap, /* border= */ 0);
-            GlUtil.checkGlError();
+            try {
+                GlUtil.checkGlError();
+            } catch (GlUtil.GlException e) {
+                Log.e(getClass().getSimpleName(), "Failed to populate the texture", e);
+            }
         }
         // Run the shader program.
         GlProgram program = checkNotNull(this.program);
@@ -173,10 +185,18 @@ import io.flutter.plugin.common.EventChannel;
             program.setSamplerTexIdUniform(secondTexture, textures[0], /* texUnitIndex= */ 1);
         }
         program.setFloatsUniform("uTexTransform", transformMatrix);
-        program.bindAttributesAndUniforms();
+        try {
+            program.bindAttributesAndUniforms();
+        } catch (GlUtil.GlException e) {
+            Log.e(getClass().getSimpleName(), "Failed to update the shader program", e);
+        }
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
         GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, /* first= */ 0, /* count= */ 4);
-        GlUtil.checkGlError();
+        try {
+            GlUtil.checkGlError();
+        } catch (GlUtil.GlException e) {
+            Log.e(getClass().getSimpleName(), "Failed to draw a frame", e);
+        }
     }
 
     @Override
@@ -186,7 +206,11 @@ import io.flutter.plugin.common.EventChannel;
         outputWith = -1;
         outputHeight = -1;
         if (program != null) {
-            program.delete();
+            try {
+                program.delete();
+            } catch (GlUtil.GlException e) {
+                Log.e(getClass().getSimpleName(), "Failed to delete the shader program", e);
+            }
         }
     }
 }

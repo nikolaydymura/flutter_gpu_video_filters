@@ -1,3 +1,7 @@
+## 0.0.8
+
+Updated to `exoplayer` 2.18.7
+
 ## 0.0.7
 
 Added clamp to `HALDLookupTable.glsl` & `SquareLookupTable.glsl`

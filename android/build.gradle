@@ -45,7 +45,8 @@ android {
     }
 }
 dependencies {
-    implementation 'com.google.android.exoplayer:exoplayer-core:2.18.1'
-    implementation 'com.google.android.exoplayer:exoplayer-transformer:2.18.1'
+    implementation 'com.google.android.exoplayer:exoplayer-core:2.18.7'
+    implementation 'com.google.android.exoplayer:exoplayer-transformer:2.18.7'
+    implementation 'com.google.android.exoplayer:exoplayer-effect:2.18.7'
 }
 

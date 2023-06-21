@@ -3,14 +3,13 @@ package nd.flutter.plugins.gpu_video_filters;
 import static com.google.android.exoplayer2.util.Assertions.checkNotNull;
 import static com.google.android.exoplayer2.util.Assertions.checkStateNotNull;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.opengl.GLES20;
 import android.opengl.GLUtils;
-import android.util.Size;
+import android.util.Pair;
 
-import com.google.android.exoplayer2.transformer.FrameProcessingException;
-import com.google.android.exoplayer2.transformer.SingleFrameGlTextureProcessor;
+import com.google.android.exoplayer2.util.FrameProcessingException;
+import com.google.android.exoplayer2.effect.SingleFrameGlTextureProcessor;
 import com.google.android.exoplayer2.util.GlProgram;
 import com.google.android.exoplayer2.util.GlUtil;
 
@@ -19,45 +18,26 @@ import java.util.Map;
 
 import javax.microedition.khronos.opengles.GL10;
 
-public class DynamicTextureProcessor implements SingleFrameGlTextureProcessor {
-    static {
-        GlUtil.glAssertionsEnabled = true;
-    }
-    private final String vertexShader;
-    private final String fragmentShader;
-
-    private Size outputSize;
-    private GlProgram glProgram;
-
-    private final Map<String, Float> currentFloats = new HashMap<>();
-    private final Map<String, float[]> currentArrayFloats = new HashMap<>();
+class DynamicTextureEffect extends SingleFrameGlTextureProcessor {
+    GlProgram glProgram;
     private final int[] textures;
     private final String secondTexture;
-    private Bitmap secondBitmap;
-    public OnUniformsUpdater onUniformsUpdater;
-
-    public DynamicTextureProcessor(String vertexShader, String fragmentShader,
-                                   Map<String, Float> fragmentDefaultFloats,
-                                   Map<String, float[]> fragmentDefaultArrayFloats,
-                                   String secondTexture) {
-        this.vertexShader = vertexShader;
-        this.fragmentShader = fragmentShader;
-        for (String key : fragmentDefaultFloats.keySet()) {
-            currentFloats.put(key, fragmentDefaultFloats.get(key));
-        }
-        for (String key : fragmentDefaultArrayFloats.keySet()) {
-            float[] values = checkNotNull(fragmentDefaultArrayFloats.get(key));
-            currentArrayFloats.put(key, values);
-        }
+    private final Bitmap secondBitmap;
+    public DynamicTextureEffect(String vertexShader, String fragmentShader,
+                                String secondTexture,
+                                Bitmap secondBitmap,
+                                Map<String, Float> currentFloats,
+                                Map<String, float[]> currentArrayFloats,
+                                boolean useHdr) throws FrameProcessingException {
+        super(useHdr);
+        this.secondBitmap = secondBitmap;
         this.secondTexture = secondTexture;
         this.textures = new int[secondTexture != null ? 1 : 0];
-    }
-
-    @Override
-    public void initialize(Context context, int inputTexId, int inputWidth, int inputHeight) {
-        outputSize = new Size(inputWidth, inputHeight);
-
-        glProgram = new GlProgram(vertexShader, fragmentShader);
+        try {
+            glProgram = new GlProgram(vertexShader, fragmentShader);;
+        } catch (GlUtil.GlException e) {
+            throw new FrameProcessingException(e);
+        }
         // Draw the frame on the entire normalized device coordinate space, from -1 to 1, for x and y.
         glProgram.setBufferAttribute(
                 "aFramePosition",
@@ -69,7 +49,6 @@ public class DynamicTextureProcessor implements SingleFrameGlTextureProcessor {
         for (String key : currentArrayFloats.keySet()) {
             glProgram.setFloatsUniform(key, checkNotNull(currentArrayFloats.get(key)));
         }
-        glProgram.setSamplerTexIdUniform("inputImageTexture", inputTexId, /* texUnitIndex= */ 0);
 
         if (secondTexture != null) {
             if (vertexShader.contains("aTexCoords")) {
@@ -90,9 +69,85 @@ public class DynamicTextureProcessor implements SingleFrameGlTextureProcessor {
         }
     }
 
+    @Override
+    public Pair<Integer, Integer> configure(int inputWidth, int inputHeight) {
+        return Pair.create(inputWidth, inputHeight);
+    }
+
+    @Override
+    public void drawFrame(int inputTexId, long presentationTimeUs) throws FrameProcessingException {
+        try {
+            if (secondTexture != null && secondBitmap != null) {
+                GLES20.glBindTexture(GL10.GL_TEXTURE_2D, textures[0]);
+                GLUtils.texImage2D(GL10.GL_TEXTURE_2D, /* level= */ 0, secondBitmap, /* border= */ 0);
+                GlUtil.checkGlError();
+            }
+            checkStateNotNull(glProgram).use();
+
+            GlUtil.checkGlError();
+            glProgram.setSamplerTexIdUniform("inputImageTexture", inputTexId, /* texUnitIndex= */ 0);
+            if (secondTexture != null) {
+                glProgram.setSamplerTexIdUniform(secondTexture, textures[0], /* texUnitIndex= */ 1);
+            }
+            glProgram.bindAttributesAndUniforms();
+            // The four-vertex triangle strip forms a quad.
+            GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, /* first= */ 0, /* count= */ 4);
+            GlUtil.checkGlError();
+        } catch (GlUtil.GlException e) {
+            System.err.println(e);
+            throw new FrameProcessingException(e, presentationTimeUs);
+        }
+    }
+
+    @Override
+    public void release() throws FrameProcessingException {
+        super.release();
+        try {
+            glProgram.delete();
+        } catch (GlUtil.GlException e) {
+            throw new FrameProcessingException(e);
+        }
+    }
+}
+
+public class DynamicTextureProcessor {
+    private final String vertexShader;
+    private final String fragmentShader;
+    private final String secondTexture;
+    private Bitmap secondBitmap;
+    public OnUniformsUpdater onUniformsUpdater;
+
+    private DynamicTextureEffect textureEffect;
+    DynamicTextureProcessor(
+            String vertexShader, String fragmentShader,
+            Map<String, Float> fragmentDefaultFloats,
+            Map<String, float[]> fragmentDefaultArrayFloats,
+            String secondTexture) {
+        this.vertexShader = vertexShader;
+        this.fragmentShader = fragmentShader;
+        this.secondTexture = secondTexture;
+        for (String key : fragmentDefaultFloats.keySet()) {
+            currentFloats.put(key, fragmentDefaultFloats.get(key));
+        }
+        for (String key : fragmentDefaultArrayFloats.keySet()) {
+            float[] values = checkNotNull(fragmentDefaultArrayFloats.get(key));
+            currentArrayFloats.put(key, values);
+        }
+    }
+
+    DynamicTextureEffect create(boolean useHdr) throws FrameProcessingException {
+        if (textureEffect == null) {
+            textureEffect = new DynamicTextureEffect(vertexShader, fragmentShader, secondTexture, secondBitmap, currentFloats, currentArrayFloats, useHdr);
+        }
+        return textureEffect;
+    }
+
+    private final Map<String, Float> currentFloats = new HashMap<>();
+    private final Map<String, float[]> currentArrayFloats = new HashMap<>();
+
     public void setFloatUniform(String name, float value) {
-        if (glProgram != null) {
-            glProgram.setFloatUniform(name, value);
+        if (textureEffect != null && textureEffect.glProgram != null) {
+            textureEffect.glProgram.setFloatUniform(name, value);
         } else {
             currentFloats.put(name, value);
         }
@@ -102,8 +157,8 @@ public class DynamicTextureProcessor implements SingleFrameGlTextureProcessor {
     }
 
     public void setFloatsUniform(String name, float[] value) {
-        if (glProgram != null) {
-            glProgram.setFloatsUniform(name, value);
+        if (textureEffect != null && textureEffect.glProgram != null) {
+            textureEffect.glProgram.setFloatsUniform(name, value);
         } else {
             currentArrayFloats.put(name, value);
         }
@@ -119,38 +174,9 @@ public class DynamicTextureProcessor implements SingleFrameGlTextureProcessor {
         }
     }
 
-    @Override
-    public Size getOutputSize() {
-        return checkStateNotNull(outputSize);
-    }
-
-    @Override
-    public void drawFrame(long presentationTimeUs) throws FrameProcessingException {
-        try {
-            if (secondTexture != null && secondBitmap != null) {
-                GLES20.glBindTexture(GL10.GL_TEXTURE_2D, textures[0]);
-                GLUtils.texImage2D(GL10.GL_TEXTURE_2D, /* level= */ 0, secondBitmap, /* border= */ 0);
-                GlUtil.checkGlError();
-            }
-            checkStateNotNull(glProgram).use();
-
-            GlUtil.checkGlError();
-            if (secondTexture != null) {
-                glProgram.setSamplerTexIdUniform(secondTexture, textures[0], /* texUnitIndex= */ 1);
-            }
-            glProgram.bindAttributesAndUniforms();
-            // The four-vertex triangle strip forms a quad.
-            GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, /* first= */ 0, /* count= */ 4);
-            GlUtil.checkGlError();
-        } catch (GlUtil.GlException e) {
-            throw new FrameProcessingException(e);
-        }
-    }
-
-    @Override
-    public void release() {
-        if (glProgram != null) {
-            glProgram.delete();
+    public void dispose() throws FrameProcessingException {
+        if (textureEffect != null) {
+            textureEffect.release();
         }
     }
 }

@@ -23,19 +23,16 @@ import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.os.Handler;
 import android.view.Surface;
-
 import androidx.annotation.Nullable;
-
 import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.Format;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.GlUtil;
+import com.google.android.exoplayer2.util.Log;
 import com.google.android.exoplayer2.util.TimedValueQueue;
 import com.google.android.exoplayer2.video.VideoFrameMetadataListener;
-
 import java.util.concurrent.atomic.AtomicBoolean;
-
 import javax.microedition.khronos.egl.EGL10;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.egl.EGLContext;
@@ -74,6 +71,7 @@ public final class VideoProcessingGLSurfaceView extends GLSurfaceView {
   }
 
   private static final int EGL_PROTECTED_CONTENT_EXT = 0x32C0;
+  private static final String TAG = "VPGlSurfaceView";
 
   private final VideoRenderer renderer;
   private final Handler mainHandler;
@@ -94,61 +92,61 @@ public final class VideoProcessingGLSurfaceView extends GLSurfaceView {
    */
   @SuppressWarnings("InlinedApi")
   public VideoProcessingGLSurfaceView(
-      Context context, boolean requireSecureContext, VideoProcessor videoProcessor) {
+          Context context, boolean requireSecureContext, VideoProcessor videoProcessor) {
     super(context);
     renderer = new VideoRenderer(videoProcessor);
     mainHandler = new Handler();
     setEGLContextClientVersion(2);
     setEGLConfigChooser(
-        /* redSize= */ 8,
-        /* greenSize= */ 8,
-        /* blueSize= */ 8,
-        /* alphaSize= */ 8,
-        /* depthSize= */ 0,
-        /* stencilSize= */ 0);
+            /* redSize= */ 8,
+            /* greenSize= */ 8,
+            /* blueSize= */ 8,
+            /* alphaSize= */ 8,
+            /* depthSize= */ 0,
+            /* stencilSize= */ 0);
     setEGLContextFactory(
-        new EGLContextFactory() {
-          @Override
-          public EGLContext createContext(EGL10 egl, EGLDisplay display, EGLConfig eglConfig) {
-            int[] glAttributes;
-            if (requireSecureContext) {
-              glAttributes =
-                  new int[] {
-                    EGL14.EGL_CONTEXT_CLIENT_VERSION,
-                    2,
-                    EGL_PROTECTED_CONTENT_EXT,
-                    EGL14.EGL_TRUE,
-                    EGL14.EGL_NONE
-                  };
-            } else {
-              glAttributes = new int[] {EGL14.EGL_CONTEXT_CLIENT_VERSION, 2, EGL14.EGL_NONE};
-            }
-            return egl.eglCreateContext(
-                display, eglConfig, /* share_context= */ EGL10.EGL_NO_CONTEXT, glAttributes);
-          }
+            new EGLContextFactory() {
+              @Override
+              public EGLContext createContext(EGL10 egl, EGLDisplay display, EGLConfig eglConfig) {
+                int[] glAttributes;
+                if (requireSecureContext) {
+                  glAttributes =
+                          new int[] {
+                                  EGL14.EGL_CONTEXT_CLIENT_VERSION,
+                                  2,
+                                  EGL_PROTECTED_CONTENT_EXT,
+                                  EGL14.EGL_TRUE,
+                                  EGL14.EGL_NONE
+                          };
+                } else {
+                  glAttributes = new int[] {EGL14.EGL_CONTEXT_CLIENT_VERSION, 2, EGL14.EGL_NONE};
+                }
+                return egl.eglCreateContext(
+                        display, eglConfig, /* share_context= */ EGL10.EGL_NO_CONTEXT, glAttributes);
+              }
 
-          @Override
-          public void destroyContext(EGL10 egl, EGLDisplay display, EGLContext context) {
-            egl.eglDestroyContext(display, context);
-          }
-        });
+              @Override
+              public void destroyContext(EGL10 egl, EGLDisplay display, EGLContext context) {
+                egl.eglDestroyContext(display, context);
+              }
+            });
     setEGLWindowSurfaceFactory(
-        new EGLWindowSurfaceFactory() {
-          @Override
-          public EGLSurface createWindowSurface(
-              EGL10 egl, EGLDisplay display, EGLConfig config, Object nativeWindow) {
-            int[] attribsList =
-                requireSecureContext
-                    ? new int[] {EGL_PROTECTED_CONTENT_EXT, EGL14.EGL_TRUE, EGL10.EGL_NONE}
-                    : new int[] {EGL10.EGL_NONE};
-            return egl.eglCreateWindowSurface(display, config, nativeWindow, attribsList);
-          }
+            new EGLWindowSurfaceFactory() {
+              @Override
+              public EGLSurface createWindowSurface(
+                      EGL10 egl, EGLDisplay display, EGLConfig config, Object nativeWindow) {
+                int[] attribsList =
+                        requireSecureContext
+                                ? new int[] {EGL_PROTECTED_CONTENT_EXT, EGL14.EGL_TRUE, EGL10.EGL_NONE}
+                                : new int[] {EGL10.EGL_NONE};
+                return egl.eglCreateWindowSurface(display, config, nativeWindow, attribsList);
+              }
 
-          @Override
-          public void destroySurface(EGL10 egl, EGLDisplay display, EGLSurface surface) {
-            egl.eglDestroySurface(display, surface);
-          }
-        });
+              @Override
+              public void destroySurface(EGL10 egl, EGLDisplay display, EGLSurface surface) {
+                egl.eglDestroySurface(display, surface);
+              }
+            });
     setRenderer(renderer);
     setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
   }
@@ -180,34 +178,34 @@ public final class VideoProcessingGLSurfaceView extends GLSurfaceView {
     super.onDetachedFromWindow();
     // Post to make sure we occur in order with any onSurfaceTextureAvailable calls.
     mainHandler.post(
-        () -> {
-          if (surface != null) {
-            if (player != null) {
-              player.setVideoSurface(null);
-            }
-            releaseSurface(surfaceTexture, surface);
-            surfaceTexture = null;
-            surface = null;
-          }
-        });
+            () -> {
+              if (surface != null) {
+                if (player != null) {
+                  player.setVideoSurface(null);
+                }
+                releaseSurface(surfaceTexture, surface);
+                surfaceTexture = null;
+                surface = null;
+              }
+            });
   }
 
   private void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture) {
     mainHandler.post(
-        () -> {
-          SurfaceTexture oldSurfaceTexture = this.surfaceTexture;
-          Surface oldSurface = VideoProcessingGLSurfaceView.this.surface;
-          this.surfaceTexture = surfaceTexture;
-          this.surface = new Surface(surfaceTexture);
-          releaseSurface(oldSurfaceTexture, oldSurface);
-          if (player != null) {
-            player.setVideoSurface(surface);
-          }
-        });
+            () -> {
+              SurfaceTexture oldSurfaceTexture = this.surfaceTexture;
+              Surface oldSurface = VideoProcessingGLSurfaceView.this.surface;
+              this.surfaceTexture = surfaceTexture;
+              this.surface = new Surface(surfaceTexture);
+              releaseSurface(oldSurfaceTexture, oldSurface);
+              if (player != null) {
+                player.setVideoSurface(surface);
+              }
+            });
   }
 
   private static void releaseSurface(
-      @Nullable SurfaceTexture oldSurfaceTexture, @Nullable Surface oldSurface) {
+          @Nullable SurfaceTexture oldSurfaceTexture, @Nullable Surface oldSurface) {
     if (oldSurfaceTexture != null) {
       oldSurfaceTexture.release();
     }
@@ -243,13 +241,17 @@ public final class VideoProcessingGLSurfaceView extends GLSurfaceView {
 
     @Override
     public synchronized void onSurfaceCreated(GL10 gl, EGLConfig config) {
-      texture = GlUtil.createExternalTexture();
+      try {
+        texture = GlUtil.createExternalTexture();
+      } catch (GlUtil.GlException e) {
+        Log.e(TAG, "Failed to create an external texture", e);
+      }
       surfaceTexture = new SurfaceTexture(texture);
       surfaceTexture.setOnFrameAvailableListener(
-          surfaceTexture -> {
-            frameAvailable.set(true);
-            requestRender();
-          });
+              surfaceTexture -> {
+                frameAvailable.set(true);
+                requestRender();
+              });
       onSurfaceTextureAvailable(surfaceTexture);
     }
 
@@ -293,10 +295,10 @@ public final class VideoProcessingGLSurfaceView extends GLSurfaceView {
 
     @Override
     public void onVideoFrameAboutToBeRendered(
-        long presentationTimeUs,
-        long releaseTimeNs,
-        Format format,
-        @Nullable MediaFormat mediaFormat) {
+            long presentationTimeUs,
+            long releaseTimeNs,
+            Format format,
+            @Nullable MediaFormat mediaFormat) {
       sampleTimestampQueue.add(releaseTimeNs, presentationTimeUs);
     }
   }

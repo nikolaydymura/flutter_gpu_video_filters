@@ -1,12 +1,15 @@
 package nd.flutter.plugins.gpu_video_filters
 
+import android.content.Context
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Handler
 import android.os.Looper.getMainLooper
 import android.util.LongSparseArray
 import com.google.android.exoplayer2.MediaItem
+import com.google.android.exoplayer2.effect.GlEffect
 import com.google.android.exoplayer2.transformer.*
+import com.google.android.exoplayer2.util.Effect
 import com.google.common.collect.ImmutableList
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.plugin.common.EventChannel
@@ -80,7 +83,7 @@ class VideoFilterApiImpl(private val binding: FlutterPlugin.FlutterPluginBinding
 
     override fun dispose(filterId: Long) {
         val processor = filters[filterId]
-        processor.release()
+        processor.dispose()
         filters.remove(filterId)
     }
 
@@ -90,11 +93,15 @@ class VideoFilterApiImpl(private val binding: FlutterPlugin.FlutterPluginBinding
         transformerBuilder
                 .setTransformationRequest(requestBuilder.build())
                 .setEncoderFactory(
-                        DefaultEncoderFactory(
-                                EncoderSelector.DEFAULT, true))
-        val effects: ImmutableList.Builder<GlEffect> = ImmutableList.Builder()
-        effects.add { filter }
-        transformerBuilder.setVideoFrameEffects(effects.build())
+                        DefaultEncoderFactory.Builder(binding.applicationContext)
+                                .setVideoEncoderSelector(EncoderSelector.DEFAULT)
+                                .build())
+        val effects: ImmutableList.Builder<Effect> = ImmutableList.Builder()
+        effects.add(
+                GlEffect { _: Context?, useHdr: Boolean ->
+                    filter.create(useHdr)
+                } as GlEffect)
+        transformerBuilder.setVideoEffects(effects.build())
         return transformerBuilder
                 .build()
     }
