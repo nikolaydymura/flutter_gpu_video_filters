@@ -1,3 +1,7 @@
+## 0.0.9
+
+Added metadata for getting size
+
 ## 0.0.8
 
 Updated to `exoplayer` 2.18.7
