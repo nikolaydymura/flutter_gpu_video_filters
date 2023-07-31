@@ -128,6 +128,7 @@ class VideoPreviewApiImpl(private val binding: FlutterPluginBinding, private val
         }
         if (embedded) {
             val videoPreview = videosPreviews[textureId]
+            videoPreview.player.clearVideoFrameMetadataListener(videoPreview.processor)
             videoPreview.player.stop()
             videoPreview.player.release()
             videosPreviews.remove(textureId)

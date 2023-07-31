@@ -19,14 +19,19 @@ import static com.google.android.exoplayer2.util.Assertions.checkNotNull;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.media.MediaFormat;
 import android.opengl.GLES20;
 import android.opengl.GLUtils;
 import android.os.Handler;
 import android.os.Looper;
 
+import androidx.annotation.Nullable;
+
+import com.google.android.exoplayer2.Format;
 import com.google.android.exoplayer2.util.GlProgram;
 import com.google.android.exoplayer2.util.GlUtil;
 import com.google.android.exoplayer2.util.Log;
+import com.google.android.exoplayer2.video.VideoFrameMetadataListener;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -41,7 +46,9 @@ import io.flutter.plugin.common.EventChannel;
  * bitmap is drawn using an Android {@link Canvas}.
  */
 /* package */ public final class DynamicVideoProcessor
-        implements VideoProcessingGLSurfaceView.VideoProcessor, EventChannel.StreamHandler {
+        implements VideoProcessingGLSurfaceView.VideoProcessor,
+        VideoFrameMetadataListener,
+            EventChannel.StreamHandler {
 
     private final String vertexShader;
     private final String fragmentShader;
@@ -212,5 +219,18 @@ import io.flutter.plugin.common.EventChannel;
                 Log.e(getClass().getSimpleName(), "Failed to delete the shader program", e);
             }
         }
+    }
+
+    @Override
+    public void onVideoFrameAboutToBeRendered(long presentationTimeUs, long releaseTimeNs, Format format, @Nullable MediaFormat mediaFormat) {
+        Log.e("onVideoFrame", " ratio : " + format.pixelWidthHeightRatio + "  width: " + format.width + "  height: " + format.height);
+        if (eventSink != null) {
+            final Map<String, Integer> result = new HashMap<>();
+            result.put("width", format.width);
+            result.put("height", format.height);
+            mainHandler.post(() -> eventSink.success(result));
+        }
+        outputWith = format.width;
+        outputHeight = format.height;
     }
 }
