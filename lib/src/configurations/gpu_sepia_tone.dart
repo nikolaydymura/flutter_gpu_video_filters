@@ -1,5 +1,6 @@
 part of flutter_gpu_video_filters;
 
+/// Describes color matrix manipulations
 class GPUSepiaToneConfiguration extends GPUFilterConfiguration {
   final NumberParameter _intensity;
   final Mat4Parameter _colorMatrix;
@@ -31,6 +32,7 @@ class GPUSepiaToneConfiguration extends GPUFilterConfiguration {
         ),
         super('ColorMatrix');
 
+  /// Updates the [intensity] value.
   set intensity(double value) {
     _intensity.value = value;
   }

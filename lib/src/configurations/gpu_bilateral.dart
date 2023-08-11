@@ -1,5 +1,6 @@
 part of flutter_gpu_video_filters;
 
+/// Describes bilateral manipulations
 class GPUBilateralConfiguration extends GPUFilterConfiguration {
   final NumberParameter _texelWidthOffset;
   final NumberParameter _texelHeightOffset;
@@ -23,14 +24,17 @@ class GPUBilateralConfiguration extends GPUFilterConfiguration {
         ),
         super('Bilateral');
 
+  /// Updates the [texelWidthOffset] value.
   set texelWidthOffset(double value) {
     _texelWidthOffset.value = value;
   }
 
+  /// Updates the [texelHeightOffset] value.
   set texelHeightOffset(double value) {
     _texelHeightOffset.value = value;
   }
 
+  /// Updates the [blurSize] value.
   set blurSize(double value) {
     _blurSize.value = value;
   }

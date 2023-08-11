@@ -1,5 +1,6 @@
 part of flutter_gpu_video_filters;
 
+/// Describes pixelation manipulations
 class GPUPixelationConfiguration extends GPUFilterConfiguration {
   final NumberParameter _pixel;
   final NumberParameter _imageWidthFactor;
@@ -23,14 +24,17 @@ class GPUPixelationConfiguration extends GPUFilterConfiguration {
         ),
         super('Pixelation');
 
+  /// Updates the [pixel] value.
   set pixel(double value) {
     _pixel.value = value;
   }
 
+  /// Updates the [imageWidthFactor] value.
   set imageWidthFactor(double value) {
     _imageWidthFactor.value = value;
   }
 
+  /// Updates the [imageHeightFactor] value.
   set imageHeightFactor(double value) {
     _imageHeightFactor.value = value;
   }

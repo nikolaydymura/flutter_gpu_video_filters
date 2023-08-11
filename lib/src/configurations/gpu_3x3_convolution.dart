@@ -1,5 +1,6 @@
 part of flutter_gpu_video_filters;
 
+/// Describes 3x3 convolution manipulations
 class GPU3x3ConvolutionConfiguration extends GPUFilterConfiguration
     with Sampling3x3Mixin {
   final Mat3Parameter _convolutionMatrix;
@@ -12,6 +13,7 @@ class GPU3x3ConvolutionConfiguration extends GPUFilterConfiguration
         ),
         super('3x3Convolution');
 
+  /// Updates the [convolutionMatrix] value.
   set convolutionMatrix(Matrix3 value) {
     _convolutionMatrix.value = value;
   }

@@ -1,5 +1,6 @@
 part of flutter_gpu_video_filters;
 
+/// Describes sampling matrix methods
 mixin Sampling3x3Mixin on GPUFilterConfiguration {
   final NumberParameter _texelWidth = GLFloatParameter(
     'inputTexelWidth',
@@ -21,10 +22,12 @@ mixin Sampling3x3Mixin on GPUFilterConfiguration {
   String get _exportVertex => 'VertexSampling3x3';
   // coverage:ignore-end
 
+  /// Set [texelWidth] value.
   set texelWidth(double value) {
     _texelWidth.value = value;
   }
 
+  /// Set [texelHeight] value.
   set texelHeight(double value) {
     _texelHeight.value = value;
   }

@@ -1,5 +1,6 @@
 part of flutter_gpu_video_filters;
 
+/// Describes Slider Float Parameter updating
 @visibleForTesting
 class GLSliderFloatParameter extends RangeNumberParameter {
   GLSliderFloatParameter(
@@ -10,6 +11,7 @@ class GLSliderFloatParameter extends RangeNumberParameter {
     super.max,
   });
 
+  /// Updates the Slider Float Parameter value.
   @override
   FutureOr<void> update(covariant GPUFilterConfiguration configuration) async {
     if (!configuration.ready) {

@@ -1,5 +1,6 @@
 part of flutter_gpu_video_filters;
 
+/// Describes saturation manipulations
 class GPUSaturationConfiguration extends GPUFilterConfiguration {
   final NumberParameter _saturation;
 
@@ -11,6 +12,7 @@ class GPUSaturationConfiguration extends GPUFilterConfiguration {
         ),
         super('Saturation');
 
+  /// Updates the [saturation] value.
   set saturation(double value) {
     _saturation.value = value;
   }

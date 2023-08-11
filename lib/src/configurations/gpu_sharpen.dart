@@ -1,5 +1,6 @@
 part of flutter_gpu_video_filters;
 
+/// Describes Sharpen manipulations
 class GPUSharpenConfiguration extends GPUFilterConfiguration {
   final NumberParameter _imageWidthFactor;
   final NumberParameter _imageHeightFactor;
@@ -33,14 +34,19 @@ class GPUSharpenConfiguration extends GPUFilterConfiguration {
   String get _exportVertex => 'VertexSharpen';
   // coverage:ignore-end
 
+  /// Updates the [imageWidthFactor] value.
   set imageWidthFactor(double value) {
     _imageWidthFactor.value = value;
   }
 
+  /// Updates the [imageHeightFactor] value.
   set imageHeightFactor(double value) {
     _imageHeightFactor.value = value;
   }
 
+  /// Updates the [sharpness] value.
+  ///
+  /// The [value] must be in -4.0 and 4.0 range.
   set sharpness(double value) {
     _sharpness.value = value;
   }

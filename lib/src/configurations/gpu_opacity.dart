@@ -1,5 +1,6 @@
 part of flutter_gpu_video_filters;
 
+/// Describes opacity manipulations
 class GPUOpacityConfiguration extends GPUFilterConfiguration {
   final NumberParameter _opacity;
 
@@ -13,6 +14,9 @@ class GPUOpacityConfiguration extends GPUFilterConfiguration {
         ),
         super('Opacity');
 
+  /// Updates the [brightness] value.
+  ///
+  /// The [value] must be in 0.0 and 1.0 range.
   set opacity(double value) {
     _opacity.value = value;
   }

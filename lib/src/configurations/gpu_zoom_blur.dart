@@ -1,5 +1,6 @@
 part of flutter_gpu_video_filters;
 
+/// Describes zoom blur manipulations
 class GPUZoomBlurConfiguration extends GPUFilterConfiguration {
   final PointParameter _center;
   final NumberParameter _blurSize;
@@ -17,10 +18,12 @@ class GPUZoomBlurConfiguration extends GPUFilterConfiguration {
         ),
         super('ZoomBlur');
 
+  /// Updates the [center] value.
   set center(Point<double> value) {
     _center.value = value;
   }
 
+  /// Updates the [blurSize] value.
   set blurSize(double value) {
     _blurSize.value = value;
   }

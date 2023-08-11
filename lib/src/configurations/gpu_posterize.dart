@@ -1,5 +1,6 @@
 part of flutter_gpu_video_filters;
 
+/// Describes posterize manipulations
 class GPUPosterizeConfiguration extends GPUFilterConfiguration {
   final NumberParameter _colorLevels;
 
@@ -11,6 +12,7 @@ class GPUPosterizeConfiguration extends GPUFilterConfiguration {
         ),
         super('Posterize');
 
+  /// Updates the [colorLevels] value.
   set colorLevels(double value) {
     _colorLevels.value = value;
   }

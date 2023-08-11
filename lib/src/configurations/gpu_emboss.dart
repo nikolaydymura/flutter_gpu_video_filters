@@ -1,5 +1,6 @@
 part of flutter_gpu_video_filters;
 
+/// Describes emboss manipulations
 class GPUEmbossConfiguration extends GPUFilterConfiguration
     with Sampling3x3Mixin {
   final Mat3Parameter _convolutionMatrix;
@@ -34,10 +35,14 @@ class GPUEmbossConfiguration extends GPUFilterConfiguration
     _intensity.onUpdate = _convolutionMatrix.update;
   }
 
+  /// Updates the [intensity] value.
+  ///
+  /// The [value] must be in 0.0 and 4.0 range.
   set intensity(double value) {
     _intensity.value = value;
   }
 
+  /// Updates the Matrix3 value by [_updateMatrix].
   void _updateMatrix() {
     final value = _intensity.value.toDouble();
     _convolutionMatrix.value = Matrix3.fromList([

@@ -1,5 +1,6 @@
 part of flutter_gpu_video_filters;
 
+/// Describes solarize manipulations
 class GPUSolarizeConfiguration extends GPUFilterConfiguration {
   final NumberParameter _threshold;
 
@@ -11,6 +12,7 @@ class GPUSolarizeConfiguration extends GPUFilterConfiguration {
         ),
         super('Solarize');
 
+  /// Updates the [threshold] value.
   set threshold(double value) {
     _threshold.value = value;
   }
