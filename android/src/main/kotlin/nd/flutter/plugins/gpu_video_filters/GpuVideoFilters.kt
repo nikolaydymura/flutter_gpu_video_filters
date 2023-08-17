@@ -6,10 +6,17 @@ import android.net.Uri
 import android.os.Handler
 import android.os.Looper.getMainLooper
 import android.util.LongSparseArray
-import com.google.android.exoplayer2.MediaItem
-import com.google.android.exoplayer2.effect.GlEffect
-import com.google.android.exoplayer2.transformer.*
-import com.google.android.exoplayer2.util.Effect
+import androidx.media3.common.Effect
+import androidx.media3.common.MediaItem
+import androidx.media3.effect.GlEffect
+import androidx.media3.transformer.Composition
+import androidx.media3.transformer.DefaultEncoderFactory
+import androidx.media3.transformer.EncoderSelector
+import androidx.media3.transformer.ExportException
+import androidx.media3.transformer.ExportResult
+import androidx.media3.transformer.ProgressHolder
+import androidx.media3.transformer.TransformationRequest
+import androidx.media3.transformer.Transformer
 import com.google.common.collect.ImmutableList
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.plugin.common.EventChannel
@@ -100,7 +107,7 @@ class VideoFilterApiImpl(private val binding: FlutterPlugin.FlutterPluginBinding
         effects.add(
                 GlEffect { _: Context?, useHdr: Boolean ->
                     filter.create(useHdr)
-                } as GlEffect)
+                })
         transformerBuilder.setVideoEffects(effects.build())
         return transformerBuilder
                 .build()
@@ -119,13 +126,13 @@ class TransformerStreamHandler(private val transform: Transformer,
     override fun onListen(arguments: Any?, events: EventChannel.EventSink?) {
         eventSink = events
         transform.addListener(this)
-        transform.startTransformation(MediaItem.Builder().setUri(mediaUri).build(), outputPath)
+        transform.start(MediaItem.Builder().setUri(mediaUri).build(), outputPath)
         mainHandler.post(this)
     }
 
     override fun run() {
         if (transform.getProgress(progressHolder)
-                != Transformer.PROGRESS_STATE_NO_TRANSFORMATION) {
+                != Transformer.PROGRESS_STATE_NOT_STARTED) {
             eventSink?.success(progressHolder.progress)
             mainHandler.postDelayed(this, period)
         }
@@ -138,13 +145,13 @@ class TransformerStreamHandler(private val transform: Transformer,
         eventSink = null
     }
 
-    override fun onTransformationCompleted(inputMediaItem: MediaItem, transformationResult: TransformationResult) {
+    override fun onCompleted(composition: Composition, exportResult: ExportResult) {
         eventSink?.endOfStream()
         mainHandler.removeCallbacksAndMessages(null)
     }
 
-    override fun onTransformationError(inputMediaItem: MediaItem, exception: TransformationException) {
-        eventSink?.error("gpu_video-filters", exception.localizedMessage, exception)
+    override fun onError(composition: Composition, exportResult: ExportResult, exportException: ExportException) {
+        eventSink?.error("gpu-video-filters", exportException.localizedMessage, exportException)
         mainHandler.removeCallbacksAndMessages(null)
     }
 }

@@ -15,7 +15,8 @@
  */
 package nd.flutter.plugins.gpu_video_filters;
 
-import static com.google.android.exoplayer2.util.Assertions.checkNotNull;
+
+import static androidx.media3.common.util.Assertions.checkNotNull;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -26,14 +27,11 @@ import android.os.Handler;
 import android.os.Looper;
 
 import androidx.annotation.Nullable;
+import androidx.media3.common.Format;
+import androidx.media3.common.util.GlProgram;
+import androidx.media3.common.util.GlUtil;
+import androidx.media3.common.util.Log;
 
-import com.google.android.exoplayer2.Format;
-import com.google.android.exoplayer2.util.GlProgram;
-import com.google.android.exoplayer2.util.GlUtil;
-import com.google.android.exoplayer2.util.Log;
-import com.google.android.exoplayer2.video.VideoFrameMetadataListener;
-
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -47,7 +45,6 @@ import io.flutter.plugin.common.EventChannel;
  */
 /* package */ public final class DynamicVideoProcessor
         implements VideoProcessingGLSurfaceView.VideoProcessor,
-        VideoFrameMetadataListener,
             EventChannel.StreamHandler {
 
     private final String vertexShader;
@@ -147,14 +144,7 @@ import io.flutter.plugin.common.EventChannel;
 
     @Override
     public void setSurfaceSize(int width, int height) {
-        if (eventSink != null) {
-            final Map<String, Integer> result = new HashMap<>();
-            result.put("width", width);
-            result.put("height", height);
-            mainHandler.post(() -> eventSink.success(result));
-        }
-        outputWith = width;
-        outputHeight = height;
+
     }
 
     @Override
@@ -221,9 +211,10 @@ import io.flutter.plugin.common.EventChannel;
         }
     }
 
-    @Override
-    public void onVideoFrameAboutToBeRendered(long presentationTimeUs, long releaseTimeNs, Format format, @Nullable MediaFormat mediaFormat) {
-        Log.e("onVideoFrame", " ratio : " + format.pixelWidthHeightRatio + "  width: " + format.width + "  height: " + format.height);
+    public void setVideoFormatChanged(@Nullable Format format) {
+        if (format == null) {
+            return;
+        }
         if (eventSink != null) {
             final Map<String, Integer> result = new HashMap<>();
             result.put("width", format.width);

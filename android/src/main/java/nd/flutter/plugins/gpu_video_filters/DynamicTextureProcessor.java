@@ -1,34 +1,34 @@
 package nd.flutter.plugins.gpu_video_filters;
 
-import static com.google.android.exoplayer2.util.Assertions.checkNotNull;
-import static com.google.android.exoplayer2.util.Assertions.checkStateNotNull;
+import static androidx.media3.common.util.Assertions.checkNotNull;
+import static androidx.media3.common.util.Assertions.checkStateNotNull;
 
 import android.graphics.Bitmap;
 import android.opengl.GLES20;
 import android.opengl.GLUtils;
-import android.util.Pair;
 
-import com.google.android.exoplayer2.util.FrameProcessingException;
-import com.google.android.exoplayer2.effect.SingleFrameGlTextureProcessor;
-import com.google.android.exoplayer2.util.GlProgram;
-import com.google.android.exoplayer2.util.GlUtil;
+import androidx.media3.common.VideoFrameProcessingException;
+import androidx.media3.common.util.GlProgram;
+import androidx.media3.common.util.GlUtil;
+import androidx.media3.common.util.Log;
+import androidx.media3.common.util.Size;
+import androidx.media3.effect.SingleFrameGlShaderProgram;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.microedition.khronos.opengles.GL10;
-
-class DynamicTextureEffect extends SingleFrameGlTextureProcessor {
+class DynamicTextureShaderProgram extends SingleFrameGlShaderProgram {
     GlProgram glProgram;
     private final int[] textures;
     private final String secondTexture;
     private final Bitmap secondBitmap;
-    public DynamicTextureEffect(String vertexShader, String fragmentShader,
+    public DynamicTextureShaderProgram(String vertexShader, String fragmentShader,
                                 String secondTexture,
                                 Bitmap secondBitmap,
                                 Map<String, Float> currentFloats,
                                 Map<String, float[]> currentArrayFloats,
-                                boolean useHdr) throws FrameProcessingException {
+                                boolean useHdr) throws VideoFrameProcessingException {
         super(useHdr);
         this.secondBitmap = secondBitmap;
         this.secondTexture = secondTexture;
@@ -36,7 +36,7 @@ class DynamicTextureEffect extends SingleFrameGlTextureProcessor {
         try {
             glProgram = new GlProgram(vertexShader, fragmentShader);;
         } catch (GlUtil.GlException e) {
-            throw new FrameProcessingException(e);
+            throw new VideoFrameProcessingException(e);
         }
         // Draw the frame on the entire normalized device coordinate space, from -1 to 1, for x and y.
         glProgram.setBufferAttribute(
@@ -70,12 +70,12 @@ class DynamicTextureEffect extends SingleFrameGlTextureProcessor {
     }
 
     @Override
-    public Pair<Integer, Integer> configure(int inputWidth, int inputHeight) {
-        return Pair.create(inputWidth, inputHeight);
+    public Size configure(int inputWidth, int inputHeight) {
+        return new Size(inputWidth, inputHeight);
     }
 
     @Override
-    public void drawFrame(int inputTexId, long presentationTimeUs) throws FrameProcessingException {
+    public void drawFrame(int inputTexId, long presentationTimeUs) throws VideoFrameProcessingException {
         try {
             if (secondTexture != null && secondBitmap != null) {
                 GLES20.glBindTexture(GL10.GL_TEXTURE_2D, textures[0]);
@@ -94,18 +94,18 @@ class DynamicTextureEffect extends SingleFrameGlTextureProcessor {
             GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, /* first= */ 0, /* count= */ 4);
             GlUtil.checkGlError();
         } catch (GlUtil.GlException e) {
-            System.err.println(e);
-            throw new FrameProcessingException(e, presentationTimeUs);
+            Log.e(getClass().getSimpleName(), "drawFrame", e);
+            throw new VideoFrameProcessingException(e, presentationTimeUs);
         }
     }
 
     @Override
-    public void release() throws FrameProcessingException {
+    public void release() throws VideoFrameProcessingException {
         super.release();
         try {
             glProgram.delete();
         } catch (GlUtil.GlException e) {
-            throw new FrameProcessingException(e);
+            throw new VideoFrameProcessingException(e);
         }
     }
 }
@@ -117,7 +117,7 @@ public class DynamicTextureProcessor {
     private Bitmap secondBitmap;
     public OnUniformsUpdater onUniformsUpdater;
 
-    private DynamicTextureEffect textureEffect;
+    private DynamicTextureShaderProgram textureEffect;
     DynamicTextureProcessor(
             String vertexShader, String fragmentShader,
             Map<String, Float> fragmentDefaultFloats,
@@ -135,9 +135,9 @@ public class DynamicTextureProcessor {
         }
     }
 
-    DynamicTextureEffect create(boolean useHdr) throws FrameProcessingException {
+    DynamicTextureShaderProgram create(boolean useHdr) throws VideoFrameProcessingException {
         if (textureEffect == null) {
-            textureEffect = new DynamicTextureEffect(vertexShader, fragmentShader, secondTexture, secondBitmap, currentFloats, currentArrayFloats, useHdr);
+            textureEffect = new DynamicTextureShaderProgram(vertexShader, fragmentShader, secondTexture, secondBitmap, currentFloats, currentArrayFloats, useHdr);
         }
         return textureEffect;
     }
@@ -174,7 +174,7 @@ public class DynamicTextureProcessor {
         }
     }
 
-    public void dispose() throws FrameProcessingException {
+    public void dispose() throws VideoFrameProcessingException {
         if (textureEffect != null) {
             textureEffect.release();
         }

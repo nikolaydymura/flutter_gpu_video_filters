@@ -1,5 +1,6 @@
 import 'dart:io' show File;
 
+import 'package:gallery_saver/gallery_saver.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/material.dart' hide Rect;
 import 'package:flutter_gpu_video_filters/flutter_gpu_video_filters.dart';
@@ -160,7 +161,8 @@ class _FilterPageState extends State<FilterPage> {
       floatingActionButton: FloatingActionButton(
         heroTag: null,
         onPressed: () {
-          _exportVideo();
+          _exportVideo().catchError((e) => ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text(e.toString()))));
         },
         tooltip: 'Export video',
         child: const Icon(Icons.save),
@@ -205,9 +207,11 @@ class _FilterPageState extends State<FilterPage> {
       ),
     );
     await for (final progress in processStream) {
-      debugPrint('Exporting file ${(progress * 100).toInt()}%');
+      debugPrint('_exportVideo: Exporting file ${(progress * 100).toInt()}%');
     }
-    debugPrint('Exporting file took ${watch.elapsedMilliseconds} milliseconds');
-    debugPrint('Exported: ${output.absolute}');
+    debugPrint(
+        '_exportVideo: Exporting file took ${watch.elapsedMilliseconds} milliseconds');
+    await GallerySaver.saveVideo(output.absolute.path);
+    debugPrint('_exportVideo: Exported: ${output.absolute}');
   }
 }

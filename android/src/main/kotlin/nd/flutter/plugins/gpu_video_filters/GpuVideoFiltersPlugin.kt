@@ -6,10 +6,12 @@ import android.net.Uri
 import android.util.LongSparseArray
 import android.view.Surface
 import android.view.View
-import com.google.android.exoplayer2.ExoPlayer
-import com.google.android.exoplayer2.MediaItem
-import com.google.android.exoplayer2.Player
-import com.google.android.exoplayer2.util.EventLogger
+import androidx.media3.common.MediaItem
+import androidx.media3.common.MediaMetadata
+import androidx.media3.common.Player
+import androidx.media3.common.util.Log
+import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.exoplayer.util.EventLogger
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.FlutterPlugin.FlutterPluginBinding
 import io.flutter.plugin.common.EventChannel
@@ -88,6 +90,7 @@ class VideoPreviewApiImpl(private val binding: FlutterPluginBinding, private val
         }
         if (embedded) {
             val videoPreview = videosPreviews[msg.textureId]
+            videoPreview.player.addListener(videoPreview)
             videoPreview.player.repeatMode = Player.REPEAT_MODE_ALL
             videoPreview.player.setMediaItem(mediaItem)
             videoPreview.player.prepare()
@@ -128,7 +131,7 @@ class VideoPreviewApiImpl(private val binding: FlutterPluginBinding, private val
         }
         if (embedded) {
             val videoPreview = videosPreviews[textureId]
-            videoPreview.player.clearVideoFrameMetadataListener(videoPreview.processor)
+            videoPreview.player.removeListener(videoPreview)
             videoPreview.player.stop()
             videoPreview.player.release()
             videosPreviews.remove(textureId)
@@ -161,12 +164,14 @@ class VideoPreviewApiImpl(private val binding: FlutterPluginBinding, private val
     }
 }
 
-class VideoPreview(context: Context,
-                   vertexGlsl: String,
-                   fragmentGlsl: String,
-                   defaultFloats: Map<String, Float>,
-                   defaultArrayFloats: Map<String, FloatArray>,
-                   textureName: String? = null,) : PlatformView, OnUniformsUpdater {
+class VideoPreview(
+        context: Context,
+        vertexGlsl: String,
+        fragmentGlsl: String,
+        defaultFloats: Map<String, Float>,
+        defaultArrayFloats: Map<String, FloatArray>,
+        textureName: String? = null,
+) : PlatformView, OnUniformsUpdater, Player.Listener {
 
     val player: ExoPlayer = ExoPlayer.Builder(context).build()
     internal val processor = DynamicVideoProcessor(vertexGlsl, fragmentGlsl, defaultFloats, defaultArrayFloats, textureName)
@@ -192,5 +197,11 @@ class VideoPreview(context: Context,
 
     override fun setBitmapUniform(name: String?, value: Bitmap?) {
         processor.setSecondBitmap(value)
+    }
+
+    override fun onPlaybackStateChanged(playbackState: Int) {
+        if (playbackState == Player.STATE_READY) {
+            processor.setVideoFormatChanged(player.videoFormat)
+        }
     }
 }
