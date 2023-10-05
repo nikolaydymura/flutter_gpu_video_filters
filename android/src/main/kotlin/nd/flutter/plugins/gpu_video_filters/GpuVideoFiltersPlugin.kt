@@ -72,24 +72,24 @@ class VideoPreviewApiImpl(private val binding: FlutterPluginBinding, private val
     override fun disconnect(textureId: Long, embedded: Boolean) {
     }
 
-    override fun setSource(msg: PreviewMessages.SourcePreviewMessage, embedded: Boolean) {
-        val mediaUri = if (msg.asset) {
-            val asset = binding.flutterAssets.getAssetFilePathByName(msg.path)
+    override fun setSource(textureId: Long, path: String, asset: Boolean, embedded: Boolean) {
+        val mediaUri = if (asset) {
+            val asset = binding.flutterAssets.getAssetFilePathByName(path)
             Uri.parse("asset:///$asset")
         } else {
-            Uri.fromFile(File(msg.path))
+            Uri.fromFile(File(path))
         }
 
         val mediaItem = MediaItem.Builder().setUri(mediaUri).build()
         if (!embedded) {
-            val videoSource = videosSources[msg.textureId]
+            val videoSource = videosSources[textureId]
             videoSource.player.repeatMode = Player.REPEAT_MODE_ONE
             videoSource.player.setMediaItem(mediaItem)
             videoSource.player.prepare()
             videoSource.player.play()
         }
         if (embedded) {
-            val videoPreview = videosPreviews[msg.textureId]
+            val videoPreview = videosPreviews[textureId]
             videoPreview.player.addListener(videoPreview)
             videoPreview.player.repeatMode = Player.REPEAT_MODE_ALL
             videoPreview.player.setMediaItem(mediaItem)

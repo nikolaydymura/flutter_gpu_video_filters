@@ -5,13 +5,20 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Handler
 import android.os.Looper.getMainLooper
+import android.util.Log
 import android.util.LongSparseArray
+import androidx.media3.common.C
 import androidx.media3.common.Effect
 import androidx.media3.common.MediaItem
+import androidx.media3.common.audio.AudioProcessor
 import androidx.media3.effect.GlEffect
+import androidx.media3.effect.RgbFilter
 import androidx.media3.transformer.Composition
 import androidx.media3.transformer.DefaultEncoderFactory
-import androidx.media3.transformer.EncoderSelector
+import androidx.media3.transformer.DefaultMuxer
+import androidx.media3.transformer.EditedMediaItem
+import androidx.media3.transformer.EditedMediaItemSequence
+import androidx.media3.transformer.Effects
 import androidx.media3.transformer.ExportException
 import androidx.media3.transformer.ExportResult
 import androidx.media3.transformer.ProgressHolder
@@ -50,11 +57,10 @@ class VideoFilterApiImpl(private val binding: FlutterPlugin.FlutterPluginBinding
         val transformerId = transformerSequenceId
         transformerSequenceId++
         val eventChannel = EventChannel(binding.binaryMessenger, "Transformer_$transformerId")
-        val transform = createTransformer(processor)
+        val transform = createTransformer()
 
-        val streamHandler = TransformerStreamHandler(transform, mediaUri, output, period)
+        val streamHandler = TransformerStreamHandler(transform, processor, mediaUri, output, period)
         eventChannel.setStreamHandler(streamHandler)
-        transform.getProgress(ProgressHolder())
         return transformerId
     }
 
@@ -94,21 +100,17 @@ class VideoFilterApiImpl(private val binding: FlutterPlugin.FlutterPluginBinding
         filters.remove(filterId)
     }
 
-    private fun createTransformer(filter: DynamicTextureProcessor): Transformer {
+    private fun createTransformer(): Transformer {
         val transformerBuilder = Transformer.Builder(binding.applicationContext)
         val requestBuilder = TransformationRequest.Builder()
         transformerBuilder
                 .setTransformationRequest(requestBuilder.build())
                 .setEncoderFactory(
                         DefaultEncoderFactory.Builder(binding.applicationContext)
-                                .setVideoEncoderSelector(EncoderSelector.DEFAULT)
+                                .setEnableFallback(true)
                                 .build())
-        val effects: ImmutableList.Builder<Effect> = ImmutableList.Builder()
-        effects.add(
-                GlEffect { _: Context?, useHdr: Boolean ->
-                    filter.create(useHdr)
-                })
-        transformerBuilder.setVideoEffects(effects.build())
+        transformerBuilder.setMuxerFactory(
+                DefaultMuxer.Factory( /* maxDelayBetweenSamplesMs= */C.TIME_UNSET))
         return transformerBuilder
                 .build()
     }
@@ -116,6 +118,7 @@ class VideoFilterApiImpl(private val binding: FlutterPlugin.FlutterPluginBinding
 }
 
 class TransformerStreamHandler(private val transform: Transformer,
+                               private var processor: DynamicTextureProcessor,
                                private val mediaUri: Uri,
                                private val outputPath: String,
                                private val period: Long) : EventChannel.StreamHandler, Transformer.Listener, Runnable {
@@ -126,7 +129,7 @@ class TransformerStreamHandler(private val transform: Transformer,
     override fun onListen(arguments: Any?, events: EventChannel.EventSink?) {
         eventSink = events
         transform.addListener(this)
-        transform.start(MediaItem.Builder().setUri(mediaUri).build(), outputPath)
+        transform.start(createComposition(MediaItem.Builder().setUri(mediaUri).build()), outputPath)
         mainHandler.post(this)
     }
 
@@ -143,6 +146,30 @@ class TransformerStreamHandler(private val transform: Transformer,
         mainHandler.removeCallbacksAndMessages(null)
         transform.cancel()
         eventSink = null
+    }
+
+    private fun createComposition(mediaItem: MediaItem): Composition {
+        val editedMediaItemBuilder = EditedMediaItem.Builder(mediaItem)
+
+        val audioProcessors: ImmutableList<AudioProcessor> = ImmutableList.of()
+        val videoEffects = ImmutableList.Builder<Effect>()
+        videoEffects.add(
+                GlEffect { _: Context?, useHdr: Boolean ->
+                    processor.create(useHdr)
+                })
+        editedMediaItemBuilder
+                .setRemoveAudio(false)
+                .setRemoveVideo(false)
+                .setFlattenForSlowMotion(false)
+                .setEffects(Effects(audioProcessors, videoEffects.build()))
+
+        val editedMediaItems: MutableList<EditedMediaItem> = ArrayList()
+        editedMediaItems.add(editedMediaItemBuilder.build())
+        val sequences: MutableList<EditedMediaItemSequence> = ArrayList()
+        sequences.add(EditedMediaItemSequence(editedMediaItems))
+        return Composition.Builder(sequences)
+                .experimentalSetForceAudioTrack(false)
+                .build()
     }
 
     override fun onCompleted(composition: Composition, exportResult: ExportResult) {

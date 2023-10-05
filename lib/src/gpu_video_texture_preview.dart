@@ -13,20 +13,16 @@ class GPUVideoPreviewController extends VideoPreviewController {
   Future<void> setVideoSource(PathInputSource source) async {
     if (source is FileInputSource) {
       await _api.setSource(
-        SourcePreviewMessage(
-          textureId: textureId,
-          path: source.path,
-          asset: false,
-        ),
+        textureId,
+        source.path,
+        false,
         _embedded,
       );
     } else if (source is AssetInputSource) {
       await _api.setSource(
-        SourcePreviewMessage(
-          textureId: textureId,
-          path: source.path,
-          asset: true,
-        ),
+        textureId,
+        source.path,
+        true,
         _embedded,
       );
     }

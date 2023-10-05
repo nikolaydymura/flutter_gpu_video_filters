@@ -136,9 +136,7 @@ public class DynamicTextureProcessor {
     }
 
     DynamicTextureShaderProgram create(boolean useHdr) throws VideoFrameProcessingException {
-        if (textureEffect == null) {
-            textureEffect = new DynamicTextureShaderProgram(vertexShader, fragmentShader, secondTexture, secondBitmap, currentFloats, currentArrayFloats, useHdr);
-        }
+        textureEffect = new DynamicTextureShaderProgram(vertexShader, fragmentShader, secondTexture, secondBitmap, currentFloats, currentArrayFloats, useHdr);
         return textureEffect;
     }
 

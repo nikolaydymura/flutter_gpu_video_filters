@@ -15,13 +15,6 @@ import 'package:pigeon/pigeon.dart';
     copyrightHeader: 'pigeons/copyright.txt',
   ),
 )
-class SourcePreviewMessage {
-  SourcePreviewMessage(this.textureId, this.path, this.asset);
-
-  int textureId;
-  String path;
-  bool asset;
-}
 
 @HostApi()
 abstract class VideoPreviewApi {
@@ -31,7 +24,7 @@ abstract class VideoPreviewApi {
 
   void disconnect(int textureId, bool embedded);
 
-  void setSource(SourcePreviewMessage msg, bool embedded);
+  void setSource(int textureId, String path, bool asset, bool embedded);
 
   void resume(int textureId, bool embedded);
 

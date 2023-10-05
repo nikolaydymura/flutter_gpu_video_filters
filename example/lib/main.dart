@@ -192,6 +192,7 @@ class _FilterPageState extends State<FilterPage> {
     );
   }
 
+  File? latestFile;
   Future<void> _exportVideo() async {
     const asset = _videoAsset;
     final root = await getTemporaryDirectory();
@@ -202,7 +203,7 @@ class _FilterPageState extends State<FilterPage> {
     watch.start();
     final processStream = widget.configuration.exportVideoFile(
       VideoExportConfig(
-        AssetInputSource(asset),
+        latestFile == null ? AssetInputSource(asset) : FileInputSource(latestFile!),
         output,
       ),
     );
@@ -212,6 +213,7 @@ class _FilterPageState extends State<FilterPage> {
     debugPrint(
         '_exportVideo: Exporting file took ${watch.elapsedMilliseconds} milliseconds');
     await GallerySaver.saveVideo(output.absolute.path);
+    latestFile = output;
     debugPrint('_exportVideo: Exported: ${output.absolute}');
   }
 }
