@@ -7,17 +7,17 @@ import android.util.LongSparseArray
 import android.view.Surface
 import android.view.View
 import androidx.media3.common.MediaItem
-import androidx.media3.common.MediaMetadata
 import androidx.media3.common.Player
-import androidx.media3.common.util.Log
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.util.EventLogger
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.FlutterPlugin.FlutterPluginBinding
 import io.flutter.plugin.common.EventChannel
+import io.flutter.plugin.common.EventChannel.EventSink
 import io.flutter.plugin.common.StandardMessageCodec
 import io.flutter.plugin.platform.PlatformView
 import io.flutter.plugin.platform.PlatformViewFactory
+import io.flutter.view.TextureRegistry
 import java.io.File
 
 
@@ -27,8 +27,8 @@ class GpuVideoFiltersPlugin : FlutterPlugin {
     override fun onAttachedToEngine(flutterPluginBinding: FlutterPluginBinding) {
         val videoFilterApiImpl = VideoFilterApiImpl(flutterPluginBinding)
         val videoPreviewApiImpl = VideoPreviewApiImpl(flutterPluginBinding, videoFilterApiImpl)
-        FilterMessages.FilterApi.setup(flutterPluginBinding.binaryMessenger, videoFilterApiImpl)
-        PreviewMessages.VideoPreviewApi.setup(flutterPluginBinding.binaryMessenger, videoPreviewApiImpl)
+        FilterApi.setUp(flutterPluginBinding.binaryMessenger, videoFilterApiImpl)
+        VideoPreviewApi.setUp(flutterPluginBinding.binaryMessenger, videoPreviewApiImpl)
 
         flutterPluginBinding
                 .platformViewRegistry
@@ -40,19 +40,36 @@ class GpuVideoFiltersPlugin : FlutterPlugin {
     }
 }
 
-class VideoTexture(context: Context) {
+class VideoTexture(val texture: TextureRegistry.SurfaceTextureEntry, context: Context) : Player.Listener, EventChannel.StreamHandler {
     var filter: DynamicTextureProcessor? = null
     val player: ExoPlayer = ExoPlayer.Builder(context).build()
+    private var eventSink: EventSink? = null
+
+    override fun onPlaybackStateChanged(playbackState: Int) {
+        if (playbackState == Player.STATE_READY) {
+            eventSink?.success(mapOf("width" to player.videoFormat?.width, "height" to player.videoFormat?.height))
+        }
+    }
+
+    override fun onCancel(arguments: Any?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onListen(arguments: Any?, events: EventChannel.EventSink?) {
+        eventSink = events
+        if (player.playbackState == Player.STATE_READY) {
+            eventSink?.success(mapOf("width" to player.videoFormat?.width, "height" to player.videoFormat?.height))
+        }
+    }
 }
 
-class VideoPreviewApiImpl(private val binding: FlutterPluginBinding, private val videoFilters: VideoFilterApiImpl) : PlatformViewFactory(StandardMessageCodec.INSTANCE), PreviewMessages.VideoPreviewApi {
+class VideoPreviewApiImpl(private val binding: FlutterPluginBinding, private val videoFilters: VideoFilterApiImpl) : PlatformViewFactory(StandardMessageCodec.INSTANCE), VideoPreviewApi {
     private var videosSources = LongSparseArray<VideoTexture>()
     private var videosPreviews = LongSparseArray<VideoPreview>()
 
     override fun create(): Long {
         val texture = binding.textureRegistry.createSurfaceTexture()
-        val videoTexture = VideoTexture(binding.applicationContext)
-        videoTexture.player.setVideoSurface(Surface(texture.surfaceTexture()))
+        val videoTexture = VideoTexture(texture, binding.applicationContext)
         videosSources.put(texture.id(), videoTexture)
         return texture.id()
     }
@@ -83,10 +100,14 @@ class VideoPreviewApiImpl(private val binding: FlutterPluginBinding, private val
         val mediaItem = MediaItem.Builder().setUri(mediaUri).build()
         if (!embedded) {
             val videoSource = videosSources[textureId]
+            val eventChannel = EventChannel(binding.binaryMessenger, "GPUVideoPreviewEvent_$textureId")
+            eventChannel.setStreamHandler(videoSource)
+            videoSource.player.addListener(videoSource)
             videoSource.player.repeatMode = Player.REPEAT_MODE_ONE
             videoSource.player.setMediaItem(mediaItem)
             videoSource.player.prepare()
             videoSource.player.play()
+            videoSource.player.setVideoSurface(Surface(videoSource.texture.surfaceTexture()))
         }
         if (embedded) {
             val videoPreview = videosPreviews[textureId]

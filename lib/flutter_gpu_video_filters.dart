@@ -13,7 +13,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_gpu_filters_interface/flutter_gpu_filters_interface.dart';
 
 import 'src/messages/filter_messages.g.dart';
-import 'src/messages/preview_messages.g.dart';
 
 part 'src/configurations/gpu_3x3_convolution.dart';
 part 'src/configurations/gpu_add_blend.dart';

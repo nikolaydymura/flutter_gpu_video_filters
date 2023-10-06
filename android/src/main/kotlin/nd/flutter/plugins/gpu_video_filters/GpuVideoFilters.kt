@@ -29,12 +29,12 @@ import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.plugin.common.EventChannel
 import java.io.File
 
-class VideoFilterApiImpl(private val binding: FlutterPlugin.FlutterPluginBinding) : FilterMessages.FilterApi {
+class VideoFilterApiImpl(private val binding: FlutterPlugin.FlutterPluginBinding) : FilterApi {
     var filters: LongSparseArray<DynamicTextureProcessor> = LongSparseArray()
     private var filterSequenceId: Long = 0
     private var transformerSequenceId: Long = 0
 
-    override fun create(vertexShader: String, fragmentShader: String, defaults: MutableMap<String, Double>, arrays: MutableMap<String, DoubleArray>, texture: String?): Long {
+    override fun create(vertexShader: String, fragmentShader: String, defaults: Map<String, Double>, arrays: Map<String, DoubleArray>, texture: String?): Long {
         val processor = DynamicTextureProcessor(vertexShader, fragmentShader,
                 defaults.mapValues { it.value.toFloat() },
                 arrays.mapValues { el -> el.value.map { it.toFloat() }.toFloatArray() },

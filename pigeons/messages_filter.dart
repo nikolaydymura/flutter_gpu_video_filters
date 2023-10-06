@@ -7,11 +7,9 @@ import 'package:pigeon/pigeon.dart';
 @ConfigurePigeon(
   PigeonOptions(
     dartOut: 'lib/src/messages/filter_messages.g.dart',
-    javaOut:
-        'android/src/main/java/nd/flutter/plugins/gpu_video_filters/FilterMessages.java',
-    javaOptions: JavaOptions(
-      package: 'nd.flutter.plugins.gpu_video_filters',
-    ),
+    kotlinOut:
+        'android/src/main/kotlin/nd/flutter/plugins/gpu_video_filters/FilterMessages.g.kt',
+    kotlinOptions: KotlinOptions(package: 'nd.flutter.plugins.gpu_video_filters'),
     copyrightHeader: 'pigeons/copyright.txt',
   ),
 )
@@ -48,4 +46,21 @@ abstract class FilterApi {
   );
 
   void dispose(int filterId);
+}
+
+@HostApi()
+abstract class VideoPreviewApi {
+  int create();
+
+  void connect(int textureId, int filterId, bool embedded);
+
+  void disconnect(int textureId, bool embedded);
+
+  void setSource(int textureId, String path, bool asset, bool embedded);
+
+  void resume(int textureId, bool embedded);
+
+  void pause(int textureId, bool embedded);
+
+  void dispose(int textureId, bool embedded);
 }

@@ -203,7 +203,9 @@ class _FilterPageState extends State<FilterPage> {
     watch.start();
     final processStream = widget.configuration.exportVideoFile(
       VideoExportConfig(
-        latestFile == null ? AssetInputSource(asset) : FileInputSource(latestFile!),
+        latestFile == null
+            ? AssetInputSource(asset)
+            : FileInputSource(latestFile!),
         output,
       ),
     );

@@ -1,26 +1,9 @@
-name: Build and Deploy Flutter application
+name: Verify Pull Request
 on:
   pull_request:
     types: [ opened, synchronize, edited, reopened ]
 
 jobs:
-  verify_formatting:
-    name: Flutter Format
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-        name: Downloading sources
-      - uses: subosito/flutter-action@v2
-        name: Preparing Flutter SDK
-        with:
-          flutter-version: '3.3.10'
-          channel: 'stable'
-      - name: Format
-        run: |
-          flutter format --set-exit-if-changed lib/
-          flutter format --set-exit-if-changed test/
-          flutter format --set-exit-if-changed bin/
-          flutter format --set-exit-if-changed example/lib
   analyze_code:
     name: Flutter Analyze
     runs-on: ubuntu-latest
@@ -30,7 +13,13 @@ jobs:
       - uses: subosito/flutter-action@v2
         name: Preparing Flutter SDK
         with:
-          flutter-version: '3.3.10'
+          flutter-version: '3.13.6'
           channel: 'stable'
       - name: Analyze
-        run: flutter analyze lib
+        run: flutter analyze
+      - name: Format
+        run: |
+          dart format --set-exit-if-changed lib/
+          dart format --set-exit-if-changed test/
+          dart format --set-exit-if-changed bin/
+          dart format --set-exit-if-changed example/lib
