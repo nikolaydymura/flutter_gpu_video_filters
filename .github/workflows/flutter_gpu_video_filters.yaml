@@ -13,12 +13,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: subosito/flutter-action@v2.8.0
-
-      - name: Install Dependencies
-        run: flutter packages get
         with:
           flutter-version: '3.13.6'
           channel: 'stable'
+      - name: Install Dependencies
+        run: flutter packages get
       - name: Format
         run: |
           dart format --set-exit-if-changed lib/
