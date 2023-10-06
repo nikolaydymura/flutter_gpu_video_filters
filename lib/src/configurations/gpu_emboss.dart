@@ -49,7 +49,7 @@ class GPUEmbossConfiguration extends GPUFilterConfiguration
       value,
       0.0,
       value,
-      value * 2.0
+      value * 2.0,
     ]);
   }
 

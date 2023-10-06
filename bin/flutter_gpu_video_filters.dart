@@ -23,7 +23,7 @@ const supported = [
   'Solarize',
   'SquareLookupTable',
   'Vibrance',
-  'WhiteBalance'
+  'WhiteBalance',
 ];
 
 String get userHome =>
