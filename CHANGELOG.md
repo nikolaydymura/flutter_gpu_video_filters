@@ -1,3 +1,7 @@
+## 0.0.10
+
+Fixed play/pause issue. Updated pigeons
+
 ## 0.0.9
 
 Added metadata for getting size

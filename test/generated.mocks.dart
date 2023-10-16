@@ -8,8 +8,6 @@ import 'dart:typed_data' as _i4;
 
 import 'package:flutter_gpu_video_filters/src/messages/filter_messages.g.dart'
     as _i2;
-import 'package:flutter_gpu_video_filters/src/messages/preview_messages.g.dart'
-    as _i5;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
@@ -52,6 +50,7 @@ class MockFilterApi extends _i1.Mock implements _i2.FilterApi {
         ),
         returnValue: _i3.Future<int>.value(0),
       ) as _i3.Future<int>);
+
   @override
   _i3.Future<int> exportVideoFile(
     int? arg_filterId,
@@ -75,6 +74,7 @@ class MockFilterApi extends _i1.Mock implements _i2.FilterApi {
         ),
         returnValue: _i3.Future<int>.value(0),
       ) as _i3.Future<int>);
+
   @override
   _i3.Future<void> setFloatParameter(
     int? arg_filterId,
@@ -93,6 +93,7 @@ class MockFilterApi extends _i1.Mock implements _i2.FilterApi {
         returnValue: _i3.Future<void>.value(),
         returnValueForMissingStub: _i3.Future<void>.value(),
       ) as _i3.Future<void>);
+
   @override
   _i3.Future<void> setFloatArrayParameter(
     int? arg_filterId,
@@ -111,6 +112,7 @@ class MockFilterApi extends _i1.Mock implements _i2.FilterApi {
         returnValue: _i3.Future<void>.value(),
         returnValueForMissingStub: _i3.Future<void>.value(),
       ) as _i3.Future<void>);
+
   @override
   _i3.Future<void> setBitmapParameter(
     int? arg_filterId,
@@ -129,6 +131,7 @@ class MockFilterApi extends _i1.Mock implements _i2.FilterApi {
         returnValue: _i3.Future<void>.value(),
         returnValueForMissingStub: _i3.Future<void>.value(),
       ) as _i3.Future<void>);
+
   @override
   _i3.Future<void> setBitmapSourceParameter(
     int? arg_filterId,
@@ -149,6 +152,7 @@ class MockFilterApi extends _i1.Mock implements _i2.FilterApi {
         returnValue: _i3.Future<void>.value(),
         returnValueForMissingStub: _i3.Future<void>.value(),
       ) as _i3.Future<void>);
+
   @override
   _i3.Future<void> dispose(int? arg_filterId) => (super.noSuchMethod(
         Invocation.method(
@@ -163,7 +167,7 @@ class MockFilterApi extends _i1.Mock implements _i2.FilterApi {
 /// A class which mocks [VideoPreviewApi].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockVideoPreviewApi extends _i1.Mock implements _i5.VideoPreviewApi {
+class MockVideoPreviewApi extends _i1.Mock implements _i2.VideoPreviewApi {
   MockVideoPreviewApi() {
     _i1.throwOnMissingStub(this);
   }
@@ -176,6 +180,7 @@ class MockVideoPreviewApi extends _i1.Mock implements _i5.VideoPreviewApi {
         ),
         returnValue: _i3.Future<int>.value(0),
       ) as _i3.Future<int>);
+
   @override
   _i3.Future<void> connect(
     int? arg_textureId,
@@ -194,6 +199,7 @@ class MockVideoPreviewApi extends _i1.Mock implements _i5.VideoPreviewApi {
         returnValue: _i3.Future<void>.value(),
         returnValueForMissingStub: _i3.Future<void>.value(),
       ) as _i3.Future<void>);
+
   @override
   _i3.Future<void> disconnect(
     int? arg_textureId,
@@ -210,6 +216,7 @@ class MockVideoPreviewApi extends _i1.Mock implements _i5.VideoPreviewApi {
         returnValue: _i3.Future<void>.value(),
         returnValueForMissingStub: _i3.Future<void>.value(),
       ) as _i3.Future<void>);
+
   @override
   _i3.Future<void> setSource(
     int? arg_textureId,
@@ -230,6 +237,7 @@ class MockVideoPreviewApi extends _i1.Mock implements _i5.VideoPreviewApi {
         returnValue: _i3.Future<void>.value(),
         returnValueForMissingStub: _i3.Future<void>.value(),
       ) as _i3.Future<void>);
+
   @override
   _i3.Future<void> resume(
     int? arg_textureId,
@@ -246,6 +254,7 @@ class MockVideoPreviewApi extends _i1.Mock implements _i5.VideoPreviewApi {
         returnValue: _i3.Future<void>.value(),
         returnValueForMissingStub: _i3.Future<void>.value(),
       ) as _i3.Future<void>);
+
   @override
   _i3.Future<void> pause(
     int? arg_textureId,
@@ -262,6 +271,7 @@ class MockVideoPreviewApi extends _i1.Mock implements _i5.VideoPreviewApi {
         returnValue: _i3.Future<void>.value(),
         returnValueForMissingStub: _i3.Future<void>.value(),
       ) as _i3.Future<void>);
+
   @override
   _i3.Future<void> dispose(
     int? arg_textureId,

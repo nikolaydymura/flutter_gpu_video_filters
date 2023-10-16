@@ -167,27 +167,45 @@ class _FilterPageState extends State<FilterPage> {
         tooltip: 'Export video',
         child: const Icon(Icons.save),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Container(
-          child: previewParamsReady
-              ? GPUVideoNativePreview(
-                  params: previewParams,
-                  configuration: widget.configuration,
-                  onViewCreated: (controller, outputSizeStream) async {
-                    this.controller = controller;
-                    await controller
-                        .setVideoSource(AssetInputSource(_videoAsset));
-                    await widget.configuration.update();
-                    await for (final _ in outputSizeStream) {
-                      setState(() {});
-                    }
+      body: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              child: previewParamsReady
+                  ? GPUVideoNativePreview(
+                      params: previewParams,
+                      configuration: widget.configuration,
+                      onViewCreated: (controller, outputSizeStream) async {
+                        this.controller = controller;
+                        await controller
+                            .setVideoSource(AssetInputSource(_videoAsset));
+                        await widget.configuration.update();
+                        await for (final _ in outputSizeStream) {
+                          setState(() {});
+                        }
+                      },
+                    )
+                  : const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+            ),
+          ),
+          Row(
+            children: [
+              TextButton(
+                  onPressed: () {
+                    controller.pause();
                   },
-                )
-              : const Center(
-                  child: CircularProgressIndicator(),
-                ),
-        ),
+                  child: const Text('Pause')),
+              TextButton(
+                  onPressed: () {
+                    controller.play();
+                  },
+                  child: const Text('Play')),
+            ],
+          )
+        ],
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }

@@ -139,7 +139,7 @@ class VideoPreviewApiImpl(private val binding: FlutterPluginBinding, private val
         }
         if (embedded) {
             val videoPreview = videosPreviews[textureId]
-            videoPreview.player.play()
+            videoPreview.player.pause()
         }
     }
 
