@@ -1,4 +1,4 @@
-part of flutter_gpu_video_filters;
+part of '../../flutter_gpu_video_filters.dart';
 
 class GPUBilateralConfiguration extends GPUFilterConfiguration {
   final NumberParameter _texelWidthOffset;

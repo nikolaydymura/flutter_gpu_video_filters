@@ -1,5 +1,5 @@
 // coverage:ignore-file
-part of flutter_gpu_video_filters;
+part of '../flutter_gpu_video_filters.dart';
 
 class GPUVideoPreviewController extends VideoPreviewController {
   static final VideoPreviewApi _api = VideoPreviewApi();

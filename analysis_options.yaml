@@ -11,4 +11,4 @@ linter:
 
 analyzer:
   exclude:
-    - lib/src/messages
+    - lib/src/messages/filter_messages.g.dart

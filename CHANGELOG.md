@@ -1,3 +1,7 @@
+## 0.0.11
+
+Moved to MediaX dependency
+
 ## 0.0.10
 
 Fixed play/pause issue. Updated pigeons

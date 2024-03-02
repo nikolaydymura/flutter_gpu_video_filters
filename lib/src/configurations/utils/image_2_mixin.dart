@@ -1,4 +1,4 @@
-part of flutter_gpu_video_filters;
+part of '../../../flutter_gpu_video_filters.dart';
 
 mixin Image2Mixin on GPUFilterConfiguration {
   final DataParameter _image2 =

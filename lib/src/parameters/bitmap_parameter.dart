@@ -1,4 +1,4 @@
-part of flutter_gpu_video_filters;
+part of '../../flutter_gpu_video_filters.dart';
 
 @visibleForTesting
 class GLBitmapParameter extends DataParameter {

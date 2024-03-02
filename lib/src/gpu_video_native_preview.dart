@@ -1,5 +1,5 @@
 // coverage:ignore-file
-part of flutter_gpu_video_filters;
+part of '../flutter_gpu_video_filters.dart';
 
 class GPUVideoNativePreview extends StatelessWidget {
   final void Function(VideoPreviewController, Stream<Size>) onViewCreated;
@@ -8,12 +8,12 @@ class GPUVideoNativePreview extends StatelessWidget {
   final GPUVideoPreviewParams params;
 
   const GPUVideoNativePreview({
-    Key? key,
+    super.key,
     required this.onViewCreated,
     required this.params,
     required this.configuration,
     this.onSizeUpdated,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -75,8 +75,7 @@ class GPUVideoNativePreview extends StatelessWidget {
 class GPUVideoSurfacePreview extends StatelessWidget {
   final void Function(GPUVideoPreviewController) onViewCreated;
 
-  const GPUVideoSurfacePreview({Key? key, required this.onViewCreated})
-      : super(key: key);
+  const GPUVideoSurfacePreview({super.key, required this.onViewCreated});
 
   @override
   Widget build(BuildContext context) {

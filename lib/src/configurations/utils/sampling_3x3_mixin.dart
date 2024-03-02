@@ -1,4 +1,4 @@
-part of flutter_gpu_video_filters;
+part of '../../../flutter_gpu_video_filters.dart';
 
 mixin Sampling3x3Mixin on GPUFilterConfiguration {
   final NumberParameter _texelWidth = GLFloatParameter(

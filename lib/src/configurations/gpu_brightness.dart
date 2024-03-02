@@ -1,4 +1,4 @@
-part of flutter_gpu_video_filters;
+part of '../../flutter_gpu_video_filters.dart';
 
 class GPUBrightnessConfiguration extends GPUFilterConfiguration {
   final NumberParameter _brightness;
