@@ -173,8 +173,7 @@ class _FilterPageState extends State<FilterPage> {
             padding: const EdgeInsets.all(8.0),
             child: Container(
               child: previewParamsReady
-                  ? GPUVideoNativePreview(
-                      params: previewParams,
+                  ? GPUVideoSurfacePreview(
                       configuration: widget.configuration,
                       onViewCreated: (controller, outputSizeStream) async {
                         this.controller = controller;
@@ -211,6 +210,119 @@ class _FilterPageState extends State<FilterPage> {
   }
 
   File? latestFile;
+
+  Future<void> _exportVideo() async {
+    const asset = _videoAsset;
+    final root = await getTemporaryDirectory();
+    final output = File(
+      '${root.path}/${DateTime.now().millisecondsSinceEpoch}.${asset.split('.').last}',
+    );
+    final watch = Stopwatch();
+    watch.start();
+    final processStream = widget.configuration.exportVideoFile(
+      VideoExportConfig(
+        latestFile == null
+            ? AssetInputSource(asset)
+            : FileInputSource(latestFile!),
+        output,
+      ),
+    );
+    await for (final progress in processStream) {
+      debugPrint('_exportVideo: Exporting file ${(progress * 100).toInt()}%');
+    }
+    debugPrint(
+        '_exportVideo: Exporting file took ${watch.elapsedMilliseconds} milliseconds');
+    await GallerySaver.saveVideo(output.absolute.path);
+    latestFile = output;
+    debugPrint('_exportVideo: Exported: ${output.absolute}');
+  }
+}
+
+class FilterPage2 extends StatefulWidget {
+  final GPUFilterConfiguration configuration;
+
+  const FilterPage2({super.key, required this.configuration});
+
+  @override
+  State<FilterPage2> createState() => _FilterPageState2();
+}
+
+class _FilterPageState2 extends State<FilterPage2> {
+  late final VideoPreviewController controller;
+  bool previewParamsReady = false;
+  static const _videoAsset = 'videos/demo.mp4';
+
+  @override
+  void initState() {
+    super.initState();
+    _prepare().whenComplete(() => setState(() {}));
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    widget.configuration.dispose();
+    super.dispose();
+  }
+
+  Future<void> _prepare() async {
+    await widget.configuration.prepare();
+    controller = await GPUVideoPreviewController.initialize();
+    await controller.connect(widget.configuration);
+    await controller.setVideoSource(AssetInputSource(_videoAsset));
+    previewParamsReady = true;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Preview'),
+      ),
+      floatingActionButton: FloatingActionButton(
+        heroTag: null,
+        onPressed: () {
+          _exportVideo().catchError((e) => ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text(e.toString()))));
+        },
+        tooltip: 'Export video',
+        child: const Icon(Icons.save),
+      ),
+      body: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              child: previewParamsReady
+                  ? VideoPreview(
+                      controller: controller,
+                    )
+                  : const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+            ),
+          ),
+          Row(
+            children: [
+              TextButton(
+                  onPressed: () {
+                    controller.pause();
+                  },
+                  child: const Text('Pause')),
+              TextButton(
+                  onPressed: () {
+                    controller.play();
+                  },
+                  child: const Text('Play')),
+            ],
+          )
+        ],
+      ), // This trailing comma makes auto-formatting nicer for build methods.
+    );
+  }
+
+  File? latestFile;
+
   Future<void> _exportVideo() async {
     const asset = _videoAsset;
     final root = await getTemporaryDirectory();

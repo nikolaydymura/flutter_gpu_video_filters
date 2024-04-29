@@ -12,24 +12,24 @@ import androidx.media3.common.util.GlProgram;
 import androidx.media3.common.util.GlUtil;
 import androidx.media3.common.util.Log;
 import androidx.media3.common.util.Size;
-import androidx.media3.effect.SingleFrameGlShaderProgram;
+import androidx.media3.effect.BaseGlShaderProgram;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.microedition.khronos.opengles.GL10;
-class DynamicTextureShaderProgram extends SingleFrameGlShaderProgram {
+class DynamicTextureShaderProgram extends BaseGlShaderProgram {
     GlProgram glProgram;
     private final int[] textures;
     private final String secondTexture;
-    private final Bitmap secondBitmap;
+    Bitmap secondBitmap;
     public DynamicTextureShaderProgram(String vertexShader, String fragmentShader,
                                 String secondTexture,
                                 Bitmap secondBitmap,
                                 Map<String, Float> currentFloats,
                                 Map<String, float[]> currentArrayFloats,
                                 boolean useHdr) throws VideoFrameProcessingException {
-        super(useHdr);
+        super(useHdr, secondTexture == null ? 1 : 2);
         this.secondBitmap = secondBitmap;
         this.secondTexture = secondTexture;
         this.textures = new int[secondTexture != null ? 1 : 0];
@@ -166,7 +166,11 @@ public class DynamicTextureProcessor {
     }
 
     public void setBitmap(String name, Bitmap value) {
-        this.secondBitmap = value;
+        if (textureEffect != null && textureEffect.glProgram != null) {
+            textureEffect.secondBitmap = value;
+        } else {
+            this.secondBitmap = value;
+        }
         if (onUniformsUpdater != null) {
             onUniformsUpdater.setBitmapUniform(name, value);
         }

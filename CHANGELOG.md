@@ -1,3 +1,7 @@
+## 0.0.12
+
+Provided `GPUVideoSurfacePreview` alternative to `GPUVideoNativePreview`
+
 ## 0.0.11
 
 Moved to MediaX dependency
