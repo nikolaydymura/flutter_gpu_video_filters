@@ -1,3 +1,7 @@
+## 0.0.13
+
+Fixed multiple exporting
+
 ## 0.0.12
 
 Provided `GPUVideoSurfacePreview` alternative to `GPUVideoNativePreview`

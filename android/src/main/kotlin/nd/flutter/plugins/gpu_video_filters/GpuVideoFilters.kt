@@ -155,7 +155,7 @@ class TransformerStreamHandler(private val transform: Transformer,
         val videoEffects = ImmutableList.Builder<Effect>()
         videoEffects.add(
                 GlEffect { _: Context?, useHdr: Boolean ->
-                    processor.create(useHdr)
+                    processor.createComposition(useHdr)
                 })
         editedMediaItemBuilder
                 .setRemoveAudio(false)

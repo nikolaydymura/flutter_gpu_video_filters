@@ -140,14 +140,17 @@ public class DynamicTextureProcessor {
         return textureEffect;
     }
 
+    DynamicTextureShaderProgram createComposition(boolean useHdr) throws VideoFrameProcessingException {
+        return new DynamicTextureShaderProgram(vertexShader, fragmentShader, secondTexture, secondBitmap, currentFloats, currentArrayFloats, useHdr);
+    }
+
     private final Map<String, Float> currentFloats = new HashMap<>();
     private final Map<String, float[]> currentArrayFloats = new HashMap<>();
 
     public void setFloatUniform(String name, float value) {
+        currentFloats.put(name, value);
         if (textureEffect != null && textureEffect.glProgram != null) {
             textureEffect.glProgram.setFloatUniform(name, value);
-        } else {
-            currentFloats.put(name, value);
         }
         if (onUniformsUpdater != null) {
             onUniformsUpdater.setFloatUniform(name, value);
@@ -155,10 +158,9 @@ public class DynamicTextureProcessor {
     }
 
     public void setFloatsUniform(String name, float[] value) {
+        currentArrayFloats.put(name, value);
         if (textureEffect != null && textureEffect.glProgram != null) {
             textureEffect.glProgram.setFloatsUniform(name, value);
-        } else {
-            currentArrayFloats.put(name, value);
         }
         if (onUniformsUpdater != null) {
             onUniformsUpdater.setFloatsUniform(name, value);
@@ -166,10 +168,9 @@ public class DynamicTextureProcessor {
     }
 
     public void setBitmap(String name, Bitmap value) {
+        this.secondBitmap = value;
         if (textureEffect != null && textureEffect.glProgram != null) {
             textureEffect.secondBitmap = value;
-        } else {
-            this.secondBitmap = value;
         }
         if (onUniformsUpdater != null) {
             onUniformsUpdater.setBitmapUniform(name, value);
