@@ -5,14 +5,13 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Handler
 import android.os.Looper.getMainLooper
-import android.util.Log
 import android.util.LongSparseArray
 import androidx.media3.common.C
 import androidx.media3.common.Effect
 import androidx.media3.common.MediaItem
 import androidx.media3.common.audio.AudioProcessor
+import androidx.media3.common.util.UnstableApi
 import androidx.media3.effect.GlEffect
-import androidx.media3.effect.RgbFilter
 import androidx.media3.transformer.Composition
 import androidx.media3.transformer.DefaultEncoderFactory
 import androidx.media3.transformer.DefaultMuxer
@@ -22,7 +21,6 @@ import androidx.media3.transformer.Effects
 import androidx.media3.transformer.ExportException
 import androidx.media3.transformer.ExportResult
 import androidx.media3.transformer.ProgressHolder
-import androidx.media3.transformer.TransformationRequest
 import androidx.media3.transformer.Transformer
 import com.google.common.collect.ImmutableList
 import io.flutter.embedding.engine.plugins.FlutterPlugin
@@ -46,6 +44,7 @@ class VideoFilterApiImpl(private val binding: FlutterPlugin.FlutterPluginBinding
         return filterId
     }
 
+    @UnstableApi
     override fun exportVideoFile(filterId: Long, asset: Boolean, input: String, output: String, format: String, period: Long): Long {
         val processor = filters[filterId]
         val mediaUri = if (asset) {
@@ -100,11 +99,10 @@ class VideoFilterApiImpl(private val binding: FlutterPlugin.FlutterPluginBinding
         filters.remove(filterId)
     }
 
+    @UnstableApi
     private fun createTransformer(): Transformer {
         val transformerBuilder = Transformer.Builder(binding.applicationContext)
-        val requestBuilder = TransformationRequest.Builder()
         transformerBuilder
-                .setTransformationRequest(requestBuilder.build())
                 .setEncoderFactory(
                         DefaultEncoderFactory.Builder(binding.applicationContext)
                                 .setEnableFallback(true)
@@ -117,6 +115,7 @@ class VideoFilterApiImpl(private val binding: FlutterPlugin.FlutterPluginBinding
 
 }
 
+@UnstableApi
 class TransformerStreamHandler(private val transform: Transformer,
                                private var processor: DynamicTextureProcessor,
                                private val mediaUri: Uri,

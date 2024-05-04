@@ -9,6 +9,7 @@ import android.view.View
 import androidx.media3.common.Effect
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
+import androidx.media3.common.util.UnstableApi
 import androidx.media3.effect.GlEffect
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.util.EventLogger
@@ -43,6 +44,7 @@ class GpuVideoFiltersPlugin : FlutterPlugin {
     }
 }
 
+@UnstableApi
 class VideoTexture(val texture: TextureRegistry.SurfaceTextureEntry, context: Context) :
     Player.Listener, EventChannel.StreamHandler {
     var filter: DynamicTextureProcessor? = null
@@ -64,7 +66,7 @@ class VideoTexture(val texture: TextureRegistry.SurfaceTextureEntry, context: Co
         TODO("Not yet implemented")
     }
 
-    override fun onListen(arguments: Any?, events: EventChannel.EventSink?) {
+    override fun onListen(arguments: Any?, events: EventSink?) {
         eventSink = events
         if (player.playbackState == Player.STATE_READY) {
             eventSink?.success(
@@ -75,6 +77,10 @@ class VideoTexture(val texture: TextureRegistry.SurfaceTextureEntry, context: Co
             )
         }
     }
+
+    fun setVideoEffects(videoEffects: List<Effect>) {
+        player.setVideoEffects(videoEffects)
+    }
 }
 
 class VideoPreviewApiImpl(
@@ -84,6 +90,7 @@ class VideoPreviewApiImpl(
     private var videosSources = LongSparseArray<VideoTexture>()
     private var videosPreviews = LongSparseArray<BaseVideoPreview>()
 
+    @UnstableApi
     override fun create(): Long {
         val texture = binding.textureRegistry.createSurfaceTexture()
         val videoTexture = VideoTexture(texture, binding.applicationContext)
@@ -91,18 +98,23 @@ class VideoPreviewApiImpl(
         return texture.id()
     }
 
+    @UnstableApi
     override fun connect(textureId: Long, filterId: Long, embedded: Boolean) {
         if (embedded) {
             val videoSource = videosPreviews[textureId]
             val filter = videoFilters.filters[filterId]
             filter.onUniformsUpdater = videoSource
-            val videoEffects = List<Effect>(1) { index ->
-                GlEffect { context, useHdr -> filter.create(useHdr) }
+            val videoEffects = List<Effect>(1) { _ ->
+                GlEffect { _, useHdr -> filter.create(useHdr) }
             }
             videoSource.setVideoEffects(videoEffects)
         } else {
             val videoSource = videosSources[textureId]
             val filter = videoFilters.filters[filterId]
+            val videoEffects = List<Effect>(1) { _ ->
+                GlEffect { _, useHdr -> filter.create(useHdr) }
+            }
+            //videoSource.setVideoEffects(videoEffects)
             videoSource.filter = filter
         }
     }
@@ -110,10 +122,11 @@ class VideoPreviewApiImpl(
     override fun disconnect(textureId: Long, embedded: Boolean) {
     }
 
+    @UnstableApi
     override fun setSource(textureId: Long, path: String, asset: Boolean, embedded: Boolean) {
         val mediaUri = if (asset) {
-            val asset = binding.flutterAssets.getAssetFilePathByName(path)
-            Uri.parse("asset:///$asset")
+            val file = binding.flutterAssets.getAssetFilePathByName(path)
+            Uri.parse("asset:///$file")
         } else {
             Uri.fromFile(File(path))
         }
@@ -143,6 +156,7 @@ class VideoPreviewApiImpl(
         }
     }
 
+    @UnstableApi
     override fun resume(textureId: Long, embedded: Boolean) {
         if (!embedded) {
             val videoSource = videosSources[textureId]
@@ -154,6 +168,7 @@ class VideoPreviewApiImpl(
         }
     }
 
+    @UnstableApi
     override fun pause(textureId: Long, embedded: Boolean) {
         if (!embedded) {
             val videoSource = videosSources[textureId]
@@ -165,6 +180,7 @@ class VideoPreviewApiImpl(
         }
     }
 
+    @UnstableApi
     override fun dispose(textureId: Long, embedded: Boolean) {
         if (!embedded) {
             val videoSource = videosSources[textureId]
@@ -181,6 +197,7 @@ class VideoPreviewApiImpl(
         }
     }
 
+    @UnstableApi
     override fun create(context: Context?, viewId: Int, args: Any?): PlatformView {
         val defaultFloats = HashMap<String, Float>()
         val defaultArrayFloats = HashMap<String, FloatArray>()
@@ -213,10 +230,12 @@ class VideoPreviewApiImpl(
 interface BaseVideoPreview : PlatformView, OnUniformsUpdater, Player.Listener {
     val player: ExoPlayer
 
+    @UnstableApi
     fun setVideoEffects(effects: List<Effect>)
-    fun bindPlayer();
+    fun bindPlayer()
 }
 
+@UnstableApi
 class VideoPreview(
     context: Context,
     defaultFloats: Map<String, Float>,

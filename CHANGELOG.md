@@ -1,3 +1,7 @@
+## 0.0.14
+
+Updated `MediaX` dependency to `1.4.0-alpha01`
+
 ## 0.0.13
 
 Fixed multiple exporting
