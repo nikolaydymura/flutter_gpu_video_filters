@@ -1,5 +1,6 @@
 part of '../../flutter_gpu_video_filters.dart';
 
+/// Configuration for the GlassSphere filter
 class GPUGlassSphereConfiguration extends GPUFilterConfiguration {
   final NumberParameter _radius;
   final AspectRatioParameter _aspectRatio;
@@ -19,18 +20,30 @@ class GPUGlassSphereConfiguration extends GPUFilterConfiguration {
             GLPointParameter('inputCenter', 'Center', const Point(0.5, 0.5)),
         super('GlassSphere');
 
+  /// The radius of the sphere.
+  ///
+  /// The default value is 0.25.
   set radius(double value) {
     _radius.value = value;
   }
 
+  /// The aspect ratio of the sphere.
+  ///
+  /// The default value is Size(1.0, 1.0).
   set aspectRatio(Size value) {
     _aspectRatio.value = value;
   }
 
+  /// The refractive index of the sphere.
+  ///
+  /// The default value is 0.71.
   set refractiveIndex(double value) {
     _refractiveIndex.value = value;
   }
 
+  /// The center of the sphere.
+  ///
+  /// The default value is Point(0.5, 0.5).
   set center(Point<double> value) {
     _center.value = value;
   }

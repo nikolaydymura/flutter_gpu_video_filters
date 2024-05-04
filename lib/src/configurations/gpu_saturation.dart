@@ -1,5 +1,6 @@
 part of '../../flutter_gpu_video_filters.dart';
 
+/// Configuration for the Saturation filter
 class GPUSaturationConfiguration extends GPUFilterConfiguration {
   final NumberParameter _saturation;
 
@@ -11,6 +12,9 @@ class GPUSaturationConfiguration extends GPUFilterConfiguration {
         ),
         super('Saturation');
 
+  /// Saturation value
+  ///
+  /// The default value is 1.0
   set saturation(double value) {
     _saturation.value = value;
   }

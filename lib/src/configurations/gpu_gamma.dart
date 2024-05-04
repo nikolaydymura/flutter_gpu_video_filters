@@ -1,5 +1,6 @@
 part of '../../flutter_gpu_video_filters.dart';
 
+/// Configuration for the Gamma filter
 class GPUGammaConfiguration extends GPUFilterConfiguration {
   final NumberParameter _gamma;
 
@@ -11,6 +12,9 @@ class GPUGammaConfiguration extends GPUFilterConfiguration {
         ),
         super('Gamma');
 
+  /// Gamma value
+  ///
+  /// Default value is 1.2
   set gamma(double value) {
     _gamma.value = value;
   }

@@ -1,5 +1,6 @@
 part of '../../../flutter_gpu_video_filters.dart';
 
+/// Mixin for filters that use 3x3 sampling
 mixin Sampling3x3Mixin on GPUFilterConfiguration {
   final NumberParameter _texelWidth = GLFloatParameter(
     'inputTexelWidth',
@@ -21,10 +22,12 @@ mixin Sampling3x3Mixin on GPUFilterConfiguration {
   String get _exportVertex => 'VertexSampling3x3';
   // coverage:ignore-end
 
+  /// Set the texel width
   set texelWidth(double value) {
     _texelWidth.value = value;
   }
 
+  /// Set the texel height
   set texelHeight(double value) {
     _texelHeight.value = value;
   }

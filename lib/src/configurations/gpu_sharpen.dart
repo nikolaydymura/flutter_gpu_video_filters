@@ -1,5 +1,6 @@
 part of '../../flutter_gpu_video_filters.dart';
 
+/// Configuration for the Sharpen filter
 class GPUSharpenConfiguration extends GPUFilterConfiguration {
   final NumberParameter _imageWidthFactor;
   final NumberParameter _imageHeightFactor;
@@ -33,14 +34,23 @@ class GPUSharpenConfiguration extends GPUFilterConfiguration {
   String get _exportVertex => 'VertexSharpen';
   // coverage:ignore-end
 
+  /// Image width factor
+  ///
+  /// The default value is 0.004
   set imageWidthFactor(double value) {
     _imageWidthFactor.value = value;
   }
 
+  /// Image height factor
+  ///
+  /// The default value is 0.004
   set imageHeightFactor(double value) {
     _imageHeightFactor.value = value;
   }
 
+  /// Sharpness value
+  ///
+  /// The default value is 0.0
   set sharpness(double value) {
     _sharpness.value = value;
   }

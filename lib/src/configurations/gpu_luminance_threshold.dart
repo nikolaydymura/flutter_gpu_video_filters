@@ -1,5 +1,6 @@
 part of '../../flutter_gpu_video_filters.dart';
 
+/// Configuration for the LuminanceThreshold filter
 class GPULuminanceThresholdConfiguration extends GPUFilterConfiguration {
   final NumberParameter _threshold;
 
@@ -11,6 +12,9 @@ class GPULuminanceThresholdConfiguration extends GPUFilterConfiguration {
         ),
         super('LuminanceThreshold');
 
+  /// The threshold value to apply to the luminance of the image
+  ///
+  /// The default value is 0.5
   set threshold(double value) {
     _threshold.value = value;
   }

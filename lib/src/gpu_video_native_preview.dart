@@ -1,10 +1,21 @@
 // coverage:ignore-file
 part of '../flutter_gpu_video_filters.dart';
 
+/// Custom OpenGL preview for video
 class GPUVideoNativePreview extends StatelessWidget {
+  /// Called when the view is created.
+  ///
+  /// The first argument is the controller for the view.
+  /// The second argument is a stream that emits the size of the view.
   final void Function(VideoPreviewController, Stream<Size>) onViewCreated;
+
+  /// Called when the size of the view is updated.
   final void Function(Stream<Size>)? onSizeUpdated;
+
+  /// Configuration for the filter
   final GPUFilterConfiguration configuration;
+
+  /// Parameters for the preview
   final GPUVideoPreviewParams params;
 
   const GPUVideoNativePreview({
@@ -72,9 +83,18 @@ class GPUVideoNativePreview extends StatelessWidget {
   }
 }
 
+/// Custom native preview for video
 class GPUVideoSurfacePreview extends StatelessWidget {
+  /// Called when the view is created.
+  ///
+  /// The first argument is the controller for the view.
+  /// The second argument is a stream that emits the size of the view.
   final void Function(VideoPreviewController, Stream<Size>) onViewCreated;
+
+  /// Called when the size of the view is updated.
   final void Function(Stream<Size>)? onSizeUpdated;
+
+  /// Configuration for the filter
   final GPUFilterConfiguration configuration;
 
   const GPUVideoSurfacePreview({
@@ -159,6 +179,7 @@ class GPUVideoSurfacePreview extends StatelessWidget {
   }
 }
 
+/// Params for video preview
 class GPUVideoPreviewParams {
   final String _vertexShader;
   final String _fragmentShader;

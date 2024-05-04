@@ -1,5 +1,6 @@
 part of '../../flutter_gpu_video_filters.dart';
 
+/// Configuration for the Brightness filter
 class GPUBrightnessConfiguration extends GPUFilterConfiguration {
   final NumberParameter _brightness;
 
@@ -13,6 +14,9 @@ class GPUBrightnessConfiguration extends GPUFilterConfiguration {
         ),
         super('Brightness');
 
+  /// Set the brightness
+  ///
+  /// The default value is `0`
   set brightness(double value) {
     _brightness.value = value;
   }

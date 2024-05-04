@@ -1,5 +1,6 @@
 part of '../../flutter_gpu_video_filters.dart';
 
+/// Configuration for the Contrast filter
 class GPUContrastConfiguration extends GPUFilterConfiguration {
   final NumberParameter _contrast;
 
@@ -13,6 +14,9 @@ class GPUContrastConfiguration extends GPUFilterConfiguration {
         ),
         super('Contrast');
 
+  /// The contrast value.
+  ///
+  /// The default value is 1.2. The value range is from 0 to 4.
   set contrast(double value) {
     _contrast.value = value;
   }

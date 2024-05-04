@@ -1,5 +1,6 @@
 part of '../../flutter_gpu_video_filters.dart';
 
+/// Configuration for the GaussianBlur filter
 class GPUGaussianBlurConfiguration extends GPUFilterConfiguration {
   final NumberParameter _texelWidthOffset;
   final NumberParameter _texelHeightOffset;
@@ -23,14 +24,23 @@ class GPUGaussianBlurConfiguration extends GPUFilterConfiguration {
         ),
         super('GaussianBlur');
 
-  set intensity(double value) {
+  /// The texel width offset
+  ///
+  /// The default value is 0.1.
+  set texelWidthOffset(double value) {
     _texelWidthOffset.value = value;
   }
 
+  /// The texel height offset
+  ///
+  /// The default value is 0.01.
   set texelHeightOffset(double value) {
     _texelHeightOffset.value = value;
   }
 
+  /// The blur size
+  ///
+  /// The default value is 0.2.
   set blurSize(double value) {
     _blurSize.value = value;
   }

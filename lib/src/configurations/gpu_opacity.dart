@@ -1,5 +1,6 @@
 part of '../../flutter_gpu_video_filters.dart';
 
+/// Configuration for the Opacity filter
 class GPUOpacityConfiguration extends GPUFilterConfiguration {
   final NumberParameter _opacity;
 
@@ -13,6 +14,9 @@ class GPUOpacityConfiguration extends GPUFilterConfiguration {
         ),
         super('Opacity');
 
+  /// Opacity value
+  ///
+  /// Range: 0.0 - 1.0
   set opacity(double value) {
     _opacity.value = value;
   }

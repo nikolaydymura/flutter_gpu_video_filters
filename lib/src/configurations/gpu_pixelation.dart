@@ -1,5 +1,6 @@
 part of '../../flutter_gpu_video_filters.dart';
 
+/// Configuration for the Pixelation filter
 class GPUPixelationConfiguration extends GPUFilterConfiguration {
   final NumberParameter _pixel;
   final NumberParameter _imageWidthFactor;
@@ -23,14 +24,23 @@ class GPUPixelationConfiguration extends GPUFilterConfiguration {
         ),
         super('Pixelation');
 
+  /// Pixelation factor
+  ///
+  /// The default value is 1.0
   set pixel(double value) {
     _pixel.value = value;
   }
 
+  /// Image width factor
+  ///
+  /// The default value is 1/720
   set imageWidthFactor(double value) {
     _imageWidthFactor.value = value;
   }
 
+  /// Image height factor
+  ///
+  /// The default value is 1/720
   set imageHeightFactor(double value) {
     _imageHeightFactor.value = value;
   }

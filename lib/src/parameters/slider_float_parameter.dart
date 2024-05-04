@@ -1,7 +1,17 @@
 part of '../../flutter_gpu_video_filters.dart';
 
+/// Slider float parameter for GPU filters
+///
+/// This parameter is used to pass float values to the GPU as `uniform float` variables.
 @visibleForTesting
 class GLSliderFloatParameter extends RangeNumberParameter {
+  /// Create a [GLSliderFloatParameter]
+  ///
+  /// [name] identifies name in GLSL shader source
+  /// [displayName] is a human-readable name
+  /// [value] is the initial value
+  /// [min] is the minimum value
+  /// [max] is the maximum value
   GLSliderFloatParameter(
     super.name,
     super.displayName,
@@ -10,6 +20,9 @@ class GLSliderFloatParameter extends RangeNumberParameter {
     super.max,
   });
 
+  /// Apply updates to the GPU filter
+  ///
+  /// [configuration] is the connected GPU filter configuration
   @override
   FutureOr<void> update(covariant GPUFilterConfiguration configuration) async {
     if (!configuration.ready) {

@@ -1,5 +1,6 @@
 part of '../../flutter_gpu_video_filters.dart';
 
+/// Configuration for the Emboss filter
 class GPUEmbossConfiguration extends GPUFilterConfiguration
     with Sampling3x3Mixin {
   final Mat3Parameter _convolutionMatrix;
@@ -34,6 +35,9 @@ class GPUEmbossConfiguration extends GPUFilterConfiguration
     _intensity.onUpdate = _convolutionMatrix.update;
   }
 
+  /// The intensity of the filter
+  ///
+  /// The default value is 1. The value range is from 0 to 4.
   set intensity(double value) {
     _intensity.value = value;
   }

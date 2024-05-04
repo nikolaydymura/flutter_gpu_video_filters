@@ -1,5 +1,6 @@
 part of '../../flutter_gpu_video_filters.dart';
 
+/// Configuration for the Hue filter
 class GPUHueConfiguration extends GPUFilterConfiguration {
   final NumberParameter _hue;
 
@@ -11,6 +12,9 @@ class GPUHueConfiguration extends GPUFilterConfiguration {
         ),
         super('Hue');
 
+  /// Hue value
+  ///
+  /// Default value is 90.0
   set hue(double value) {
     _hue.value = value;
   }

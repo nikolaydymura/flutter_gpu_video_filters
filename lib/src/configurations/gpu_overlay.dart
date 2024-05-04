@@ -1,5 +1,6 @@
 part of '../../flutter_gpu_video_filters.dart';
 
+/// Configuration for the Overlay filter
 class GPUOverlayConfiguration extends GPUFilterConfiguration with Image2Mixin {
   GPUOverlayConfiguration() : super('Overlay');
 

@@ -1,5 +1,6 @@
 part of '../../flutter_gpu_video_filters.dart';
 
+/// Configuration for the Kuwahara filter
 class GPUKuwaharaConfiguration extends GPUFilterConfiguration {
   final NumberParameter _radius;
 
@@ -7,6 +8,9 @@ class GPUKuwaharaConfiguration extends GPUFilterConfiguration {
       : _radius = GLIntParameter('inputRadius', 'Radius', 3),
         super('Kuwahara');
 
+  /// Radius of the filter
+  ///
+  /// The default value is 3
   set radius(int value) {
     _radius.value = value;
   }

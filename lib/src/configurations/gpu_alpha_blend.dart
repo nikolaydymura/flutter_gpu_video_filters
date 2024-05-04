@@ -1,5 +1,6 @@
 part of '../../flutter_gpu_video_filters.dart';
 
+/// Configuration for the AlphaBlend filter
 class GPUAlphaBlendConfiguration extends GPUFilterConfiguration
     with Image2Mixin {
   final NumberParameter _mixturePercent;
@@ -14,6 +15,9 @@ class GPUAlphaBlendConfiguration extends GPUFilterConfiguration
         ),
         super('AlphaBlend');
 
+  /// Set the mixture percent
+  ///
+  /// The default value is `0.5`
   set mixturePercent(double value) {
     _mixturePercent.value = value;
   }

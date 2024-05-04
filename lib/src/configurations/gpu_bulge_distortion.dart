@@ -1,5 +1,6 @@
 part of '../../flutter_gpu_video_filters.dart';
 
+/// Configuration for the BulgeDistortion filter
 class GPUBulgeDistortionConfiguration extends GPUFilterConfiguration {
   final PointParameter _center;
   final AspectRatioParameter _aspectRatio;
@@ -33,18 +34,30 @@ class GPUBulgeDistortionConfiguration extends GPUFilterConfiguration {
         ),
         super('BulgeDistortion');
 
+  /// Set the center
+  ///
+  /// The default value is `Point(0.5, 0.5)`
   set center(Point<double> value) {
     _center.value = value;
   }
 
+  /// Set the aspect ratio
+  ///
+  /// The default value is `Size(1.0, 1.0)`
   set aspectRatio(Size value) {
     _aspectRatio.value = value;
   }
 
+  /// Set the radius
+  ///
+  /// The default value is `0.25`
   set radius(double value) {
     _radius.value = value;
   }
 
+  /// Set the scale
+  ///
+  /// The default value is `0.5`
   set scale(double value) {
     _scale.value = value;
   }

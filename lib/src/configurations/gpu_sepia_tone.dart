@@ -1,5 +1,6 @@
 part of '../../flutter_gpu_video_filters.dart';
 
+/// Configuration for the SepiaTone filter
 class GPUSepiaToneConfiguration extends GPUFilterConfiguration {
   final NumberParameter _intensity;
   final Mat4Parameter _colorMatrix;
@@ -31,6 +32,9 @@ class GPUSepiaToneConfiguration extends GPUFilterConfiguration {
         ),
         super('ColorMatrix');
 
+  /// Intensity value
+  ///
+  /// The default value is 1.0
   set intensity(double value) {
     _intensity.value = value;
   }

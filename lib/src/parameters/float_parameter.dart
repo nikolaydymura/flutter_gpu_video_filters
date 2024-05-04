@@ -1,9 +1,20 @@
 part of '../../flutter_gpu_video_filters.dart';
 
+/// Float parameter for GPU filters
+///
+/// This parameter is used to pass floating-point values to the GPU as `uniform float` variables.
 @visibleForTesting
 class GLFloatParameter extends NumberParameter {
+  /// Create a [GLFloatParameter]
+  ///
+  /// [name] identifies name in GLSL shader source
+  /// [displayName] is a human-readable name
+  /// [value] is the initial value
   GLFloatParameter(super.name, super.displayName, super.value);
 
+  /// Apply updates to the GPU filter
+  ///
+  /// [configuration] is the connected GPU filter configuration
   @override
   FutureOr<void> update(covariant GPUFilterConfiguration configuration) async {
     if (!configuration.ready) {

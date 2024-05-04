@@ -1,5 +1,6 @@
 part of '../../flutter_gpu_video_filters.dart';
 
+/// Configuration for the Toon filter
 class GPUToonConfiguration extends GPUFilterConfiguration
     with Sampling3x3Mixin {
   final NumberParameter _threshold;
@@ -18,10 +19,16 @@ class GPUToonConfiguration extends GPUFilterConfiguration
         ),
         super('Toon');
 
+  /// Threshold value
+  ///
+  /// The default value is 0.2
   set threshold(double value) {
     _threshold.value = value;
   }
 
+  /// Quantization Levels value
+  ///
+  /// The default value is 10
   set quantizationLevels(double value) {
     _quantizationLevels.value = value;
   }

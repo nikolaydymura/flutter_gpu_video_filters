@@ -1,5 +1,6 @@
 part of '../../flutter_gpu_video_filters.dart';
 
+/// Configuration for the SphereRefraction filter
 class GPUSphereRefractionConfiguration extends GPUFilterConfiguration {
   final PointParameter _center;
   final NumberParameter _radius;
@@ -31,18 +32,30 @@ class GPUSphereRefractionConfiguration extends GPUFilterConfiguration {
         ),
         super('SphereRefraction');
 
+  /// Center of the sphere
+  ///
+  /// The default value is `Point(0.5, 0.5)`
   set centerX(Point<double> value) {
     _center.value = value;
   }
 
+  /// Radius of the sphere
+  ///
+  /// The default value is 0.25
   set radius(double value) {
     _radius.value = value;
   }
 
+  /// Aspect ratio of the sphere
+  ///
+  /// The default value is `Size.square(1)`
   set aspectRatio(Size value) {
     _aspectRatio.value = value;
   }
 
+  /// Refractive index of the sphere
+  ///
+  /// The default value is 0.71
   set refractiveIndex(double value) {
     _refractiveIndex.value = value;
   }

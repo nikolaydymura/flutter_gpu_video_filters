@@ -1,5 +1,6 @@
 part of '../../flutter_gpu_video_filters.dart';
 
+/// Configuration for the Solarize filter
 class GPUSolarizeConfiguration extends GPUFilterConfiguration {
   final NumberParameter _threshold;
 
@@ -11,6 +12,9 @@ class GPUSolarizeConfiguration extends GPUFilterConfiguration {
         ),
         super('Solarize');
 
+  /// Threshold value
+  ///
+  /// The default value is 0.5
   set threshold(double value) {
     _threshold.value = value;
   }

@@ -1,5 +1,6 @@
 part of '../../flutter_gpu_video_filters.dart';
 
+/// Configuration for the ZoomBlur filter
 class GPUZoomBlurConfiguration extends GPUFilterConfiguration {
   final PointParameter _center;
   final NumberParameter _blurSize;
@@ -17,10 +18,16 @@ class GPUZoomBlurConfiguration extends GPUFilterConfiguration {
         ),
         super('ZoomBlur');
 
+  /// Center of the blur
+  ///
+  /// The default value is `Point(0.5, 0.5)`
   set center(Point<double> value) {
     _center.value = value;
   }
 
+  /// Size of the blur
+  ///
+  /// The default value is 1.0
   set blurSize(double value) {
     _blurSize.value = value;
   }

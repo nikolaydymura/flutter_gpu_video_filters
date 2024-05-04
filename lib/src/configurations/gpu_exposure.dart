@@ -1,5 +1,6 @@
 part of '../../flutter_gpu_video_filters.dart';
 
+/// Configuration for the Exposure filter
 class GPUExposureConfiguration extends GPUFilterConfiguration {
   final NumberParameter _exposure;
 
@@ -13,6 +14,9 @@ class GPUExposureConfiguration extends GPUFilterConfiguration {
         ),
         super('Exposure');
 
+  /// The exposure value
+  ///
+  /// The default value is 0. The value range is from -10 to 10.
   set exposure(double value) {
     _exposure.value = value;
   }

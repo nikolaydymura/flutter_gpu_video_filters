@@ -1,5 +1,6 @@
 part of '../../flutter_gpu_video_filters.dart';
 
+/// Configuration for the Swirl filter
 class GPUSwirlConfiguration extends GPUFilterConfiguration {
   final NumberParameter _angle;
   final NumberParameter _radius;
@@ -25,14 +26,23 @@ class GPUSwirlConfiguration extends GPUFilterConfiguration {
         ),
         super('Swirl');
 
-  set scale(double value) {
+  /// Angle value
+  ///
+  /// The default value is 1.0
+  set angle(double value) {
     _angle.value = value;
   }
 
+  /// Radius value
+  ///
+  /// The default value is 0.5
   set radius(double value) {
     _radius.value = value;
   }
 
+  /// Center of the swirl
+  ///
+  /// The default value is `Point(0.5, 0.5)`
   set center(Point<double> value) {
     _center.value = value;
   }

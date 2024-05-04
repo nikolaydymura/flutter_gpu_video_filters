@@ -1,5 +1,6 @@
 part of '../../flutter_gpu_video_filters.dart';
 
+/// Configuration for the Crosshatch filter
 class GPUCrosshatchConfiguration extends GPUFilterConfiguration {
   final NumberParameter _crossHatchSpacing;
   final NumberParameter _lineWidth;
@@ -17,10 +18,16 @@ class GPUCrosshatchConfiguration extends GPUFilterConfiguration {
         ),
         super('Crosshatch');
 
+  /// The spacing between crosshatch lines
+  ///
+  /// The default value is 0.03
   set crossHatchSpacing(double value) {
     _crossHatchSpacing.value = value;
   }
 
+  /// The width of the crosshatch lines
+  ///
+  /// The default value is 0.003
   set lineWidth(double value) {
     _lineWidth.value = value;
   }

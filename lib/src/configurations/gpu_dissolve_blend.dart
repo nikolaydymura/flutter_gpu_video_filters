@@ -1,5 +1,6 @@
 part of '../../flutter_gpu_video_filters.dart';
 
+/// Configuration for the DissolveBlend filter
 class GPUDissolveBlendConfiguration extends GPUFilterConfiguration
     with Image2Mixin {
   final NumberParameter _mixturePercent;
@@ -14,6 +15,9 @@ class GPUDissolveBlendConfiguration extends GPUFilterConfiguration
         ),
         super('DissolveBlend');
 
+  /// The percentage of the second image to blend with the first image.
+  ///
+  /// The default value is 0.5. The value range is from 0 to 1.
   set mixturePercent(double value) {
     _mixturePercent.value = value;
   }
