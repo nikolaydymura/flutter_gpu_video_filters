@@ -22,7 +22,7 @@ void main() {
       final parameter = configuration.parameters
           .firstWhere((e) => e.name == 'inputAngle') as NumberParameter;
       expect(parameter.value, 1.0);
-      configuration.scale = 0.5;
+      configuration.angle = 0.5;
       expect(parameter.value, 0.5);
     });
 
