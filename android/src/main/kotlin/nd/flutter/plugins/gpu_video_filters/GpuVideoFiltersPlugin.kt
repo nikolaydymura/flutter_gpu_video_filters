@@ -16,6 +16,7 @@ import io.flutter.plugin.common.EventChannel
 import io.flutter.plugin.common.StandardMessageCodec
 import io.flutter.plugin.platform.PlatformView
 import io.flutter.plugin.platform.PlatformViewFactory
+import io.flutter.view.TextureRegistry
 import java.io.File
 
 
@@ -38,7 +39,7 @@ class GpuVideoFiltersPlugin : FlutterPlugin {
     }
 }
 
-class VideoTexture(context: Context) {
+class VideoTexture(val texture: TextureRegistry.SurfaceTextureEntry, context: Context) {
     var filter: DynamicTextureProcessor? = null
     val player: ExoPlayer = ExoPlayer.Builder(context).build()
 }
@@ -49,8 +50,7 @@ class VideoPreviewApiImpl(private val binding: FlutterPluginBinding, private val
 
     override fun create(): Long {
         val texture = binding.textureRegistry.createSurfaceTexture()
-        val videoTexture = VideoTexture(binding.applicationContext)
-        videoTexture.player.setVideoSurface(Surface(texture.surfaceTexture()))
+        val videoTexture = VideoTexture(texture, binding.applicationContext)
         videosSources.put(texture.id(), videoTexture)
         return texture.id()
     }
@@ -85,6 +85,7 @@ class VideoPreviewApiImpl(private val binding: FlutterPluginBinding, private val
             videoSource.player.setMediaItem(mediaItem)
             videoSource.player.prepare()
             videoSource.player.play()
+            videoSource.player.setVideoSurface(Surface(videoSource.texture.surfaceTexture()))
         }
         if (embedded) {
             val videoPreview = videosPreviews[msg.textureId]
