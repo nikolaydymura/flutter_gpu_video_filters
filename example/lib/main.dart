@@ -1,5 +1,6 @@
 import 'dart:io' show File;
 
+import 'package:example/filter_page.dart';
 import 'package:gallery_saver/gallery_saver.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/material.dart' hide Rect;
@@ -51,36 +52,36 @@ class ListPage extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: CustomScrollView(
           slivers: [
-            SliverFixedExtentList(
-              delegate: SliverChildBuilderDelegate(
-                (context, index) {
-                  final item = kFailedFilters[index];
-                  return Card(
-                    child: ListTile(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) {
-                              return FilterPage(
-                                configuration: item.configuration,
-                              );
-                            },
-                          ),
-                        );
-                      },
-                      title: Text(item.name),
-                      trailing: Icon(
-                        Icons.arrow_forward,
-                        color: Theme.of(context).colorScheme.error,
-                      ),
-                    ),
-                  );
-                },
-                childCount: kFailedFilters.length,
-              ),
-              itemExtent: 64,
-            ),
+            // SliverFixedExtentList(
+            //   delegate: SliverChildBuilderDelegate(
+            //     (context, index) {
+            //       final item = kFailedFilters[index];
+            //       return Card(
+            //         child: ListTile(
+            //           onTap: () {
+            //             Navigator.push(
+            //               context,
+            //               MaterialPageRoute(
+            //                 builder: (context) {
+            //                   return const FilterPage(
+            //                       // configuration: item.configuration,
+            //                       );
+            //                 },
+            //               ),
+            //             );
+            //           },
+            //           title: Text(item.name),
+            //           trailing: Icon(
+            //             Icons.arrow_forward,
+            //             color: Theme.of(context).colorScheme.error,
+            //           ),
+            //         ),
+            //       );
+            //     },
+            //     childCount: kFailedFilters.length,
+            //   ),
+            //   itemExtent: 64,
+            // ),
             SliverFixedExtentList(
               delegate: SliverChildBuilderDelegate(
                 (context, index) {
@@ -92,9 +93,9 @@ class ListPage extends StatelessWidget {
                           context,
                           MaterialPageRoute(
                             builder: (context) {
-                              return FilterPage(
-                                configuration: item.configuration,
-                              );
+                              return const FilterPage(
+                                  // configuration: item.configuration,
+                                  );
                             },
                           ),
                         );
@@ -115,126 +116,6 @@ class ListPage extends StatelessWidget {
         ),
       ),
     );
-  }
-}
-
-class FilterPage extends StatefulWidget {
-  final GPUFilterConfiguration configuration;
-
-  const FilterPage({super.key, required this.configuration});
-
-  @override
-  State<FilterPage> createState() => _FilterPageState();
-}
-
-class _FilterPageState extends State<FilterPage> {
-  late final VideoPreviewController controller;
-  late final GPUVideoPreviewParams previewParams;
-  bool previewParamsReady = false;
-  static const _videoAsset = 'videos/demo.mp4';
-
-  @override
-  void initState() {
-    super.initState();
-    _prepare().whenComplete(() => setState(() {}));
-  }
-
-  @override
-  void dispose() {
-    controller.dispose();
-    widget.configuration.dispose();
-    super.dispose();
-  }
-
-  Future<void> _prepare() async {
-    await widget.configuration.prepare();
-    previewParams = await GPUVideoPreviewParams.create(widget.configuration);
-    previewParamsReady = true;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Preview'),
-      ),
-      floatingActionButton: FloatingActionButton(
-        heroTag: null,
-        onPressed: () {
-          _exportVideo().catchError((e) => ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text(e.toString()))));
-        },
-        tooltip: 'Export video',
-        child: const Icon(Icons.save),
-      ),
-      body: Stack(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              child: previewParamsReady
-                  ? GPUVideoSurfacePreview(
-                      configuration: widget.configuration,
-                      onViewCreated: (controller, outputSizeStream) async {
-                        this.controller = controller;
-                        await controller
-                            .setVideoSource(AssetInputSource(_videoAsset));
-                        await widget.configuration.update();
-                        await for (final _ in outputSizeStream) {
-                          setState(() {});
-                        }
-                      },
-                    )
-                  : const Center(
-                      child: CircularProgressIndicator(),
-                    ),
-            ),
-          ),
-          Row(
-            children: [
-              TextButton(
-                  onPressed: () {
-                    controller.pause();
-                  },
-                  child: const Text('Pause')),
-              TextButton(
-                  onPressed: () {
-                    controller.play();
-                  },
-                  child: const Text('Play')),
-            ],
-          )
-        ],
-      ), // This trailing comma makes auto-formatting nicer for build methods.
-    );
-  }
-
-  File? latestFile;
-
-  Future<void> _exportVideo() async {
-    const asset = _videoAsset;
-    final root = await getTemporaryDirectory();
-    final output = File(
-      '${root.path}/${DateTime.now().millisecondsSinceEpoch}.${asset.split('.').last}',
-    );
-    final watch = Stopwatch();
-    watch.start();
-    final processStream = widget.configuration.exportVideoFile(
-      VideoExportConfig(
-        latestFile == null
-            ? AssetInputSource(asset)
-            : FileInputSource(latestFile!),
-        output,
-      ),
-    );
-    await for (final progress in processStream) {
-      debugPrint('_exportVideo: Exporting file ${(progress * 100).toInt()}%');
-    }
-    debugPrint(
-        '_exportVideo: Exporting file took ${watch.elapsedMilliseconds} milliseconds');
-    await GallerySaver.saveVideo(output.absolute.path);
-    latestFile = output;
-    debugPrint('_exportVideo: Exported: ${output.absolute}');
   }
 }
 
@@ -282,8 +163,8 @@ class _FilterPageState2 extends State<FilterPage2> {
       floatingActionButton: FloatingActionButton(
         heroTag: null,
         onPressed: () {
-          _exportVideo().catchError((e) => ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text(e.toString()))));
+          _exportVideo()
+              .catchError((e) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString()))));
         },
         tooltip: 'Export video',
         child: const Icon(Icons.save),
@@ -333,17 +214,14 @@ class _FilterPageState2 extends State<FilterPage2> {
     watch.start();
     final processStream = widget.configuration.exportVideoFile(
       VideoExportConfig(
-        latestFile == null
-            ? AssetInputSource(asset)
-            : FileInputSource(latestFile!),
+        latestFile == null ? AssetInputSource(asset) : FileInputSource(latestFile!),
         output,
       ),
     );
     await for (final progress in processStream) {
       debugPrint('_exportVideo: Exporting file ${(progress * 100).toInt()}%');
     }
-    debugPrint(
-        '_exportVideo: Exporting file took ${watch.elapsedMilliseconds} milliseconds');
+    debugPrint('_exportVideo: Exporting file took ${watch.elapsedMilliseconds} milliseconds');
     await GallerySaver.saveVideo(output.absolute.path);
     latestFile = output;
     debugPrint('_exportVideo: Exported: ${output.absolute}');
