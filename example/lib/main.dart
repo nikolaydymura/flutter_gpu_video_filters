@@ -8,7 +8,6 @@ import 'package:flutter_gpu_video_filters/flutter_gpu_video_filters.dart';
 import 'package:flutter_gpu_filters_interface/flutter_gpu_filters_interface.dart';
 
 import 'approved_filters.dart';
-import 'filters.dart';
 
 void main() {
   runApp(const MyApp());

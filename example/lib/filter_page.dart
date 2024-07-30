@@ -99,7 +99,7 @@ class _FilterPageState extends State<FilterPage> {
             ],
           )
         ],
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
     );
   }
 
