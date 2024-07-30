@@ -6,106 +6,67 @@ import 'package:flutter_gpu_video_filters/flutter_gpu_video_filters.dart';
 import 'package:gallery_saver/gallery_saver.dart';
 import 'package:path_provider/path_provider.dart';
 
+enum FilterType { color, image }
+
 class FilterPage extends StatefulWidget {
-  const FilterPage({super.key});
+  final FilterType filterType;
+  const FilterPage({super.key, required this.filterType});
 
   @override
   State<FilterPage> createState() => _FilterPageState();
 }
 
 class _FilterPageState extends State<FilterPage> {
-  late final VideoPreviewController controller;
-  late final GPUVideoPreviewParams previewParams;
   bool previewParamsReady = false;
   static const _videoAsset = 'videos/video.mp4';
 
-  @override
-  void initState() {
-    super.initState();
-    _prepare().whenComplete(() => setState(() {}));
-  }
-
-  @override
-  void dispose() {
-    controller.dispose();
-    configuration.dispose();
-    super.dispose();
-  }
-
-  late GPURGBConfiguration configuration;
-
-  Future<void> _prepare() async {
-    Color colr = Colors.green;
+  Future<void> _prepareColorFilter() async {
+    late GPURGBConfiguration configuration;
+    Color colr = Colors.red;
     configuration = GPURGBConfiguration()
       ..red = colr.red.toDouble()
       ..blue = colr.blue.toDouble()
       ..green = colr.green.toDouble();
-
     await configuration.prepare();
-    previewParams = await GPUVideoPreviewParams.create(configuration);
+    await GPUVideoPreviewParams.create(configuration);
     previewParamsReady = true;
-    _exportVideo().catchError((e) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString()))));
+    print("_exportVideo=============");
+    _exportVideo(config: configuration, context: context).catchError(
+      (e) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString()))),
+    );
+  }
+
+  Future<void> _prepareImageFilter() async {
+    GPUOverlayConfiguration configuration = GPUOverlayConfiguration()
+      ..image2File = File('/data/data/com.example.example/cache/effect3.png');
+    await configuration.prepare();
+    await GPUVideoPreviewParams.create(configuration);
+    previewParamsReady = true;
+    _exportVideo(config: configuration, context: context).catchError(
+      (e) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString()))),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Preview'),
-      ),
-      floatingActionButton: FloatingActionButton(
-        heroTag: null,
-        onPressed: () {
-          _exportVideo()
-              .catchError((e) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString()))));
-        },
-        tooltip: 'Export video',
-        child: const Icon(Icons.save),
-      ),
-      body: Stack(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              child: previewParamsReady
-                  ? GPUVideoSurfacePreview(
-                      configuration: configuration,
-                      onViewCreated: (controller, outputSizeStream) async {
-                        // this.controller = controller;
-                        // await controller.setVideoSource(AssetInputSource(_videoAsset));
-                        // await configuration.update();
-                        // await for (final _ in outputSizeStream) {
-                        //   setState(() {});
-                        // }
-                      },
-                    )
-                  : const Center(
-                      child: CircularProgressIndicator(),
-                    ),
-            ),
-          ),
-          Row(
-            children: [
-              TextButton(
-                  onPressed: () {
-                    controller.pause();
-                  },
-                  child: const Text('Pause')),
-              TextButton(
-                  onPressed: () {
-                    controller.play();
-                  },
-                  child: const Text('Play')),
-            ],
-          )
-        ],
+      appBar: AppBar(title: const Text('Preview')),
+      body: Center(
+        child: ElevatedButton(
+          onPressed: () {
+            if (widget.filterType == FilterType.color) {
+              _prepareColorFilter().whenComplete(() => setState(() {}));
+            } else if (widget.filterType == FilterType.image) {
+              _prepareImageFilter().whenComplete(() => setState(() {}));
+            }
+          },
+          child: Text("Apply Filter"),
+        ),
       ),
     );
   }
 
-  File? latestFile;
-
-  Future<void> _exportVideo() async {
+  Future<void> _exportVideo({required config, required BuildContext context}) async {
     const asset = _videoAsset;
     final root = await getTemporaryDirectory();
     final output = File(
@@ -113,9 +74,9 @@ class _FilterPageState extends State<FilterPage> {
     );
     final watch = Stopwatch();
     watch.start();
-    final processStream = configuration.exportVideoFile(
+    final processStream = config.exportVideoFile(
       VideoExportConfig(
-        latestFile == null ? AssetInputSource(asset) : FileInputSource(latestFile!),
+        AssetInputSource(asset),
         output,
       ),
     );
@@ -124,7 +85,9 @@ class _FilterPageState extends State<FilterPage> {
     }
     debugPrint('_exportVideo: Exporting file took ${watch.elapsed.inSeconds} Seconds');
     await GallerySaver.saveVideo(output.absolute.path);
-    latestFile = output;
     debugPrint('_exportVideo: Exported: ${output.absolute}');
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(backgroundColor: Colors.green.shade700, content: Text("Video Save Success${output.path}")),
+    );
   }
 }
