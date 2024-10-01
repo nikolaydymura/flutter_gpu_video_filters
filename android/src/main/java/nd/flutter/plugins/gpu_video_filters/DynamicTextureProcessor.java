@@ -7,17 +7,20 @@ import android.graphics.Bitmap;
 import android.opengl.GLES20;
 import android.opengl.GLUtils;
 
+import androidx.annotation.NonNull;
 import androidx.media3.common.VideoFrameProcessingException;
 import androidx.media3.common.util.GlProgram;
 import androidx.media3.common.util.GlUtil;
 import androidx.media3.common.util.Log;
 import androidx.media3.common.util.Size;
+import androidx.media3.common.util.UnstableApi;
 import androidx.media3.effect.BaseGlShaderProgram;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.microedition.khronos.opengles.GL10;
+@UnstableApi
 class DynamicTextureShaderProgram extends BaseGlShaderProgram {
     GlProgram glProgram;
     private final int[] textures;
@@ -69,6 +72,7 @@ class DynamicTextureShaderProgram extends BaseGlShaderProgram {
         }
     }
 
+    @NonNull
     @Override
     public Size configure(int inputWidth, int inputHeight) {
         return new Size(inputWidth, inputHeight);
@@ -110,6 +114,7 @@ class DynamicTextureShaderProgram extends BaseGlShaderProgram {
     }
 }
 
+@UnstableApi
 public class DynamicTextureProcessor {
     private final String vertexShader;
     private final String fragmentShader;

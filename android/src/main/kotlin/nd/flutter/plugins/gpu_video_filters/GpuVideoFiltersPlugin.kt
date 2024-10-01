@@ -9,7 +9,9 @@ import android.view.View
 import androidx.media3.common.Effect
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
+import androidx.media3.common.VideoSize
 import androidx.media3.common.util.UnstableApi
+import androidx.media3.effect.Brightness
 import androidx.media3.effect.GlEffect
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.util.EventLogger
@@ -78,6 +80,17 @@ class VideoTexture(val texture: TextureRegistry.SurfaceTextureEntry, context: Co
         }
     }
 
+
+    override fun onVideoSizeChanged(videoSize: VideoSize) {
+        super.onVideoSizeChanged(videoSize)
+        android.util.Log.e(javaClass.simpleName, "onVideoSizeChanged: ${videoSize.width} ${videoSize.height}")
+    }
+
+    override fun onSurfaceSizeChanged(width: Int, height: Int) {
+        super.onSurfaceSizeChanged(width, height)
+        android.util.Log.e(javaClass.simpleName, "onSurfaceSizeChanged: $width $height")
+    }
+
     fun setVideoEffects(videoEffects: List<Effect>) {
         player.setVideoEffects(videoEffects)
     }
@@ -112,9 +125,11 @@ class VideoPreviewApiImpl(
             val videoSource = videosSources[textureId]
             val filter = videoFilters.filters[filterId]
             val videoEffects = List<Effect>(1) { _ ->
-                GlEffect { _, useHdr -> filter.create(useHdr) }
+                Brightness(0.9f)
+                //GlEffect { _, useHdr -> filter.create(useHdr) }
             }
-            //videoSource.setVideoEffects(videoEffects)
+            videoSource.setVideoEffects(videoEffects)
+            videoSource.player.setVideoSurface(Surface(videoSource.texture.surfaceTexture()))
             videoSource.filter = filter
         }
     }

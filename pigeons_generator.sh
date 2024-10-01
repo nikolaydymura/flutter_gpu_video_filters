@@ -1,2 +1,2 @@
 #!/bin/zsh
-flutter pub run pigeon --input pigeons/messages_filter.dart
+dart run pigeon --input pigeons/messages_filter.dart

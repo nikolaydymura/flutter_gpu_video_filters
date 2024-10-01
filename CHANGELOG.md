@@ -1,3 +1,7 @@
+## 0.0.16
+
+Updated dependencies
+
 ## 0.0.15
 
 Provided documentation

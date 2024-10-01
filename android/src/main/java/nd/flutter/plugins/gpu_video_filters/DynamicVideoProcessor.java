@@ -31,6 +31,7 @@ import androidx.media3.common.Format;
 import androidx.media3.common.util.GlProgram;
 import androidx.media3.common.util.GlUtil;
 import androidx.media3.common.util.Log;
+import androidx.media3.common.util.UnstableApi;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -43,7 +44,8 @@ import io.flutter.plugin.common.EventChannel;
  * Video processor that demonstrates how to overlay a bitmap on video output using a GL shader. The
  * bitmap is drawn using an Android {@link Canvas}.
  */
-/* package */ public final class DynamicVideoProcessor
+/* package */ @UnstableApi
+public final class DynamicVideoProcessor
         implements VideoProcessingGLSurfaceView.VideoProcessor,
             EventChannel.StreamHandler {
 

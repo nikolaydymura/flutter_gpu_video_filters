@@ -12,6 +12,7 @@ import androidx.media3.common.MediaItem
 import androidx.media3.common.audio.AudioProcessor
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.effect.GlEffect
+import androidx.media3.muxer.Muxer
 import androidx.media3.transformer.Composition
 import androidx.media3.transformer.DefaultEncoderFactory
 import androidx.media3.transformer.DefaultMuxer
@@ -27,6 +28,7 @@ import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.plugin.common.EventChannel
 import java.io.File
 
+@UnstableApi
 class VideoFilterApiImpl(private val binding: FlutterPlugin.FlutterPluginBinding) : FilterApi {
     var filters: LongSparseArray<DynamicTextureProcessor> = LongSparseArray()
     private var filterSequenceId: Long = 0
@@ -107,8 +109,8 @@ class VideoFilterApiImpl(private val binding: FlutterPlugin.FlutterPluginBinding
                         DefaultEncoderFactory.Builder(binding.applicationContext)
                                 .setEnableFallback(true)
                                 .build())
-        transformerBuilder.setMuxerFactory(
-                DefaultMuxer.Factory( /* maxDelayBetweenSamplesMs= */C.TIME_UNSET))
+        val muxerFactory: Muxer.Factory = DefaultMuxer.Factory()
+        transformerBuilder.setMuxerFactory(muxerFactory)
         return transformerBuilder
                 .build()
     }
