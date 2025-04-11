@@ -1,10 +1,10 @@
 import 'dart:io' show File;
 
-import 'package:gallery_saver/gallery_saver.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/material.dart' hide Rect;
 import 'package:flutter_gpu_video_filters/flutter_gpu_video_filters.dart';
 import 'package:flutter_gpu_filters_interface/flutter_gpu_filters_interface.dart';
+import 'package:photo_manager/photo_manager.dart';
 
 import 'approved_filters.dart';
 import 'filters.dart';
@@ -44,71 +44,63 @@ class ListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Filters'),
-      ),
+      appBar: AppBar(title: const Text('Filters')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: CustomScrollView(
           slivers: [
             SliverFixedExtentList(
-              delegate: SliverChildBuilderDelegate(
-                (context, index) {
-                  final item = kFailedFilters[index];
-                  return Card(
-                    child: ListTile(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) {
-                              return FilterPage(
-                                configuration: item.configuration,
-                              );
-                            },
-                          ),
-                        );
-                      },
-                      title: Text(item.name),
-                      trailing: Icon(
-                        Icons.arrow_forward,
-                        color: Theme.of(context).colorScheme.error,
-                      ),
+              delegate: SliverChildBuilderDelegate((context, index) {
+                final item = kFailedFilters[index];
+                return Card(
+                  child: ListTile(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return FilterPage(
+                              configuration: item.configuration,
+                            );
+                          },
+                        ),
+                      );
+                    },
+                    title: Text(item.name),
+                    trailing: Icon(
+                      Icons.arrow_forward,
+                      color: Theme.of(context).colorScheme.error,
                     ),
-                  );
-                },
-                childCount: kFailedFilters.length,
-              ),
+                  ),
+                );
+              }, childCount: kFailedFilters.length),
               itemExtent: 64,
             ),
             SliverFixedExtentList(
-              delegate: SliverChildBuilderDelegate(
-                (context, index) {
-                  final item = kFilters[index];
-                  return Card(
-                    child: ListTile(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) {
-                              return FilterPage(
-                                configuration: item.configuration,
-                              );
-                            },
-                          ),
-                        );
-                      },
-                      title: Text(item.name),
-                      trailing: Icon(
-                        Icons.arrow_forward,
-                        color: Theme.of(context).primaryColor,
-                      ),
+              delegate: SliverChildBuilderDelegate((context, index) {
+                final item = kFilters[index];
+                return Card(
+                  child: ListTile(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return FilterPage(
+                              configuration: item.configuration,
+                            );
+                          },
+                        ),
+                      );
+                    },
+                    title: Text(item.name),
+                    trailing: Icon(
+                      Icons.arrow_forward,
+                      color: Theme.of(context).primaryColor,
                     ),
-                  );
-                },
-                childCount: kFilters.length,
-              ),
+                  ),
+                );
+              }, childCount: kFilters.length),
               itemExtent: 64,
             ),
           ],
@@ -155,14 +147,15 @@ class _FilterPageState extends State<FilterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Preview'),
-      ),
+      appBar: AppBar(title: const Text('Preview')),
       floatingActionButton: FloatingActionButton(
         heroTag: null,
         onPressed: () {
-          _exportVideo().catchError((e) => ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text(e.toString()))));
+          _exportVideo().catchError(
+            (e) => ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text(e.toString()))),
+          );
         },
         tooltip: 'Export video',
         child: const Icon(Icons.save),
@@ -172,38 +165,40 @@ class _FilterPageState extends State<FilterPage> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
-              child: previewParamsReady
-                  ? GPUVideoSurfacePreview(
-                      configuration: widget.configuration,
-                      onViewCreated: (controller, outputSizeStream) async {
-                        this.controller = controller;
-                        await controller
-                            .setVideoSource(AssetInputSource(_videoAsset));
-                        await widget.configuration.update();
-                        await for (final _ in outputSizeStream) {
-                          setState(() {});
-                        }
-                      },
-                    )
-                  : const Center(
-                      child: CircularProgressIndicator(),
-                    ),
+              child:
+                  previewParamsReady
+                      ? GPUVideoSurfacePreview(
+                        configuration: widget.configuration,
+                        onViewCreated: (controller, outputSizeStream) async {
+                          this.controller = controller;
+                          await controller.setVideoSource(
+                            AssetInputSource(_videoAsset),
+                          );
+                          await widget.configuration.update();
+                          await for (final _ in outputSizeStream) {
+                            setState(() {});
+                          }
+                        },
+                      )
+                      : const Center(child: CircularProgressIndicator()),
             ),
           ),
           Row(
             children: [
               TextButton(
-                  onPressed: () {
-                    controller.pause();
-                  },
-                  child: const Text('Pause')),
+                onPressed: () {
+                  controller.pause();
+                },
+                child: const Text('Pause'),
+              ),
               TextButton(
-                  onPressed: () {
-                    controller.play();
-                  },
-                  child: const Text('Play')),
+                onPressed: () {
+                  controller.play();
+                },
+                child: const Text('Play'),
+              ),
             ],
-          )
+          ),
         ],
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
@@ -231,8 +226,9 @@ class _FilterPageState extends State<FilterPage> {
       debugPrint('_exportVideo: Exporting file ${(progress * 100).toInt()}%');
     }
     debugPrint(
-        '_exportVideo: Exporting file took ${watch.elapsedMilliseconds} milliseconds');
-    await GallerySaver.saveVideo(output.absolute.path);
+      '_exportVideo: Exporting file took ${watch.elapsedMilliseconds} milliseconds',
+    );
+    await _saveFile(output);
     latestFile = output;
     debugPrint('_exportVideo: Exported: ${output.absolute}');
   }
@@ -276,14 +272,15 @@ class _FilterPageState2 extends State<FilterPage2> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Preview'),
-      ),
+      appBar: AppBar(title: const Text('Preview')),
       floatingActionButton: FloatingActionButton(
         heroTag: null,
         onPressed: () {
-          _exportVideo().catchError((e) => ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text(e.toString()))));
+          _exportVideo().catchError(
+            (e) => ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text(e.toString()))),
+          );
         },
         tooltip: 'Export video',
         child: const Icon(Icons.save),
@@ -293,29 +290,28 @@ class _FilterPageState2 extends State<FilterPage2> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
-              child: previewParamsReady
-                  ? VideoPreview(
-                      controller: controller,
-                    )
-                  : const Center(
-                      child: CircularProgressIndicator(),
-                    ),
+              child:
+                  previewParamsReady
+                      ? VideoPreview(controller: controller)
+                      : const Center(child: CircularProgressIndicator()),
             ),
           ),
           Row(
             children: [
               TextButton(
-                  onPressed: () {
-                    controller.pause();
-                  },
-                  child: const Text('Pause')),
+                onPressed: () {
+                  controller.pause();
+                },
+                child: const Text('Pause'),
+              ),
               TextButton(
-                  onPressed: () {
-                    controller.play();
-                  },
-                  child: const Text('Play')),
+                onPressed: () {
+                  controller.play();
+                },
+                child: const Text('Play'),
+              ),
             ],
-          )
+          ),
         ],
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
@@ -343,9 +339,33 @@ class _FilterPageState2 extends State<FilterPage2> {
       debugPrint('_exportVideo: Exporting file ${(progress * 100).toInt()}%');
     }
     debugPrint(
-        '_exportVideo: Exporting file took ${watch.elapsedMilliseconds} milliseconds');
-    await GallerySaver.saveVideo(output.absolute.path);
+      '_exportVideo: Exporting file took ${watch.elapsedMilliseconds} milliseconds',
+    );
+    await _saveFile(output);
     latestFile = output;
     debugPrint('_exportVideo: Exported: ${output.absolute}');
+  }
+}
+
+Future<void> _saveFile(File input) async {
+  try {
+    final status = await PhotoManager.requestPermissionExtend(
+      requestOption: const PermissionRequestOption(
+        androidPermission: AndroidPermission(
+          type: RequestType.video,
+          mediaLocation: false,
+        ),
+      ),
+    );
+    if (status.isAuth || status.hasAccess) {
+      await PhotoManager.editor.saveVideo(
+        input,
+        title: input.uri.pathSegments.last,
+      );
+    }
+  } catch (e, s) {
+    debugPrint('Error saving file to gallery: $e');
+    debugPrintStack(stackTrace: s);
+    rethrow;
   }
 }

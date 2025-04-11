@@ -8,27 +8,27 @@ class GPUColorBalanceConfiguration extends GPUFilterConfiguration {
   final BoolParameter _preserveLuminosity;
 
   GPUColorBalanceConfiguration()
-      : _shadowsShift = GLVec3Parameter(
-          'inputShadowsShift',
-          'Shadows Shift',
-          Vector3.zero(),
-        ),
-        _midtonesShift = GLVec3Parameter(
-          'inputMidtonesShift',
-          'Midtones Shift',
-          Vector3.zero(),
-        ),
-        _highlightsShift = GLVec3Parameter(
-          'inputHighlightsShift',
-          'Highlights Shift',
-          Vector3.zero(),
-        ),
-        _preserveLuminosity = GLBoolParameter(
-          'inputPreserveLuminosity',
-          'Preserve Luminosity',
-          true,
-        ),
-        super('ColorBalance');
+    : _shadowsShift = GLVec3Parameter(
+        'inputShadowsShift',
+        'Shadows Shift',
+        Vector3.zero(),
+      ),
+      _midtonesShift = GLVec3Parameter(
+        'inputMidtonesShift',
+        'Midtones Shift',
+        Vector3.zero(),
+      ),
+      _highlightsShift = GLVec3Parameter(
+        'inputHighlightsShift',
+        'Highlights Shift',
+        Vector3.zero(),
+      ),
+      _preserveLuminosity = GLBoolParameter(
+        'inputPreserveLuminosity',
+        'Preserve Luminosity',
+        true,
+      ),
+      super('ColorBalance');
 
   /// Set the shadows shift
   ///
@@ -59,6 +59,10 @@ class GPUColorBalanceConfiguration extends GPUFilterConfiguration {
   }
 
   @override
-  List<ConfigurationParameter> get parameters =>
-      [_shadowsShift, _midtonesShift, _highlightsShift, _preserveLuminosity];
+  List<ConfigurationParameter> get parameters => [
+    _shadowsShift,
+    _midtonesShift,
+    _highlightsShift,
+    _preserveLuminosity,
+  ];
 }

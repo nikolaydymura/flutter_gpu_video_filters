@@ -5,12 +5,8 @@ class GPUGammaConfiguration extends GPUFilterConfiguration {
   final NumberParameter _gamma;
 
   GPUGammaConfiguration()
-      : _gamma = GLFloatParameter(
-          'inputGamma',
-          'Gamma',
-          1.2,
-        ),
-        super('Gamma');
+    : _gamma = GLFloatParameter('inputGamma', 'Gamma', 1.2),
+      super('Gamma');
 
   /// Gamma value
   ///

@@ -8,31 +8,31 @@ class GPUBulgeDistortionConfiguration extends GPUFilterConfiguration {
   final NumberParameter _scale;
 
   GPUBulgeDistortionConfiguration()
-      : _center = GLPointParameter(
-          'inputCenter',
-          'Center',
-          const Point(0.5, 0.5),
-        ),
-        _aspectRatio = GLAspectRatioParameter(
-          'inputAspectRatio',
-          'Aspect Ratio',
-          const Size(1.0, 1.0),
-        ),
-        _radius = GLSliderFloatParameter(
-          'inputRadius',
-          'Radius',
-          0.25,
-          min: 0.0,
-          max: 1.0,
-        ),
-        _scale = GLSliderFloatParameter(
-          'inputScale',
-          'Scale',
-          0.5,
-          min: -1.0,
-          max: 1.0,
-        ),
-        super('BulgeDistortion');
+    : _center = GLPointParameter(
+        'inputCenter',
+        'Center',
+        const Point(0.5, 0.5),
+      ),
+      _aspectRatio = GLAspectRatioParameter(
+        'inputAspectRatio',
+        'Aspect Ratio',
+        const Size(1.0, 1.0),
+      ),
+      _radius = GLSliderFloatParameter(
+        'inputRadius',
+        'Radius',
+        0.25,
+        min: 0.0,
+        max: 1.0,
+      ),
+      _scale = GLSliderFloatParameter(
+        'inputScale',
+        'Scale',
+        0.5,
+        min: -1.0,
+        max: 1.0,
+      ),
+      super('BulgeDistortion');
 
   /// Set the center
   ///
@@ -63,6 +63,10 @@ class GPUBulgeDistortionConfiguration extends GPUFilterConfiguration {
   }
 
   @override
-  List<ConfigurationParameter> get parameters =>
-      [_center, _aspectRatio, _radius, _scale];
+  List<ConfigurationParameter> get parameters => [
+    _center,
+    _aspectRatio,
+    _radius,
+    _scale,
+  ];
 }

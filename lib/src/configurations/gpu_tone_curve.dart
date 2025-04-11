@@ -5,9 +5,11 @@ class GPUToneCurveConfiguration extends GPUFilterConfiguration {
   final DataParameter _toneCurveImage;
 
   GPUToneCurveConfiguration()
-      : _toneCurveImage =
-            GLBitmapParameter('inputTextureToneCurve', 'Tone Curve Image'),
-        super('ToneCurve');
+    : _toneCurveImage = GLBitmapParameter(
+        'inputTextureToneCurve',
+        'Tone Curve Image',
+      ),
+      super('ToneCurve');
 
   /// Tone curve image
   set toneCurveImage(Uint8List value) {

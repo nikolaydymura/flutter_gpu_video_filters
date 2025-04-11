@@ -2,8 +2,10 @@ part of '../../../flutter_gpu_video_filters.dart';
 
 /// Mixin for filters that use two images
 mixin Image2Mixin on GPUFilterConfiguration {
-  final DataParameter _image2 =
-      GLBitmapParameter('inputImageTexture2', 'Image 2');
+  final DataParameter _image2 = GLBitmapParameter(
+    'inputImageTexture2',
+    'Image 2',
+  );
 
   // coverage:ignore-start
   @override
@@ -43,5 +45,5 @@ mixin Image2Mixin on GPUFilterConfiguration {
   // coverage:ignore-start
   @override
   List<ConfigurationParameter> get parameters => [...super.parameters, _image2];
-// coverage:ignore-end
+  // coverage:ignore-end
 }

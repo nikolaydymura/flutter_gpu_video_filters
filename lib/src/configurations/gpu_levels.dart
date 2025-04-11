@@ -9,32 +9,32 @@ class GPULevelsConfiguration extends GPUFilterConfiguration {
   final Vector3Parameter _maxOutput;
 
   GPULevelsConfiguration()
-      : _levelMinimum = GLVec3Parameter(
-          'inputLevelMinimum',
-          'Level Minimum',
-          Vector3(0.0, 0.0, 0.0),
-        ),
-        _levelMiddle = GLVec3Parameter(
-          'inputLevelMiddle',
-          'Level Middle',
-          Vector3(1.0, 1.0, 1.0),
-        ),
-        _levelMaximum = GLVec3Parameter(
-          'inputLevelMaximum',
-          'Level Maximum',
-          Vector3(1.0, 1.0, 1.0),
-        ),
-        _minOutput = GLVec3Parameter(
-          'inputMinOutput',
-          'Min Output',
-          Vector3(0.0, 0.0, 0.0),
-        ),
-        _maxOutput = GLVec3Parameter(
-          'inputMaxOutput',
-          'Max Output',
-          Vector3(1.0, 1.0, 1.0),
-        ),
-        super('Levels');
+    : _levelMinimum = GLVec3Parameter(
+        'inputLevelMinimum',
+        'Level Minimum',
+        Vector3(0.0, 0.0, 0.0),
+      ),
+      _levelMiddle = GLVec3Parameter(
+        'inputLevelMiddle',
+        'Level Middle',
+        Vector3(1.0, 1.0, 1.0),
+      ),
+      _levelMaximum = GLVec3Parameter(
+        'inputLevelMaximum',
+        'Level Maximum',
+        Vector3(1.0, 1.0, 1.0),
+      ),
+      _minOutput = GLVec3Parameter(
+        'inputMinOutput',
+        'Min Output',
+        Vector3(0.0, 0.0, 0.0),
+      ),
+      _maxOutput = GLVec3Parameter(
+        'inputMaxOutput',
+        'Max Output',
+        Vector3(1.0, 1.0, 1.0),
+      ),
+      super('Levels');
 
   /// The maximum output value
   ///
@@ -72,6 +72,11 @@ class GPULevelsConfiguration extends GPUFilterConfiguration {
   }
 
   @override
-  List<ConfigurationParameter> get parameters =>
-      [_maxOutput, _minOutput, _levelMaximum, _levelMiddle, _levelMinimum];
+  List<ConfigurationParameter> get parameters => [
+    _maxOutput,
+    _minOutput,
+    _levelMaximum,
+    _levelMiddle,
+    _levelMinimum,
+  ];
 }

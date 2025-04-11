@@ -16,19 +16,9 @@ class GPUVideoPreviewController extends VideoPreviewController {
   @override
   Future<void> setVideoSource(PathInputSource source) async {
     if (source is FileInputSource) {
-      await _api.setSource(
-        textureId,
-        source.path,
-        false,
-        _embedded,
-      );
+      await _api.setSource(textureId, source.path, false, _embedded);
     } else if (source is AssetInputSource) {
-      await _api.setSource(
-        textureId,
-        source.path,
-        true,
-        _embedded,
-      );
+      await _api.setSource(textureId, source.path, true, _embedded);
     }
   }
 
@@ -62,11 +52,7 @@ class GPUVideoPreviewController extends VideoPreviewController {
   @override
   Future<void> connect(covariant GPUFilterConfiguration configuration) async {
     await super.connect(configuration);
-    await _api.connect(
-      textureId,
-      configuration._filterId,
-      _embedded,
-    );
+    await _api.connect(textureId, configuration._filterId, _embedded);
   }
 
   /// Disconnect controller from a filter

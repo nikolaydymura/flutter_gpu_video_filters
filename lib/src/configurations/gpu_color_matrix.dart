@@ -6,13 +6,13 @@ class GPUColorMatrixConfiguration extends GPUFilterConfiguration {
   final Mat4Parameter _colorMatrix;
 
   GPUColorMatrixConfiguration()
-      : _intensity = GLFloatParameter('inputIntensity', 'Intensity', 1.0),
-        _colorMatrix = GLMat4Parameter(
-          'inputColorMatrix',
-          'Color Matrix',
-          Matrix4.identity(),
-        ),
-        super('ColorMatrix');
+    : _intensity = GLFloatParameter('inputIntensity', 'Intensity', 1.0),
+      _colorMatrix = GLMat4Parameter(
+        'inputColorMatrix',
+        'Color Matrix',
+        Matrix4.identity(),
+      ),
+      super('ColorMatrix');
 
   /// Intensity of the filter
   ///

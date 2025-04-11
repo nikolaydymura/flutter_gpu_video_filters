@@ -7,22 +7,10 @@ class GPURGBConfiguration extends GPUFilterConfiguration {
   final NumberParameter _blue;
 
   GPURGBConfiguration()
-      : _red = GLColorIntensityParameter(
-          'inputRed',
-          'Red',
-          255,
-        ),
-        _green = GLColorIntensityParameter(
-          'inputGreen',
-          'Green',
-          255,
-        ),
-        _blue = GLColorIntensityParameter(
-          'inputBlue',
-          'Blue',
-          255,
-        ),
-        super('RGB');
+    : _red = GLColorIntensityParameter('inputRed', 'Red', 255),
+      _green = GLColorIntensityParameter('inputGreen', 'Green', 255),
+      _blue = GLColorIntensityParameter('inputBlue', 'Blue', 255),
+      super('RGB');
 
   /// Red intensity
   ///

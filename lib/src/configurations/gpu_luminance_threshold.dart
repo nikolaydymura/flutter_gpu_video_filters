@@ -5,12 +5,8 @@ class GPULuminanceThresholdConfiguration extends GPUFilterConfiguration {
   final NumberParameter _threshold;
 
   GPULuminanceThresholdConfiguration()
-      : _threshold = GLFloatParameter(
-          'inputThreshold',
-          'Threshold',
-          0.5,
-        ),
-        super('LuminanceThreshold');
+    : _threshold = GLFloatParameter('inputThreshold', 'Threshold', 0.5),
+      super('LuminanceThreshold');
 
   /// The threshold value to apply to the luminance of the image
   ///

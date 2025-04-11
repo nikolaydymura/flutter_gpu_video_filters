@@ -6,19 +6,19 @@ class GPUMonochromeConfiguration extends GPUFilterConfiguration {
   final ColorParameter _color;
 
   GPUMonochromeConfiguration()
-      : _intensity = GLSliderFloatParameter(
-          'inputIntensity',
-          'Intensity',
-          1,
-          min: 0,
-          max: 1,
-        ),
-        _color = GLColorParameter(
-          'inputColor',
-          'Color',
-          const Color.fromRGBO(153, 115, 76, 1.0),
-        ),
-        super('Monochrome');
+    : _intensity = GLSliderFloatParameter(
+        'inputIntensity',
+        'Intensity',
+        1,
+        min: 0,
+        max: 1,
+      ),
+      _color = GLColorParameter(
+        'inputColor',
+        'Color',
+        const Color.fromRGBO(153, 115, 76, 1.0),
+      ),
+      super('Monochrome');
 
   /// Set the intensity of the filter
   ///

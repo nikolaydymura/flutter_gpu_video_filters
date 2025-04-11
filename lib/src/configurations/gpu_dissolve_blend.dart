@@ -6,14 +6,14 @@ class GPUDissolveBlendConfiguration extends GPUFilterConfiguration
   final NumberParameter _mixturePercent;
 
   GPUDissolveBlendConfiguration()
-      : _mixturePercent = GLSliderFloatParameter(
-          'inputMixturePercent',
-          'Mixture Percent',
-          0.5,
-          min: 0.0,
-          max: 1.0,
-        ),
-        super('DissolveBlend');
+    : _mixturePercent = GLSliderFloatParameter(
+        'inputMixturePercent',
+        'Mixture Percent',
+        0.5,
+        min: 0.0,
+        max: 1.0,
+      ),
+      super('DissolveBlend');
 
   /// The percentage of the second image to blend with the first image.
   ///

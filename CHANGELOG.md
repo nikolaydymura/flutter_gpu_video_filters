@@ -1,3 +1,8 @@
+## 0.0.17
+
+- Updated `MediaX` dependency to `1.6.0`
+- Switched to Java 11 and Gradle 8.0 and above
+
 ## 0.0.16
 
 Updated dependencies

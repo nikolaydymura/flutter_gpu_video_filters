@@ -57,11 +57,7 @@ class GLBoolParameter extends BoolParameter {
 
 @visibleForTesting
 class GLTemperatureParameter extends GLFloatParameter {
-  GLTemperatureParameter(
-    super.name,
-    super.displayName,
-    super.value,
-  );
+  GLTemperatureParameter(super.name, super.displayName, super.value);
 
   @override
   double get floatValue {
@@ -74,11 +70,7 @@ class GLTemperatureParameter extends GLFloatParameter {
 
 @override
 class GLTintParameter extends GLFloatParameter {
-  GLTintParameter(
-    super.shaderName,
-    super.displayName,
-    super.value,
-  );
+  GLTintParameter(super.shaderName, super.displayName, super.value);
 
   @override
   double get floatValue => value.toDouble() / 100.0;
@@ -86,11 +78,7 @@ class GLTintParameter extends GLFloatParameter {
 
 @override
 class GLHueParameter extends GLFloatParameter {
-  GLHueParameter(
-    super.shaderName,
-    super.displayName,
-    super.value,
-  );
+  GLHueParameter(super.shaderName, super.displayName, super.value);
 
   @override
   double get floatValue => (value % 360.0) * pi / 180.0;

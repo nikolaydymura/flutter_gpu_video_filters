@@ -6,17 +6,9 @@ class GPUHazeConfiguration extends GPUFilterConfiguration {
   final NumberParameter _slope;
 
   GPUHazeConfiguration()
-      : _distance = GLFloatParameter(
-          'inputDistance',
-          'Distance',
-          0.2,
-        ),
-        _slope = GLFloatParameter(
-          'inputSlope',
-          'Slope',
-          0.0,
-        ),
-        super('Haze');
+    : _distance = GLFloatParameter('inputDistance', 'Distance', 0.2),
+      _slope = GLFloatParameter('inputSlope', 'Slope', 0.0),
+      super('Haze');
 
   /// The distance value
   ///

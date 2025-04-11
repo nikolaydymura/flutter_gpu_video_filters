@@ -7,22 +7,18 @@ class GPUBilateralConfiguration extends GPUFilterConfiguration {
   final NumberParameter _blurSize;
 
   GPUBilateralConfiguration()
-      : _texelWidthOffset = GLFloatParameter(
-          'inputTexelWidthOffset',
-          'TexelWidthOffset',
-          0.004,
-        ),
-        _texelHeightOffset = GLFloatParameter(
-          'inputTexelHeightOffset',
-          'TexelHeightOffset',
-          0.004,
-        ),
-        _blurSize = GLFloatParameter(
-          'inputBlurSize',
-          'BlurSize',
-          1.0,
-        ),
-        super('Bilateral');
+    : _texelWidthOffset = GLFloatParameter(
+        'inputTexelWidthOffset',
+        'TexelWidthOffset',
+        0.004,
+      ),
+      _texelHeightOffset = GLFloatParameter(
+        'inputTexelHeightOffset',
+        'TexelHeightOffset',
+        0.004,
+      ),
+      _blurSize = GLFloatParameter('inputBlurSize', 'BlurSize', 1.0),
+      super('Bilateral');
 
   /// Set the texel width offset
   ///
@@ -46,6 +42,9 @@ class GPUBilateralConfiguration extends GPUFilterConfiguration {
   }
 
   @override
-  List<ConfigurationParameter> get parameters =>
-      [_texelWidthOffset, _texelHeightOffset, _blurSize];
+  List<ConfigurationParameter> get parameters => [
+    _texelWidthOffset,
+    _texelHeightOffset,
+    _blurSize,
+  ];
 }

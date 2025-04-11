@@ -6,17 +6,13 @@ class GPUCrosshatchConfiguration extends GPUFilterConfiguration {
   final NumberParameter _lineWidth;
 
   GPUCrosshatchConfiguration()
-      : _crossHatchSpacing = GLFloatParameter(
-          'inputCrossHatchSpacing',
-          'CrossHatchSpacing',
-          0.03,
-        ),
-        _lineWidth = GLFloatParameter(
-          'inputLineWidth',
-          'LineWidth',
-          0.003,
-        ),
-        super('Crosshatch');
+    : _crossHatchSpacing = GLFloatParameter(
+        'inputCrossHatchSpacing',
+        'CrossHatchSpacing',
+        0.03,
+      ),
+      _lineWidth = GLFloatParameter('inputLineWidth', 'LineWidth', 0.003),
+      super('Crosshatch');
 
   /// The spacing between crosshatch lines
   ///
@@ -33,6 +29,8 @@ class GPUCrosshatchConfiguration extends GPUFilterConfiguration {
   }
 
   @override
-  List<ConfigurationParameter> get parameters =>
-      [_crossHatchSpacing, _lineWidth];
+  List<ConfigurationParameter> get parameters => [
+    _crossHatchSpacing,
+    _lineWidth,
+  ];
 }

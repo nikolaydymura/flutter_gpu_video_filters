@@ -34,7 +34,10 @@ mixin Sampling3x3Mixin on GPUFilterConfiguration {
 
   // coverage:ignore-start
   @override
-  List<ConfigurationParameter> get parameters =>
-      [...super.parameters, _texelHeight, _texelWidth];
-// coverage:ignore-end
+  List<ConfigurationParameter> get parameters => [
+    ...super.parameters,
+    _texelHeight,
+    _texelWidth,
+  ];
+  // coverage:ignore-end
 }

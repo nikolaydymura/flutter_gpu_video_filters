@@ -6,8 +6,8 @@ class GPUSobelThresholdConfiguration extends GPUFilterConfiguration
   final NumberParameter _threshold;
 
   GPUSobelThresholdConfiguration()
-      : _threshold = GLFloatParameter('inputThreshold', 'Threshold', 0.9),
-        super('SobelThreshold');
+    : _threshold = GLFloatParameter('inputThreshold', 'Threshold', 0.9),
+      super('SobelThreshold');
 
   /// Threshold value
   ///
@@ -17,6 +17,8 @@ class GPUSobelThresholdConfiguration extends GPUFilterConfiguration
   }
 
   @override
-  List<ConfigurationParameter> get parameters =>
-      [...super.parameters, _threshold];
+  List<ConfigurationParameter> get parameters => [
+    ...super.parameters,
+    _threshold,
+  ];
 }

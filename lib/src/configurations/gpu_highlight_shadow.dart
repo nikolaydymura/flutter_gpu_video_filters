@@ -6,17 +6,9 @@ class GPUHighlightShadowConfiguration extends GPUFilterConfiguration {
   final NumberParameter _highlights;
 
   GPUHighlightShadowConfiguration()
-      : _shadows = GLFloatParameter(
-          'inputShadows',
-          'Shadows',
-          1,
-        ),
-        _highlights = GLFloatParameter(
-          'inputHighlights',
-          'Highlights',
-          0.0,
-        ),
-        super('HighlightShadow');
+    : _shadows = GLFloatParameter('inputShadows', 'Shadows', 1),
+      _highlights = GLFloatParameter('inputHighlights', 'Highlights', 0.0),
+      super('HighlightShadow');
 
   /// The shadows value
   ///

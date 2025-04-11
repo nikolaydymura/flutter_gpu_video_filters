@@ -8,27 +8,23 @@ class GPUVignetteConfiguration extends GPUFilterConfiguration {
   final NumberParameter _vignetteEnd;
 
   GPUVignetteConfiguration()
-      : _center = GLPointParameter(
-          'inputVignetteCenter',
-          'Vignette Center',
-          const Point(0.0, 0.0),
-        ),
-        _color = GLColorParameter(
-          'inputVignetteColor',
-          'Vignette Color',
-          const Color.fromRGBO(0, 0, 0, 1.0),
-        ),
-        _vignetteStart = GLFloatParameter(
-          'inputVignetteStart',
-          'Vignette Start',
-          0.3,
-        ),
-        _vignetteEnd = GLFloatParameter(
-          'inputVignetteEnd',
-          'Vignette End',
-          0.75,
-        ),
-        super('Vignette');
+    : _center = GLPointParameter(
+        'inputVignetteCenter',
+        'Vignette Center',
+        const Point(0.0, 0.0),
+      ),
+      _color = GLColorParameter(
+        'inputVignetteColor',
+        'Vignette Color',
+        const Color.fromRGBO(0, 0, 0, 1.0),
+      ),
+      _vignetteStart = GLFloatParameter(
+        'inputVignetteStart',
+        'Vignette Start',
+        0.3,
+      ),
+      _vignetteEnd = GLFloatParameter('inputVignetteEnd', 'Vignette End', 0.75),
+      super('Vignette');
 
   /// Center of the vignette
   ///
@@ -59,6 +55,10 @@ class GPUVignetteConfiguration extends GPUFilterConfiguration {
   }
 
   @override
-  List<ConfigurationParameter> get parameters =>
-      [_center, _color, _vignetteStart, _vignetteEnd];
+  List<ConfigurationParameter> get parameters => [
+    _center,
+    _color,
+    _vignetteStart,
+    _vignetteEnd,
+  ];
 }

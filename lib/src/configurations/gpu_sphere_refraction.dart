@@ -8,29 +8,29 @@ class GPUSphereRefractionConfiguration extends GPUFilterConfiguration {
   final NumberParameter _refractiveIndex;
 
   GPUSphereRefractionConfiguration()
-      : _center = GLPointParameter(
-          'inputCenter',
-          'Center',
-          const Point(0.5, 0.5),
-        ),
-        _radius = GLSliderFloatParameter(
-          'inputRadius',
-          'Radius',
-          0.25,
-          min: 0.0,
-          max: 1.0,
-        ),
-        _aspectRatio = GLAspectRatioParameter(
-          'inputAspectRatio',
-          'Aspect Ratio',
-          const Size.square(1),
-        ),
-        _refractiveIndex = GLFloatParameter(
-          'inputRefractiveIndex',
-          'Refractive Index',
-          0.71,
-        ),
-        super('SphereRefraction');
+    : _center = GLPointParameter(
+        'inputCenter',
+        'Center',
+        const Point(0.5, 0.5),
+      ),
+      _radius = GLSliderFloatParameter(
+        'inputRadius',
+        'Radius',
+        0.25,
+        min: 0.0,
+        max: 1.0,
+      ),
+      _aspectRatio = GLAspectRatioParameter(
+        'inputAspectRatio',
+        'Aspect Ratio',
+        const Size.square(1),
+      ),
+      _refractiveIndex = GLFloatParameter(
+        'inputRefractiveIndex',
+        'Refractive Index',
+        0.71,
+      ),
+      super('SphereRefraction');
 
   /// Center of the sphere
   ///
@@ -61,6 +61,10 @@ class GPUSphereRefractionConfiguration extends GPUFilterConfiguration {
   }
 
   @override
-  List<ConfigurationParameter> get parameters =>
-      [_center, _radius, _aspectRatio, _refractiveIndex];
+  List<ConfigurationParameter> get parameters => [
+    _center,
+    _radius,
+    _aspectRatio,
+    _refractiveIndex,
+  ];
 }

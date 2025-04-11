@@ -5,12 +5,8 @@ class GPUPosterizeConfiguration extends GPUFilterConfiguration {
   final NumberParameter _colorLevels;
 
   GPUPosterizeConfiguration()
-      : _colorLevels = GLFloatParameter(
-          'inputColorLevels',
-          'ColorLevels',
-          10,
-        ),
-        super('Posterize');
+    : _colorLevels = GLFloatParameter('inputColorLevels', 'ColorLevels', 10),
+      super('Posterize');
 
   /// The number of color levels to use
   ///

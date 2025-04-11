@@ -5,12 +5,8 @@ class GPUSolarizeConfiguration extends GPUFilterConfiguration {
   final NumberParameter _threshold;
 
   GPUSolarizeConfiguration()
-      : _threshold = GLFloatParameter(
-          'inputThreshold',
-          'Threshold',
-          0.5,
-        ),
-        super('Solarize');
+    : _threshold = GLFloatParameter('inputThreshold', 'Threshold', 0.5),
+      super('Solarize');
 
   /// Threshold value
   ///

@@ -7,17 +7,13 @@ class GPUToonConfiguration extends GPUFilterConfiguration
   final NumberParameter _quantizationLevels;
 
   GPUToonConfiguration()
-      : _threshold = GLFloatParameter(
-          'inputThreshold',
-          'Threshold',
-          0.2,
-        ),
-        _quantizationLevels = GLFloatParameter(
-          'inputQuantizationLevels',
-          'Quantization Levels',
-          10,
-        ),
-        super('Toon');
+    : _threshold = GLFloatParameter('inputThreshold', 'Threshold', 0.2),
+      _quantizationLevels = GLFloatParameter(
+        'inputQuantizationLevels',
+        'Quantization Levels',
+        10,
+      ),
+      super('Toon');
 
   /// Threshold value
   ///
@@ -34,6 +30,9 @@ class GPUToonConfiguration extends GPUFilterConfiguration
   }
 
   @override
-  List<ConfigurationParameter> get parameters =>
-      [_threshold, _quantizationLevels, ...super.parameters];
+  List<ConfigurationParameter> get parameters => [
+    _threshold,
+    _quantizationLevels,
+    ...super.parameters,
+  ];
 }

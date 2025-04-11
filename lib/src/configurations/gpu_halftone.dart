@@ -6,17 +6,13 @@ class GPUHalftoneConfiguration extends GPUFilterConfiguration {
   final NumberParameter _aspectRatio;
 
   GPUHalftoneConfiguration()
-      : _fractionalWidthOfPixel = GLFloatParameter(
-          'inputFractionalWidthOfPixel',
-          'FractionalWidthOfPixel',
-          0.01,
-        ),
-        _aspectRatio = GLFloatParameter(
-          'inputAspectRatio',
-          'AspectRatio',
-          1,
-        ),
-        super('HalfTone');
+    : _fractionalWidthOfPixel = GLFloatParameter(
+        'inputFractionalWidthOfPixel',
+        'FractionalWidthOfPixel',
+        0.01,
+      ),
+      _aspectRatio = GLFloatParameter('inputAspectRatio', 'AspectRatio', 1),
+      super('HalfTone');
 
   /// The fractional width of a pixel
   ///
@@ -33,6 +29,8 @@ class GPUHalftoneConfiguration extends GPUFilterConfiguration {
   }
 
   @override
-  List<ConfigurationParameter> get parameters =>
-      [_fractionalWidthOfPixel, _aspectRatio];
+  List<ConfigurationParameter> get parameters => [
+    _fractionalWidthOfPixel,
+    _aspectRatio,
+  ];
 }

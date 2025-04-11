@@ -63,11 +63,8 @@ class GLSliderComputeFloatParameter extends RangeNumberParameter {
 
 @visibleForTesting
 class GLColorIntensityParameter extends GLSliderFloatParameter {
-  GLColorIntensityParameter(
-    super.shaderName,
-    super.displayName,
-    super.value,
-  ) : super(min: 0, max: 255);
+  GLColorIntensityParameter(super.shaderName, super.displayName, super.value)
+    : super(min: 0, max: 255);
 
   @override
   double get floatValue => value.toDouble() / 255.0;

@@ -7,22 +7,18 @@ class GPUPixelationConfiguration extends GPUFilterConfiguration {
   final NumberParameter _imageHeightFactor;
 
   GPUPixelationConfiguration()
-      : _pixel = GLFloatParameter(
-          'inputPixel',
-          'Pixel',
-          1,
-        ),
-        _imageWidthFactor = GLFloatParameter(
-          'inputImageWidthFactor',
-          'ImageWidthFactor',
-          1 / 720,
-        ),
-        _imageHeightFactor = GLFloatParameter(
-          'inputImageHeightFactor',
-          'ImageHeightFactor',
-          1 / 720,
-        ),
-        super('Pixelation');
+    : _pixel = GLFloatParameter('inputPixel', 'Pixel', 1),
+      _imageWidthFactor = GLFloatParameter(
+        'inputImageWidthFactor',
+        'ImageWidthFactor',
+        1 / 720,
+      ),
+      _imageHeightFactor = GLFloatParameter(
+        'inputImageHeightFactor',
+        'ImageHeightFactor',
+        1 / 720,
+      ),
+      super('Pixelation');
 
   /// Pixelation factor
   ///
@@ -46,6 +42,9 @@ class GPUPixelationConfiguration extends GPUFilterConfiguration {
   }
 
   @override
-  List<ConfigurationParameter> get parameters =>
-      [_pixel, _imageWidthFactor, _imageHeightFactor];
+  List<ConfigurationParameter> get parameters => [
+    _pixel,
+    _imageWidthFactor,
+    _imageHeightFactor,
+  ];
 }

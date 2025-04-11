@@ -5,12 +5,8 @@ class GPUHueConfiguration extends GPUFilterConfiguration {
   final NumberParameter _hue;
 
   GPUHueConfiguration()
-      : _hue = GLHueParameter(
-          'inputHueAdjust',
-          'Hue Adjust',
-          90.0,
-        ),
-        super('Hue');
+    : _hue = GLHueParameter('inputHueAdjust', 'Hue Adjust', 90.0),
+      super('Hue');
 
   /// Hue value
   ///

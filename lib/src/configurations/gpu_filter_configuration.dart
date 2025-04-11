@@ -23,10 +23,10 @@ abstract class GPUFilterConfiguration extends FilterConfiguration
     String fragmentShadersPath = 'packages/flutter_gpu_video_filters/shaders',
     @visibleForTesting FilterApi? filterApi,
     @visibleForTesting AssetBundle? assetBundle,
-  })  : _api = filterApi ?? FilterApi(),
-        _assetBundle = assetBundle ?? rootBundle,
-        _vertexShadersPath = vertexShadersPath,
-        _fragmentShadersPath = fragmentShadersPath;
+  }) : _api = filterApi ?? FilterApi(),
+       _assetBundle = assetBundle ?? rootBundle,
+       _vertexShadersPath = vertexShadersPath,
+       _fragmentShadersPath = fragmentShadersPath;
 
   @override
   FutureOr<void> prepare() async {
@@ -98,9 +98,10 @@ abstract class GPUFilterConfiguration extends FilterConfiguration
     final output = config.output;
     var format = config.format;
     if (format == VideoExportFormat.auto) {
-      format = output.path.endsWith('.mp4')
-          ? VideoExportFormat.mp4
-          : VideoExportFormat.mov;
+      format =
+          output.path.endsWith('.mp4')
+              ? VideoExportFormat.mp4
+              : VideoExportFormat.mov;
     }
     final bool asset = source is AssetInputSource;
     final sessionId = await _api.exportVideoFile(
@@ -112,9 +113,10 @@ abstract class GPUFilterConfiguration extends FilterConfiguration
       period.inMilliseconds,
     );
 
-    final stream = EventChannel('Transformer_$sessionId')
-        .receiveBroadcastStream()
-        .distinct();
+    final stream =
+        EventChannel(
+          'Transformer_$sessionId',
+        ).receiveBroadcastStream().distinct();
     await for (num event in stream) {
       yield event.toDouble() / 100.0;
     }
@@ -123,17 +125,17 @@ abstract class GPUFilterConfiguration extends FilterConfiguration
   // coverage:ignore-start
   @override
   List<ConfigurationParameter> get parameters => [];
-// coverage:ignore-end
+  // coverage:ignore-end
 }
 
 class BunchFilterConfiguration extends GPUFilterConfiguration {
   final List<GPUFilterConfiguration> _configurations;
 
   BunchFilterConfiguration(String fragmentShaders, this._configurations)
-      : super(
-          _configurations.map((e) => e.name).join('+'),
-          fragmentShadersPath: fragmentShaders,
-        );
+    : super(
+        _configurations.map((e) => e.name).join('+'),
+        fragmentShadersPath: fragmentShaders,
+      );
 
   T configuration<T extends GPUFilterConfiguration>({required int at}) =>
       _configurations[at] as T;

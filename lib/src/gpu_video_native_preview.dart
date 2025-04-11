@@ -35,47 +35,55 @@ class GPUVideoNativePreview extends StatelessWidget {
       creationParams: params.toJson(),
       onPlatformViewCreated: (id) async {
         final controller = GPUVideoPreviewController._(id, true);
-        controller.connect(configuration).whenComplete(
+        controller
+            .connect(configuration)
+            .whenComplete(
               () => onViewCreated(
                 controller,
                 EventChannel('GPUVideoPreviewEvent_$id')
                     .receiveBroadcastStream()
                     .map((event) {
-                  return Size(
-                    event['width'].toDouble(),
-                    event['height'].toDouble(),
-                  );
-                }).asyncMap((event) async {
-                  if (configuration is Sampling3x3Mixin) {
-                    final width = configuration.parameters
-                        .whereType<NumberParameter>()
-                        .firstWhere((e) => e.name == 'inputTexelWidth');
-                    width.value = 1 / event.width;
-                    final height = configuration.parameters
-                        .whereType<NumberParameter>()
-                        .firstWhere((e) => e.name == 'inputTexelHeight');
-                    height.value = 1 / event.height;
-                    await configuration.update();
-                  } else if (configuration is GPUSharpenConfiguration) {
-                    final width = configuration.parameters
-                        .whereType<NumberParameter>()
-                        .firstWhere((e) => e.name == 'inputImageWidthFactor');
-                    width.value = 1 / event.width;
-                    final height = configuration.parameters
-                        .whereType<NumberParameter>()
-                        .firstWhere((e) => e.name == 'inputImageHeightFactor');
-                    height.value = 1 / event.height;
-                    await configuration.update();
-                  }
-                  final aspectRatio = configuration.parameters
-                      .whereType<AspectRatioParameter>()
-                      .firstOrNull;
-                  aspectRatio?.value = event;
-                  if (aspectRatio != null) {
-                    await aspectRatio.update(configuration);
-                  }
-                  return event;
-                }),
+                      return Size(
+                        event['width'].toDouble(),
+                        event['height'].toDouble(),
+                      );
+                    })
+                    .asyncMap((event) async {
+                      if (configuration is Sampling3x3Mixin) {
+                        final width = configuration.parameters
+                            .whereType<NumberParameter>()
+                            .firstWhere((e) => e.name == 'inputTexelWidth');
+                        width.value = 1 / event.width;
+                        final height = configuration.parameters
+                            .whereType<NumberParameter>()
+                            .firstWhere((e) => e.name == 'inputTexelHeight');
+                        height.value = 1 / event.height;
+                        await configuration.update();
+                      } else if (configuration is GPUSharpenConfiguration) {
+                        final width = configuration.parameters
+                            .whereType<NumberParameter>()
+                            .firstWhere(
+                              (e) => e.name == 'inputImageWidthFactor',
+                            );
+                        width.value = 1 / event.width;
+                        final height = configuration.parameters
+                            .whereType<NumberParameter>()
+                            .firstWhere(
+                              (e) => e.name == 'inputImageHeightFactor',
+                            );
+                        height.value = 1 / event.height;
+                        await configuration.update();
+                      }
+                      final aspectRatio =
+                          configuration.parameters
+                              .whereType<AspectRatioParameter>()
+                              .firstOrNull;
+                      aspectRatio?.value = event;
+                      if (aspectRatio != null) {
+                        await aspectRatio.update(configuration);
+                      }
+                      return event;
+                    }),
               ),
             );
       },
@@ -116,59 +124,65 @@ class GPUVideoSurfacePreview extends StatelessWidget {
       },
       onCreatePlatformView: (PlatformViewCreationParams params) {
         return PlatformViewsService.initSurfaceAndroidView(
-          id: params.id,
-          viewType: 'GPUVideoPreview',
-          layoutDirection: TextDirection.ltr,
-          creationParamsCodec: const StandardMessageCodec(),
-        )
+            id: params.id,
+            viewType: 'GPUVideoPreview',
+            layoutDirection: TextDirection.ltr,
+            creationParamsCodec: const StandardMessageCodec(),
+          )
           ..addOnPlatformViewCreatedListener((texture) {
             params.onPlatformViewCreated(texture);
             final controller = GPUVideoPreviewController._(texture, true);
-            controller.connect(configuration).whenComplete(
+            controller
+                .connect(configuration)
+                .whenComplete(
                   () => onViewCreated(
                     controller,
                     EventChannel('GPUVideoPreviewEvent_$texture')
                         .receiveBroadcastStream()
                         .map((event) {
-                      return Size(
-                        event['width'].toDouble(),
-                        event['height'].toDouble(),
-                      );
-                    }).asyncMap((event) async {
-                      if (configuration is Sampling3x3Mixin) {
-                        final width = configuration.parameters
-                            .whereType<NumberParameter>()
-                            .firstWhere((e) => e.name == 'inputTexelWidth');
-                        width.value = 1 / event.width;
-                        final height = configuration.parameters
-                            .whereType<NumberParameter>()
-                            .firstWhere((e) => e.name == 'inputTexelHeight');
-                        height.value = 1 / event.height;
-                        await configuration.update();
-                      } else if (configuration is GPUSharpenConfiguration) {
-                        final width = configuration.parameters
-                            .whereType<NumberParameter>()
-                            .firstWhere(
-                              (e) => e.name == 'inputImageWidthFactor',
-                            );
-                        width.value = 1 / event.width;
-                        final height = configuration.parameters
-                            .whereType<NumberParameter>()
-                            .firstWhere(
-                              (e) => e.name == 'inputImageHeightFactor',
-                            );
-                        height.value = 1 / event.height;
-                        await configuration.update();
-                      }
-                      final aspectRatio = configuration.parameters
-                          .whereType<AspectRatioParameter>()
-                          .firstOrNull;
-                      aspectRatio?.value = event;
-                      if (aspectRatio != null) {
-                        await aspectRatio.update(configuration);
-                      }
-                      return event;
-                    }),
+                          return Size(
+                            event['width'].toDouble(),
+                            event['height'].toDouble(),
+                          );
+                        })
+                        .asyncMap((event) async {
+                          if (configuration is Sampling3x3Mixin) {
+                            final width = configuration.parameters
+                                .whereType<NumberParameter>()
+                                .firstWhere((e) => e.name == 'inputTexelWidth');
+                            width.value = 1 / event.width;
+                            final height = configuration.parameters
+                                .whereType<NumberParameter>()
+                                .firstWhere(
+                                  (e) => e.name == 'inputTexelHeight',
+                                );
+                            height.value = 1 / event.height;
+                            await configuration.update();
+                          } else if (configuration is GPUSharpenConfiguration) {
+                            final width = configuration.parameters
+                                .whereType<NumberParameter>()
+                                .firstWhere(
+                                  (e) => e.name == 'inputImageWidthFactor',
+                                );
+                            width.value = 1 / event.width;
+                            final height = configuration.parameters
+                                .whereType<NumberParameter>()
+                                .firstWhere(
+                                  (e) => e.name == 'inputImageHeightFactor',
+                                );
+                            height.value = 1 / event.height;
+                            await configuration.update();
+                          }
+                          final aspectRatio =
+                              configuration.parameters
+                                  .whereType<AspectRatioParameter>()
+                                  .firstOrNull;
+                          aspectRatio?.value = event;
+                          if (aspectRatio != null) {
+                            await aspectRatio.update(configuration);
+                          }
+                          return event;
+                        }),
                   ),
                 );
           })
@@ -224,16 +238,19 @@ class GPUVideoPreviewParams {
         .whereType<VectorParameter>()
         .groupFoldBy((e) => e.name, (_, e) => e.float32);
 
-    final textures = configuration.parameters
-        .whereType<GLBitmapParameter>()
-        .singleOrNull
-        ?.name;
+    final textures =
+        configuration.parameters
+            .whereType<GLBitmapParameter>()
+            .singleOrNull
+            ?.name;
     var glsl =
         '#extension GL_OES_EGL_image_external : require\n${fragmentShader.replaceAll('sampler2D inputImageTexture;', 'samplerExternalOES inputImageTexture;')}';
     if (textures != null) {
       glsl = glsl.replaceAll(
         RegExp(
-          r'^[^\n]* sampler2D ' '$textures;' r'[^\n]*$',
+          r'^[^\n]* sampler2D '
+          '$textures;'
+          r'[^\n]*$',
           multiLine: true,
           caseSensitive: false,
           dotAll: true,
@@ -241,13 +258,11 @@ class GPUVideoPreviewParams {
         'uniform sampler2D $textures;\nuniform lowp float ${textures}Ready;\n',
       );
       glsl = glsl.replaceAllMapped(
-          RegExp(
-            r'gl_FragColor\s+=\s+[^;]+;$',
-            multiLine: true,
-            dotAll: true,
-          ), (match) {
-        return 'if (${textures}Ready == 1.0) {\n\t\t${match.group(0)}\n\t} else {\n\t\tgl_FragColor = textureColor;\n\t}';
-      });
+        RegExp(r'gl_FragColor\s+=\s+[^;]+;$', multiLine: true, dotAll: true),
+        (match) {
+          return 'if (${textures}Ready == 1.0) {\n\t\t${match.group(0)}\n\t} else {\n\t\tgl_FragColor = textureColor;\n\t}';
+        },
+      );
     }
     return GPUVideoPreviewParams._(
       vertexShader,

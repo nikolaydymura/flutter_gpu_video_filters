@@ -12,7 +12,6 @@ import androidx.media3.common.MediaItem
 import androidx.media3.common.audio.AudioProcessor
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.effect.GlEffect
-import androidx.media3.muxer.Muxer
 import androidx.media3.transformer.Composition
 import androidx.media3.transformer.DefaultEncoderFactory
 import androidx.media3.transformer.DefaultMuxer
@@ -109,8 +108,7 @@ class VideoFilterApiImpl(private val binding: FlutterPlugin.FlutterPluginBinding
                         DefaultEncoderFactory.Builder(binding.applicationContext)
                                 .setEnableFallback(true)
                                 .build())
-        val muxerFactory: Muxer.Factory = DefaultMuxer.Factory()
-        transformerBuilder.setMuxerFactory(muxerFactory)
+        transformerBuilder.setMuxerFactory(DefaultMuxer.Factory())
         return transformerBuilder
                 .build()
     }
