@@ -9,8 +9,9 @@ void main() {
   });
   group('GPUVibranceConfiguration', () {
     test('change inputVibrance', () {
-      final parameter = configuration.parameters
-          .firstWhere((e) => e.name == 'inputVibrance') as NumberParameter;
+      final parameter =
+          configuration.parameters.firstWhere((e) => e.name == 'inputVibrance')
+              as NumberParameter;
       expect(parameter.value, 0.0);
       configuration.vibrance = 0.5;
       expect(parameter.value, 0.5);

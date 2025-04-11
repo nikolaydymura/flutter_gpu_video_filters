@@ -18,16 +18,22 @@ void main() {
     });
 
     test('inputTexelWidth', () {
-      final parameter = configuration.parameters
-          .firstWhere((e) => e.name == 'inputTexelWidth') as NumberParameter;
+      final parameter =
+          configuration.parameters.firstWhere(
+                (e) => e.name == 'inputTexelWidth',
+              )
+              as NumberParameter;
       expect(parameter.value, 0.0);
       configuration.texelWidth = 2.5;
       expect(parameter.value, 2.5);
     });
 
     test('inputTexelHeight', () {
-      final parameter = configuration.parameters
-          .firstWhere((e) => e.name == 'inputTexelHeight') as NumberParameter;
+      final parameter =
+          configuration.parameters.firstWhere(
+                (e) => e.name == 'inputTexelHeight',
+              )
+              as NumberParameter;
       expect(parameter.value, 0.0);
       configuration.texelHeight = 2.5;
       expect(parameter.value, 2.5);

@@ -9,8 +9,9 @@ void main() {
   });
   group('GPUContrastConfiguration', () {
     test('change inputContrast', () {
-      final parameter = configuration.parameters
-          .firstWhere((e) => e.name == 'inputContrast') as NumberParameter;
+      final parameter =
+          configuration.parameters.firstWhere((e) => e.name == 'inputContrast')
+              as NumberParameter;
       expect(parameter.value, 1.2);
       configuration.contrast = 2;
       expect(parameter.value, 2);

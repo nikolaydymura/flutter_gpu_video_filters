@@ -9,8 +9,9 @@ void main() {
   });
   group('GPUHueConfiguration', () {
     test('change iinputHueAdjust', () {
-      final parameter = configuration.parameters
-          .firstWhere((e) => e.name == 'inputHueAdjust') as NumberParameter;
+      final parameter =
+          configuration.parameters.firstWhere((e) => e.name == 'inputHueAdjust')
+              as NumberParameter;
       expect(parameter.value, 90);
       configuration.hue = 45;
       expect(parameter.value, 45);

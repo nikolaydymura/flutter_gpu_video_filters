@@ -13,18 +13,22 @@ void main() {
   group('GPUToneCurveConfiguration', () {
     group('inputTextureToneCurve', () {
       test('change from asset', () {
-        final parameter = configuration.parameters
-                .firstWhere((e) => e.name == 'inputTextureToneCurve')
-            as DataParameter;
+        final parameter =
+            configuration.parameters.firstWhere(
+                  (e) => e.name == 'inputTextureToneCurve',
+                )
+                as DataParameter;
         expect(parameter.asset, isNull);
         configuration.toneCurveImageAsset = 'demo.jpeg';
         expect(parameter.asset, 'demo.jpeg');
       });
 
       test('change from binary', () {
-        final parameter = configuration.parameters
-                .firstWhere((e) => e.name == 'inputTextureToneCurve')
-            as DataParameter;
+        final parameter =
+            configuration.parameters.firstWhere(
+                  (e) => e.name == 'inputTextureToneCurve',
+                )
+                as DataParameter;
         expect(parameter.data, isNull);
         final imageData = Uint8List(0);
         configuration.toneCurveImage = imageData;
@@ -32,9 +36,11 @@ void main() {
       });
 
       test('change from file', () {
-        final parameter = configuration.parameters
-                .firstWhere((e) => e.name == 'inputTextureToneCurve')
-            as DataParameter;
+        final parameter =
+            configuration.parameters.firstWhere(
+                  (e) => e.name == 'inputTextureToneCurve',
+                )
+                as DataParameter;
         expect(parameter.file, isNull);
         final file = File('demo.jpeg');
         configuration.toneCurveImageFile = file;

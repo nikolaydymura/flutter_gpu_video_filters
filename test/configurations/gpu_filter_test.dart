@@ -10,7 +10,7 @@ import '../generated.mocks.dart';
 
 class PassthroughFilterConfiguration extends GPUFilterConfiguration {
   PassthroughFilterConfiguration({super.assetBundle, super.filterApi})
-      : super('Passthrough');
+    : super('Passthrough');
 }
 
 class FakeAssetBundle extends Fake implements AssetBundle {
@@ -38,8 +38,9 @@ void main() {
       filterApi: mockFilterApi,
       assetBundle: mockAssetBundle,
     );
-    when(mockFilterApi.create(any, any, any, any, any))
-        .thenAnswer((_) async => 101);
+    when(
+      mockFilterApi.create(any, any, any, any, any),
+    ).thenAnswer((_) async => 101);
   });
   tearDown(() {
     verifyNoMoreInteractions(mockFilterApi);
@@ -49,8 +50,9 @@ void main() {
       expect(configuration.ready, false);
       await configuration.prepare();
       expect(configuration.ready, true);
-      verify(mockFilterApi.create('vertex', 'fragment', any, any, any))
-          .called(1);
+      verify(
+        mockFilterApi.create('vertex', 'fragment', any, any, any),
+      ).called(1);
     });
     test('dispose', () async {
       expect(configuration.ready, false);
@@ -58,8 +60,9 @@ void main() {
       expect(configuration.ready, true);
       await configuration.dispose();
       expect(configuration.ready, false);
-      verify(mockFilterApi.create('vertex', 'fragment', any, any, any))
-          .called(1);
+      verify(
+        mockFilterApi.create('vertex', 'fragment', any, any, any),
+      ).called(1);
       verify(mockFilterApi.dispose(101)).called(1);
     });
     test('dispose when not ready', () async {
@@ -71,30 +74,17 @@ void main() {
       setUp(() async {
         await configuration.prepare();
         when(
-          mockFilterApi.exportVideoFile(
-            101,
-            true,
-            any,
-            any,
-            'mov',
-            1000,
-          ),
+          mockFilterApi.exportVideoFile(101, true, any, any, 'mov', 1000),
         ).thenAnswer((_) async => 201);
         when(
-          mockFilterApi.exportVideoFile(
-            101,
-            false,
-            any,
-            any,
-            'mp4',
-            1000,
-          ),
+          mockFilterApi.exportVideoFile(101, false, any, any, 'mp4', 1000),
         ).thenAnswer((_) async => 201);
       });
       tearDown(() async {
         await configuration.dispose();
-        verify(mockFilterApi.create('vertex', 'fragment', any, any, any))
-            .called(1);
+        verify(
+          mockFilterApi.create('vertex', 'fragment', any, any, any),
+        ).called(1);
         verify(mockFilterApi.dispose(101)).called(1);
       });
       test('export from asset', () async {

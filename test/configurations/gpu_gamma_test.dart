@@ -9,8 +9,9 @@ void main() {
   });
   group('GPUGammaConfiguration', () {
     test('change inputGamma', () {
-      final parameter = configuration.parameters
-          .firstWhere((e) => e.name == 'inputGamma') as NumberParameter;
+      final parameter =
+          configuration.parameters.firstWhere((e) => e.name == 'inputGamma')
+              as NumberParameter;
       expect(parameter.value, 1.2);
       configuration.gamma = 3;
       expect(parameter.value, 3);

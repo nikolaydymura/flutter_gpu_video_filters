@@ -9,17 +9,22 @@ void main() {
   });
   group('GPUHalftoneConfiguration', () {
     test('change inputFractionalWidthOfPixel', () {
-      final parameter = configuration.parameters
-              .firstWhere((e) => e.name == 'inputFractionalWidthOfPixel')
-          as NumberParameter;
+      final parameter =
+          configuration.parameters.firstWhere(
+                (e) => e.name == 'inputFractionalWidthOfPixel',
+              )
+              as NumberParameter;
       expect(parameter.value, 0.01);
       configuration.fractionalWidthOfPixel = 0.5;
       expect(parameter.value, 0.5);
     });
 
     test('change inputAspectRatio', () {
-      final parameter = configuration.parameters
-          .firstWhere((e) => e.name == 'inputAspectRatio') as NumberParameter;
+      final parameter =
+          configuration.parameters.firstWhere(
+                (e) => e.name == 'inputAspectRatio',
+              )
+              as NumberParameter;
       expect(parameter.value, 1);
       configuration.aspectRatio = 2;
       expect(parameter.value, 2);

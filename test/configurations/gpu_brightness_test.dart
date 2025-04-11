@@ -9,8 +9,11 @@ void main() {
   });
   group('GPUBrightnessConfiguration', () {
     test('change inputBrightness', () {
-      final parameter = configuration.parameters
-          .firstWhere((e) => e.name == 'inputBrightness') as NumberParameter;
+      final parameter =
+          configuration.parameters.firstWhere(
+                (e) => e.name == 'inputBrightness',
+              )
+              as NumberParameter;
       expect(parameter.value, 0.0);
       configuration.brightness = -0.5;
       expect(parameter.value, -0.5);

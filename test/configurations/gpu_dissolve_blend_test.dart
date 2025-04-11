@@ -9,9 +9,11 @@ void main() {
   });
   group('GPUDissolveBlendConfiguration', () {
     test('change inputMixturePercent', () {
-      final parameter = configuration.parameters
-              .firstWhere((e) => e.name == 'inputMixturePercent')
-          as NumberParameter;
+      final parameter =
+          configuration.parameters.firstWhere(
+                (e) => e.name == 'inputMixturePercent',
+              )
+              as NumberParameter;
       expect(parameter.value, 0.5);
       configuration.mixturePercent = 0.7;
       expect(parameter.value, 0.7);

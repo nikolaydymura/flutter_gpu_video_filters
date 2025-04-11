@@ -9,16 +9,18 @@ void main() {
   });
   group('GPUHazeConfiguration', () {
     test('change inputDistance', () {
-      final parameter = configuration.parameters
-          .firstWhere((e) => e.name == 'inputDistance') as NumberParameter;
+      final parameter =
+          configuration.parameters.firstWhere((e) => e.name == 'inputDistance')
+              as NumberParameter;
       expect(parameter.value, 0.2);
       configuration.distance = 1.0;
       expect(parameter.value, 1.0);
     });
 
     test('change inputSlope', () {
-      final parameter = configuration.parameters
-          .firstWhere((e) => e.name == 'inputSlope') as NumberParameter;
+      final parameter =
+          configuration.parameters.firstWhere((e) => e.name == 'inputSlope')
+              as NumberParameter;
       expect(parameter.value, 0.0);
       configuration.slope = 1.0;
       expect(parameter.value, 1.0);

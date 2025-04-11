@@ -12,7 +12,7 @@ import 'generated.mocks.dart';
 
 class PassthroughFilterConfiguration extends GPUFilterConfiguration {
   PassthroughFilterConfiguration({super.assetBundle, super.filterApi})
-      : super('Passthrough');
+    : super('Passthrough');
 }
 
 class FakeAssetBundle extends Fake implements AssetBundle {
@@ -40,8 +40,9 @@ void main() {
       filterApi: mockFilterApi,
       assetBundle: mockAssetBundle,
     );
-    when(mockFilterApi.create(any, any, any, any, any))
-        .thenAnswer((_) async => 101);
+    when(
+      mockFilterApi.create(any, any, any, any, any),
+    ).thenAnswer((_) async => 101);
   });
   tearDown(() {
     verifyNoMoreInteractions(mockFilterApi);
@@ -51,8 +52,9 @@ void main() {
       await configuration.prepare();
     });
     tearDown(() {
-      verify(mockFilterApi.create('vertex', 'fragment', any, any, any))
-          .called(1);
+      verify(
+        mockFilterApi.create('vertex', 'fragment', any, any, any),
+      ).called(1);
     });
     test('GLSliderComputeFloatParameter', () async {
       final parameter = GLSliderComputeFloatParameter('inputValue', 'Value', 0);
@@ -76,31 +78,23 @@ void main() {
       final parameter = GLBoolParameter('inputValue', 'Value', false);
       parameter.value = true;
       await parameter.update(configuration);
-      verify(
-        mockFilterApi.setFloatParameter(101, 'inputValue', 1),
-      );
+      verify(mockFilterApi.setFloatParameter(101, 'inputValue', 1));
     });
     test('GLTemperatureParameter', () async {
       final parameter = GLTemperatureParameter('inputValue', 'Value', 5000);
       parameter.value = 5003;
       await parameter.update(configuration);
-      verify(
-        mockFilterApi.setFloatParameter(101, 'inputValue', 0.00018),
-      );
+      verify(mockFilterApi.setFloatParameter(101, 'inputValue', 0.00018));
 
       parameter.value = 4995;
       await parameter.update(configuration);
-      verify(
-        mockFilterApi.setFloatParameter(101, 'inputValue', -0.002),
-      );
+      verify(mockFilterApi.setFloatParameter(101, 'inputValue', -0.002));
     });
     test('GLTintParameter', () async {
       final parameter = GLTintParameter('inputValue', 'Value', 100);
       parameter.value = 99;
       await parameter.update(configuration);
-      verify(
-        mockFilterApi.setFloatParameter(101, 'inputValue', 0.99),
-      );
+      verify(mockFilterApi.setFloatParameter(101, 'inputValue', 0.99));
     });
     test('GLHueParameter', () async {
       final parameter = GLHueParameter('inputValue', 'Value', 100);
@@ -114,9 +108,7 @@ void main() {
       final parameter = GLSliderFloatParameter('inputValue', 'Value', 0);
       parameter.value = 1;
       await parameter.update(configuration);
-      verify(
-        mockFilterApi.setFloatParameter(101, 'inputValue', 1.0),
-      );
+      verify(mockFilterApi.setFloatParameter(101, 'inputValue', 1.0));
     });
     test('GLColorIntensityParameter', () async {
       final parameter = GLColorIntensityParameter('inputValue', 'Value', 0);
@@ -127,8 +119,11 @@ void main() {
       );
     });
     test('GLPointParameter', () async {
-      final parameter =
-          GLPointParameter('inputValue', 'Value', const Point(0.0, 0.0));
+      final parameter = GLPointParameter(
+        'inputValue',
+        'Value',
+        const Point(0.0, 0.0),
+      );
       parameter.value = const Point(10.0, 5.0);
       await parameter.update(configuration);
       verify(
@@ -152,11 +147,7 @@ void main() {
       );
     });
     test('GLMat3Parameter', () async {
-      final parameter = GLMat3Parameter(
-        'inputValue',
-        'Value',
-        Matrix3.zero(),
-      );
+      final parameter = GLMat3Parameter('inputValue', 'Value', Matrix3.zero());
       parameter.value = Matrix3.fromList([1.0, 0, 0, 0, 0, 0, 0, 0, 2.0]);
       await parameter.update(configuration);
       verify(
@@ -213,17 +204,14 @@ void main() {
       );
     });
     test('GLAspectRatioParameter', () async {
-      final parameter =
-          GLAspectRatioParameter('inputValue', 'Value', Size.zero);
+      final parameter = GLAspectRatioParameter(
+        'inputValue',
+        'Value',
+        Size.zero,
+      );
       parameter.value = const Size(640, 320);
       await parameter.update(configuration);
-      verify(
-        mockFilterApi.setFloatParameter(
-          101,
-          'inputValue',
-          2.0,
-        ),
-      );
+      verify(mockFilterApi.setFloatParameter(101, 'inputValue', 2.0));
     });
     group('GLBitmapParameter', () {
       test('from asset', () async {
@@ -273,21 +261,20 @@ void main() {
       final parameter = GLBoolParameter('inputValue', 'Value', false);
       parameter.value = true;
       await parameter.update(configuration);
-      verifyNever(
-        mockFilterApi.setFloatParameter(101, 'inputValue', 1),
-      );
+      verifyNever(mockFilterApi.setFloatParameter(101, 'inputValue', 1));
     });
     test('GLSliderFloatParameter', () async {
       final parameter = GLSliderFloatParameter('inputValue', 'Value', 0);
       parameter.value = 1;
       await parameter.update(configuration);
-      verifyNever(
-        mockFilterApi.setFloatParameter(101, 'inputValue', 0.99),
-      );
+      verifyNever(mockFilterApi.setFloatParameter(101, 'inputValue', 0.99));
     });
     test('GLPointParameter', () async {
-      final parameter =
-          GLPointParameter('inputValue', 'Value', const Point(0.0, 0.0));
+      final parameter = GLPointParameter(
+        'inputValue',
+        'Value',
+        const Point(0.0, 0.0),
+      );
       parameter.value = const Point(10.0, 5.0);
       await parameter.update(configuration);
       verifyNever(
@@ -311,11 +298,7 @@ void main() {
       );
     });
     test('GLMat3Parameter', () async {
-      final parameter = GLMat3Parameter(
-        'inputValue',
-        'Value',
-        Matrix3.zero(),
-      );
+      final parameter = GLMat3Parameter('inputValue', 'Value', Matrix3.zero());
       parameter.value = Matrix3.fromList([1.0, 0, 0, 0, 0, 0, 0, 0, 2.0]);
       await parameter.update(configuration);
       verifyNever(
@@ -372,17 +355,14 @@ void main() {
       );
     });
     test('GLAspectRatioParameter', () async {
-      final parameter =
-          GLAspectRatioParameter('inputValue', 'Value', Size.zero);
+      final parameter = GLAspectRatioParameter(
+        'inputValue',
+        'Value',
+        Size.zero,
+      );
       parameter.value = const Size(640, 320);
       await parameter.update(configuration);
-      verifyNever(
-        mockFilterApi.setFloatParameter(
-          101,
-          'inputValue',
-          2.0,
-        ),
-      );
+      verifyNever(mockFilterApi.setFloatParameter(101, 'inputValue', 2.0));
     });
     test('from asset', () async {
       final parameter = GLBitmapParameter('inputValue', 'Value');

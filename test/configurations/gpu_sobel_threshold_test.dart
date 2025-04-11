@@ -9,8 +9,9 @@ void main() {
   });
   group('GPUSobelThresholdConfiguration', () {
     test('change inputThreshold', () {
-      final parameter = configuration.parameters
-          .firstWhere((e) => e.name == 'inputThreshold') as NumberParameter;
+      final parameter =
+          configuration.parameters.firstWhere((e) => e.name == 'inputThreshold')
+              as NumberParameter;
       expect(parameter.value, 0.9);
       configuration.intensity = 2.0;
       expect(parameter.value, 2.0);

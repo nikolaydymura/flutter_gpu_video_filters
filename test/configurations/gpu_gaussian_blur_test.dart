@@ -9,23 +9,29 @@ void main() {
   });
   group('GPUGaussianBlurConfiguration', () {
     test('change inputTexelWidthOffset', () {
-      final parameter = configuration.parameters
-              .firstWhere((e) => e.name == 'inputTexelWidthOffset')
-          as NumberParameter;
+      final parameter =
+          configuration.parameters.firstWhere(
+                (e) => e.name == 'inputTexelWidthOffset',
+              )
+              as NumberParameter;
       expect(parameter.value, 0.01);
       configuration.texelWidthOffset = 0.5;
       expect(parameter.value, 0.5);
     });
     test('change inputHeightOffset', () {
-      final parameter = configuration.parameters
-          .firstWhere((e) => e.name == 'inputHeightOffset') as NumberParameter;
+      final parameter =
+          configuration.parameters.firstWhere(
+                (e) => e.name == 'inputHeightOffset',
+              )
+              as NumberParameter;
       expect(parameter.value, 0.01);
       configuration.texelHeightOffset = 0.005;
       expect(parameter.value, 0.005);
     });
     test('change inputBlurSize', () {
-      final parameter = configuration.parameters
-          .firstWhere((e) => e.name == 'inputBlurSize') as NumberParameter;
+      final parameter =
+          configuration.parameters.firstWhere((e) => e.name == 'inputBlurSize')
+              as NumberParameter;
       expect(parameter.value, 0.2);
       configuration.blurSize = 0.5;
       expect(parameter.value, 0.5);

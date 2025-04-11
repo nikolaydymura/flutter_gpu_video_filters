@@ -9,19 +9,44 @@ void main() {
   });
   group('GPULaplacianConfiguration', () {
     test('change inputConvolutionMatrix', () {
-      final parameter = configuration.parameters
-              .firstWhere((e) => e.name == 'inputConvolutionMatrix')
-          as Mat3Parameter;
-      expect(
-        parameter.value.storage,
-        [0.5, 1.0, 0.5, 1.0, -6.0, 1.0, 0.5, 1.0, 0.5],
-      );
-      configuration.convolutionKernel =
-          Matrix3.fromList([0.0, 1.0, 0.5, 1.0, -6.0, 1.0, 0.5, 1.0, 0.0]);
-      expect(
-        parameter.value.storage,
-        [0.0, 1.0, 0.5, 1.0, -6.0, 1.0, 0.5, 1.0, 0.0],
-      );
+      final parameter =
+          configuration.parameters.firstWhere(
+                (e) => e.name == 'inputConvolutionMatrix',
+              )
+              as Mat3Parameter;
+      expect(parameter.value.storage, [
+        0.5,
+        1.0,
+        0.5,
+        1.0,
+        -6.0,
+        1.0,
+        0.5,
+        1.0,
+        0.5,
+      ]);
+      configuration.convolutionKernel = Matrix3.fromList([
+        0.0,
+        1.0,
+        0.5,
+        1.0,
+        -6.0,
+        1.0,
+        0.5,
+        1.0,
+        0.0,
+      ]);
+      expect(parameter.value.storage, [
+        0.0,
+        1.0,
+        0.5,
+        1.0,
+        -6.0,
+        1.0,
+        0.5,
+        1.0,
+        0.0,
+      ]);
     });
   });
 }

@@ -105,9 +105,7 @@ void generateShader(
       shaderConstants,
     );
   }
-  shaderInputs.add(
-    'uniform sampler2D inputImageTexture;',
-  );
+  shaderInputs.add('uniform sampler2D inputImageTexture;');
 
   finalShader.addAll(shaderInputs);
   finalShader.add('\n');
@@ -124,20 +122,20 @@ void generateShader(
   int lastIndex = 0;
   for (final func in processFunctions) {
     if (func.startsWith('vec4 processColor')) {
-      final index =
-          int.parse(func.replaceAll('vec4', '').replaceAll(RegExp(r'\D'), ''));
+      final index = int.parse(
+        func.replaceAll('vec4', '').replaceAll(RegExp(r'\D'), ''),
+      );
       finalShader.add(
         '\tvec4 processedColor$index = processColor$index(${index == 0 ? 'textureColor' : 'processedColor${index - 1}'});',
       );
       lastIndex = index;
     }
   }
-  finalShader.add(
-    '\tgl_FragColor = processedColor$lastIndex;',
-  );
+  finalShader.add('\tgl_FragColor = processedColor$lastIndex;');
   finalShader.add('}');
-  final outputFile =
-      File('${targetFolder.absolute.path}/${shaders.join('+')}.glsl');
+  final outputFile = File(
+    '${targetFolder.absolute.path}/${shaders.join('+')}.glsl',
+  );
   outputFile.writeAsStringSync(
     finalShader.join('\n').replaceAll(RegExp('\n{3,}'), '\n\n'),
   );
@@ -150,13 +148,14 @@ void processShader(
   List<String> processFunctions,
   List<String> shaderConstants,
 ) {
-  List<String> shaderLines = shader
-      .readAsLinesSync()
-      .whereNot((e) => e.trim().isEmpty)
-      .whereNot((e) => e.startsWith('#'))
-      .whereNot((e) => e.startsWith('precision'))
-      .whereNot((e) => e.startsWith('varying'))
-      .toList();
+  List<String> shaderLines =
+      shader
+          .readAsLinesSync()
+          .whereNot((e) => e.trim().isEmpty)
+          .whereNot((e) => e.startsWith('#'))
+          .whereNot((e) => e.startsWith('precision'))
+          .whereNot((e) => e.startsWith('varying'))
+          .toList();
   bool processFound = false;
   bool mainFound = false;
   for (final element in shaderLines) {
@@ -169,9 +168,10 @@ void processShader(
     }
 
     if (element.startsWith('vec4 processColor')) {
-      final index = processFunctions
-          .where((element) => element.startsWith('vec4 processColor'))
-          .length;
+      final index =
+          processFunctions
+              .where((element) => element.startsWith('vec4 processColor'))
+              .length;
       processFunctions.add('vec4 processColor$index(vec4 sourceColor){');
       processFound = true;
       continue;
@@ -199,8 +199,9 @@ void processShader(
       continue;
     }
 
-    if (element
-        .contains('luminanceWeighting = vec3(0.2125, 0.7154, 0.0721);')) {
+    if (element.contains(
+      'luminanceWeighting = vec3(0.2125, 0.7154, 0.0721);',
+    )) {
       if (shaderConstants.contains(element)) {
         continue;
       }

@@ -23,8 +23,8 @@ final kFilters = {
   FilterItem(
     'Monochrome',
     FlutterVideoFilters.createFilter<GPUMonochromeConfiguration>(
-      displayName: 'Monochrome',
-    )
+        displayName: 'Monochrome',
+      )
       ..color = Colors.orange
       ..intensity = 0.75,
   ),

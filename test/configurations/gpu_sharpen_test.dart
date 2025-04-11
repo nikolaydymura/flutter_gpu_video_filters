@@ -9,26 +9,31 @@ void main() {
   });
   group('GPUSharpenConfiguration', () {
     test('change inputImageWidthFactor', () {
-      final parameter = configuration.parameters
-              .firstWhere((e) => e.name == 'inputImageWidthFactor')
-          as NumberParameter;
+      final parameter =
+          configuration.parameters.firstWhere(
+                (e) => e.name == 'inputImageWidthFactor',
+              )
+              as NumberParameter;
       expect(parameter.value, 0.004);
       configuration.imageWidthFactor = 2.0;
       expect(parameter.value, 2.0);
     });
 
     test('change inputImageHeightFactor', () {
-      final parameter = configuration.parameters
-              .firstWhere((e) => e.name == 'inputImageHeightFactor')
-          as NumberParameter;
+      final parameter =
+          configuration.parameters.firstWhere(
+                (e) => e.name == 'inputImageHeightFactor',
+              )
+              as NumberParameter;
       expect(parameter.value, 0.004);
       configuration.imageHeightFactor = 2.0;
       expect(parameter.value, 2.0);
     });
 
     test('change inputSharpness', () {
-      final parameter = configuration.parameters
-          .firstWhere((e) => e.name == 'inputSharpness') as NumberParameter;
+      final parameter =
+          configuration.parameters.firstWhere((e) => e.name == 'inputSharpness')
+              as NumberParameter;
       expect(parameter.value, 0.0);
       configuration.sharpness = 2.0;
       expect(parameter.value, 2.0);

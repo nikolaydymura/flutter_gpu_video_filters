@@ -9,8 +9,11 @@ void main() {
   });
   group('GPUSaturationConfiguration', () {
     test('change inputSaturation', () {
-      final parameter = configuration.parameters
-          .firstWhere((e) => e.name == 'inputSaturation') as NumberParameter;
+      final parameter =
+          configuration.parameters.firstWhere(
+                (e) => e.name == 'inputSaturation',
+              )
+              as NumberParameter;
       expect(parameter.value, 1.0);
       configuration.saturation = 2.0;
       expect(parameter.value, 2.0);

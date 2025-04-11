@@ -9,8 +9,11 @@ void main() {
   });
   group('GPUPosterizeConfiguration', () {
     test('change inputColorLevels', () {
-      final parameter = configuration.parameters
-          .firstWhere((e) => e.name == 'inputColorLevels') as NumberParameter;
+      final parameter =
+          configuration.parameters.firstWhere(
+                (e) => e.name == 'inputColorLevels',
+              )
+              as NumberParameter;
       expect(parameter.value, 10.0);
       configuration.colorLevels = 5.0;
       expect(parameter.value, 5.0);

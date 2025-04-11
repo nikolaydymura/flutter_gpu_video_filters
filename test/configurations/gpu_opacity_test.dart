@@ -9,8 +9,9 @@ void main() {
   });
   group('GPUOpacityConfiguration', () {
     test('change inputOpacity', () {
-      final parameter = configuration.parameters
-          .firstWhere((e) => e.name == 'inputOpacity') as NumberParameter;
+      final parameter =
+          configuration.parameters.firstWhere((e) => e.name == 'inputOpacity')
+              as NumberParameter;
       expect(parameter.value, 1.0);
       configuration.opacity = 0.5;
       expect(parameter.value, 0.5);

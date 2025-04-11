@@ -38,18 +38,16 @@ class MockFilterApi extends _i1.Mock implements _i2.FilterApi {
     String? arg_texture,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #create,
-          [
-            arg_vertexShader,
-            arg_fragmentShader,
-            arg_defaults,
-            arg_arrays,
-            arg_texture,
-          ],
-        ),
-        returnValue: _i3.Future<int>.value(0),
-      ) as _i3.Future<int>);
+            Invocation.method(#create, [
+              arg_vertexShader,
+              arg_fragmentShader,
+              arg_defaults,
+              arg_arrays,
+              arg_texture,
+            ]),
+            returnValue: _i3.Future<int>.value(0),
+          )
+          as _i3.Future<int>);
 
   @override
   _i3.Future<int> exportVideoFile(
@@ -61,19 +59,17 @@ class MockFilterApi extends _i1.Mock implements _i2.FilterApi {
     int? arg_period,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #exportVideoFile,
-          [
-            arg_filterId,
-            arg_asset,
-            arg_input,
-            arg_output,
-            arg_format,
-            arg_period,
-          ],
-        ),
-        returnValue: _i3.Future<int>.value(0),
-      ) as _i3.Future<int>);
+            Invocation.method(#exportVideoFile, [
+              arg_filterId,
+              arg_asset,
+              arg_input,
+              arg_output,
+              arg_format,
+              arg_period,
+            ]),
+            returnValue: _i3.Future<int>.value(0),
+          )
+          as _i3.Future<int>);
 
   @override
   _i3.Future<void> setFloatParameter(
@@ -82,17 +78,15 @@ class MockFilterApi extends _i1.Mock implements _i2.FilterApi {
     double? arg_value,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #setFloatParameter,
-          [
-            arg_filterId,
-            arg_key,
-            arg_value,
-          ],
-        ),
-        returnValue: _i3.Future<void>.value(),
-        returnValueForMissingStub: _i3.Future<void>.value(),
-      ) as _i3.Future<void>);
+            Invocation.method(#setFloatParameter, [
+              arg_filterId,
+              arg_key,
+              arg_value,
+            ]),
+            returnValue: _i3.Future<void>.value(),
+            returnValueForMissingStub: _i3.Future<void>.value(),
+          )
+          as _i3.Future<void>);
 
   @override
   _i3.Future<void> setFloatArrayParameter(
@@ -101,17 +95,15 @@ class MockFilterApi extends _i1.Mock implements _i2.FilterApi {
     _i4.Float64List? arg_value,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #setFloatArrayParameter,
-          [
-            arg_filterId,
-            arg_key,
-            arg_value,
-          ],
-        ),
-        returnValue: _i3.Future<void>.value(),
-        returnValueForMissingStub: _i3.Future<void>.value(),
-      ) as _i3.Future<void>);
+            Invocation.method(#setFloatArrayParameter, [
+              arg_filterId,
+              arg_key,
+              arg_value,
+            ]),
+            returnValue: _i3.Future<void>.value(),
+            returnValueForMissingStub: _i3.Future<void>.value(),
+          )
+          as _i3.Future<void>);
 
   @override
   _i3.Future<void> setBitmapParameter(
@@ -120,17 +112,15 @@ class MockFilterApi extends _i1.Mock implements _i2.FilterApi {
     _i4.Uint8List? arg_data,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #setBitmapParameter,
-          [
-            arg_filterId,
-            arg_key,
-            arg_data,
-          ],
-        ),
-        returnValue: _i3.Future<void>.value(),
-        returnValueForMissingStub: _i3.Future<void>.value(),
-      ) as _i3.Future<void>);
+            Invocation.method(#setBitmapParameter, [
+              arg_filterId,
+              arg_key,
+              arg_data,
+            ]),
+            returnValue: _i3.Future<void>.value(),
+            returnValueForMissingStub: _i3.Future<void>.value(),
+          )
+          as _i3.Future<void>);
 
   @override
   _i3.Future<void> setBitmapSourceParameter(
@@ -140,28 +130,25 @@ class MockFilterApi extends _i1.Mock implements _i2.FilterApi {
     String? arg_path,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #setBitmapSourceParameter,
-          [
-            arg_filterId,
-            arg_key,
-            arg_asset,
-            arg_path,
-          ],
-        ),
-        returnValue: _i3.Future<void>.value(),
-        returnValueForMissingStub: _i3.Future<void>.value(),
-      ) as _i3.Future<void>);
+            Invocation.method(#setBitmapSourceParameter, [
+              arg_filterId,
+              arg_key,
+              arg_asset,
+              arg_path,
+            ]),
+            returnValue: _i3.Future<void>.value(),
+            returnValueForMissingStub: _i3.Future<void>.value(),
+          )
+          as _i3.Future<void>);
 
   @override
-  _i3.Future<void> dispose(int? arg_filterId) => (super.noSuchMethod(
-        Invocation.method(
-          #dispose,
-          [arg_filterId],
-        ),
-        returnValue: _i3.Future<void>.value(),
-        returnValueForMissingStub: _i3.Future<void>.value(),
-      ) as _i3.Future<void>);
+  _i3.Future<void> dispose(int? arg_filterId) =>
+      (super.noSuchMethod(
+            Invocation.method(#dispose, [arg_filterId]),
+            returnValue: _i3.Future<void>.value(),
+            returnValueForMissingStub: _i3.Future<void>.value(),
+          )
+          as _i3.Future<void>);
 }
 
 /// A class which mocks [VideoPreviewApi].
@@ -173,13 +160,12 @@ class MockVideoPreviewApi extends _i1.Mock implements _i2.VideoPreviewApi {
   }
 
   @override
-  _i3.Future<int> create() => (super.noSuchMethod(
-        Invocation.method(
-          #create,
-          [],
-        ),
-        returnValue: _i3.Future<int>.value(0),
-      ) as _i3.Future<int>);
+  _i3.Future<int> create() =>
+      (super.noSuchMethod(
+            Invocation.method(#create, []),
+            returnValue: _i3.Future<int>.value(0),
+          )
+          as _i3.Future<int>);
 
   @override
   _i3.Future<void> connect(
@@ -188,34 +174,24 @@ class MockVideoPreviewApi extends _i1.Mock implements _i2.VideoPreviewApi {
     bool? arg_embedded,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #connect,
-          [
-            arg_textureId,
-            arg_filterId,
-            arg_embedded,
-          ],
-        ),
-        returnValue: _i3.Future<void>.value(),
-        returnValueForMissingStub: _i3.Future<void>.value(),
-      ) as _i3.Future<void>);
+            Invocation.method(#connect, [
+              arg_textureId,
+              arg_filterId,
+              arg_embedded,
+            ]),
+            returnValue: _i3.Future<void>.value(),
+            returnValueForMissingStub: _i3.Future<void>.value(),
+          )
+          as _i3.Future<void>);
 
   @override
-  _i3.Future<void> disconnect(
-    int? arg_textureId,
-    bool? arg_embedded,
-  ) =>
+  _i3.Future<void> disconnect(int? arg_textureId, bool? arg_embedded) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #disconnect,
-          [
-            arg_textureId,
-            arg_embedded,
-          ],
-        ),
-        returnValue: _i3.Future<void>.value(),
-        returnValueForMissingStub: _i3.Future<void>.value(),
-      ) as _i3.Future<void>);
+            Invocation.method(#disconnect, [arg_textureId, arg_embedded]),
+            returnValue: _i3.Future<void>.value(),
+            returnValueForMissingStub: _i3.Future<void>.value(),
+          )
+          as _i3.Future<void>);
 
   @override
   _i3.Future<void> setSource(
@@ -225,67 +201,41 @@ class MockVideoPreviewApi extends _i1.Mock implements _i2.VideoPreviewApi {
     bool? arg_embedded,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #setSource,
-          [
-            arg_textureId,
-            arg_path,
-            arg_asset,
-            arg_embedded,
-          ],
-        ),
-        returnValue: _i3.Future<void>.value(),
-        returnValueForMissingStub: _i3.Future<void>.value(),
-      ) as _i3.Future<void>);
+            Invocation.method(#setSource, [
+              arg_textureId,
+              arg_path,
+              arg_asset,
+              arg_embedded,
+            ]),
+            returnValue: _i3.Future<void>.value(),
+            returnValueForMissingStub: _i3.Future<void>.value(),
+          )
+          as _i3.Future<void>);
 
   @override
-  _i3.Future<void> resume(
-    int? arg_textureId,
-    bool? arg_embedded,
-  ) =>
+  _i3.Future<void> resume(int? arg_textureId, bool? arg_embedded) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #resume,
-          [
-            arg_textureId,
-            arg_embedded,
-          ],
-        ),
-        returnValue: _i3.Future<void>.value(),
-        returnValueForMissingStub: _i3.Future<void>.value(),
-      ) as _i3.Future<void>);
+            Invocation.method(#resume, [arg_textureId, arg_embedded]),
+            returnValue: _i3.Future<void>.value(),
+            returnValueForMissingStub: _i3.Future<void>.value(),
+          )
+          as _i3.Future<void>);
 
   @override
-  _i3.Future<void> pause(
-    int? arg_textureId,
-    bool? arg_embedded,
-  ) =>
+  _i3.Future<void> pause(int? arg_textureId, bool? arg_embedded) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #pause,
-          [
-            arg_textureId,
-            arg_embedded,
-          ],
-        ),
-        returnValue: _i3.Future<void>.value(),
-        returnValueForMissingStub: _i3.Future<void>.value(),
-      ) as _i3.Future<void>);
+            Invocation.method(#pause, [arg_textureId, arg_embedded]),
+            returnValue: _i3.Future<void>.value(),
+            returnValueForMissingStub: _i3.Future<void>.value(),
+          )
+          as _i3.Future<void>);
 
   @override
-  _i3.Future<void> dispose(
-    int? arg_textureId,
-    bool? arg_embedded,
-  ) =>
+  _i3.Future<void> dispose(int? arg_textureId, bool? arg_embedded) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #dispose,
-          [
-            arg_textureId,
-            arg_embedded,
-          ],
-        ),
-        returnValue: _i3.Future<void>.value(),
-        returnValueForMissingStub: _i3.Future<void>.value(),
-      ) as _i3.Future<void>);
+            Invocation.method(#dispose, [arg_textureId, arg_embedded]),
+            returnValue: _i3.Future<void>.value(),
+            returnValueForMissingStub: _i3.Future<void>.value(),
+          )
+          as _i3.Future<void>);
 }

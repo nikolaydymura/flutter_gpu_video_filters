@@ -9,16 +9,20 @@ void main() {
   });
   group('GPUWhiteBalanceConfiguration', () {
     test('change inputTemperature', () {
-      final parameter = configuration.parameters
-          .firstWhere((e) => e.name == 'inputTemperature') as NumberParameter;
+      final parameter =
+          configuration.parameters.firstWhere(
+                (e) => e.name == 'inputTemperature',
+              )
+              as NumberParameter;
       expect(parameter.value, 5000);
       configuration.temperature = 2500;
       expect(parameter.value, 2500);
     });
 
     test('change inputTint', () {
-      final parameter = configuration.parameters
-          .firstWhere((e) => e.name == 'inputTint') as NumberParameter;
+      final parameter =
+          configuration.parameters.firstWhere((e) => e.name == 'inputTint')
+              as NumberParameter;
       expect(parameter.value, 0.0);
       configuration.tint = 0.5;
       expect(parameter.value, 0.5);

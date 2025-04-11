@@ -12,16 +12,16 @@ final kFailedFilters = [
   FilterItem(
     'Square Lookup Table',
     FlutterVideoFilters.createFilter<GPUSquareLookupTableConfiguration>(
-      displayName: 'Square Lookup Table',
-    )
+        displayName: 'Square Lookup Table',
+      )
       ..lutImageAsset = 'images/lookup_amatorka.png'
       ..intensity = 0.75,
   ),
   FilterItem(
     'HALD Lookup Table',
     FlutterVideoFilters.createFilter<GPUHALDLookupTableConfiguration>(
-      displayName: 'HALD Lookup Table',
-    )
+        displayName: 'HALD Lookup Table',
+      )
       ..lutImageAsset = 'images/lookup_hald.png'
       ..intensity = 0.75,
   ),
@@ -29,7 +29,7 @@ final kFailedFilters = [
     'Brightness & Contrast',
     BunchFilterConfiguration('shaders', [
       GPUBrightnessConfiguration()..brightness = 0.5,
-      GPUContrastConfiguration()..contrast = 2.0
+      GPUContrastConfiguration()..contrast = 2.0,
     ]),
   ),
 ].sorted((a, b) => a.name.compareTo(b.name));

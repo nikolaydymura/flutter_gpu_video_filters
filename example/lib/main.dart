@@ -1,3 +1,4 @@
+//ignore_for_file: use_build_context_synchronously
 import 'dart:io' show File;
 
 import 'package:path_provider/path_provider.dart';
