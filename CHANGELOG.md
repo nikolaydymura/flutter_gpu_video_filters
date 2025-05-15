@@ -1,3 +1,8 @@
+## 0.0.18
+
+- Updated `MediaX` dependency to `1.6.1`
+- Fixed OpenGL issues during preview dispose
+
 ## 0.0.17
 
 - Updated `MediaX` dependency to `1.6.0`

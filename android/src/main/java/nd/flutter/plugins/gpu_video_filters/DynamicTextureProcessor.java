@@ -26,6 +26,7 @@ class DynamicTextureShaderProgram extends BaseGlShaderProgram {
     private final int[] textures;
     private final String secondTexture;
     Bitmap secondBitmap;
+    private boolean released = false;
     public DynamicTextureShaderProgram(String vertexShader, String fragmentShader,
                                 String secondTexture,
                                 Bitmap secondBitmap,
@@ -105,9 +106,13 @@ class DynamicTextureShaderProgram extends BaseGlShaderProgram {
 
     @Override
     public void release() throws VideoFrameProcessingException {
+        if (released) {
+            return;
+        }
         super.release();
         try {
             glProgram.delete();
+            released = true;
         } catch (GlUtil.GlException e) {
             throw new VideoFrameProcessingException(e);
         }
@@ -185,6 +190,7 @@ public class DynamicTextureProcessor {
     public void dispose() throws VideoFrameProcessingException {
         if (textureEffect != null) {
             textureEffect.release();
+            textureEffect = null;
         }
     }
 }

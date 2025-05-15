@@ -2,6 +2,7 @@
 part of '../flutter_gpu_video_filters.dart';
 
 /// Custom OpenGL preview for video
+@Deprecated('Use GPUVideoSurfacePreview instead!')
 class GPUVideoNativePreview extends StatelessWidget {
   /// Called when the view is created.
   ///

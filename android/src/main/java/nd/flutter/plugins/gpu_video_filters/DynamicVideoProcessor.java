@@ -44,10 +44,12 @@ import io.flutter.plugin.common.EventChannel;
  * Video processor that demonstrates how to overlay a bitmap on video output using a GL shader. The
  * bitmap is drawn using an Android {@link Canvas}.
  */
-/* package */ @UnstableApi
+/* package */
+@UnstableApi
+@Deprecated
 public final class DynamicVideoProcessor
         implements VideoProcessingGLSurfaceView.VideoProcessor,
-            EventChannel.StreamHandler {
+        EventChannel.StreamHandler {
 
     private final String vertexShader;
     private final String fragmentShader;
@@ -81,6 +83,7 @@ public final class DynamicVideoProcessor
         this.secondTexture = secondTexture;
         this.textures = new int[secondTexture != null ? 1 : 0];
     }
+
     @Override
     public void initialize() {
         try {

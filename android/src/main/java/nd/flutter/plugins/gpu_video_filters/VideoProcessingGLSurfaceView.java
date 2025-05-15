@@ -49,6 +49,7 @@ import javax.microedition.khronos.opengles.GL10;
  * supporting protected content should be created at construction time.
  */
 @UnstableApi
+@Deprecated
 public final class VideoProcessingGLSurfaceView extends GLSurfaceView {
 
   /** Processes video frames, provided via a GL texture. */
