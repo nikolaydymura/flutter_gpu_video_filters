@@ -1,5 +1,7 @@
 //ignore_for_file: use_build_context_synchronously
+import 'dart:async';
 import 'dart:io' show File;
+import 'dart:math';
 
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/material.dart' hide Rect;
@@ -125,17 +127,34 @@ class _FilterPageState extends State<FilterPage> {
   late final GPUVideoPreviewParams previewParams;
   bool previewParamsReady = false;
   static const _videoAsset = 'videos/demo.mp4';
+  StreamSubscription<dynamic>? _updateParameter;
+  late final random = Random();
 
   @override
   void initState() {
     super.initState();
     _prepare().whenComplete(() => setState(() {}));
+    _updateParameter = Stream.periodic(const Duration(seconds: 1)).listen((
+      event,
+    ) async {
+      if (mounted) {
+        final conf = widget.configuration;
+        if (conf is GPUBrightnessConfiguration) {
+          conf.brightness = random.nextDouble() * 2 - 1;
+          await conf.update();
+        } else if (conf is GPUMonochromeConfiguration) {
+          conf.intensity = random.nextDouble();
+          await conf.update();
+        }
+      }
+    });
   }
 
   @override
   void dispose() {
     controller.dispose();
     widget.configuration.dispose();
+    _updateParameter?.cancel();
     super.dispose();
   }
 

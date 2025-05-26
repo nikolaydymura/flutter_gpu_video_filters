@@ -1,3 +1,7 @@
+## 0.0.19
+
+- Added workaround to update filters if video preview is paused
+
 ## 0.0.18
 
 - Updated `MediaX` dependency to `1.6.1`

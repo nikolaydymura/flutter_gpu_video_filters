@@ -266,6 +266,7 @@ class VideoPreview(
     private var outputWith = -1
     private var outputHeight = -1
     private var eventSink: EventSink? = null
+    private var pausedShift = 1
 
     init {
         if (vertexGlsl != null && fragmentGlsl != null) {
@@ -326,14 +327,17 @@ class VideoPreview(
     }
 
     override fun setFloatUniform(name: String?, value: Float) {
+        updatePreviewWhenPaused()
         processor?.setFloatUniform(name, value)
     }
 
     override fun setFloatsUniform(name: String?, value: FloatArray?) {
+        updatePreviewWhenPaused()
         processor?.setFloatsUniform(name, value)
     }
 
     override fun setBitmapUniform(name: String?, value: Bitmap?) {
+        updatePreviewWhenPaused()
         processor?.setSecondBitmap(value)
     }
 
@@ -362,6 +366,16 @@ class VideoPreview(
 
     override fun onCancel(arguments: Any?) {
         eventSink = null
+    }
+
+    private fun updatePreviewWhenPaused() {
+        if (player.playbackState == Player.STATE_IDLE || player.playbackState == Player.STATE_ENDED) {
+            return
+        }
+        if (!player.isPlaying) {
+            player.seekTo(player.currentPosition + pausedShift)
+            pausedShift *= -1
+        }
     }
 
     private fun setupSurfaceWithCallback() {

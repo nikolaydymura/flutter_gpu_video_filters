@@ -32,7 +32,7 @@ String get userHome =>
 Future<void> main(List<String> arguments) async {
   if (arguments.firstOrNull == 'generate') {
     String glslRoot =
-        '$userHome/.pub-cache/hosted/pub.dev/flutter_gpu_video_filters-0.0.18/shaders';
+        '$userHome/.pub-cache/hosted/pub.dev/flutter_gpu_video_filters-0.0.19/shaders';
     String? glslOutput;
     String? filters;
     for (int i = 0; i < arguments.length; i++) {
