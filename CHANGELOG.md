@@ -1,3 +1,7 @@
+## 0.0.20
+
+- Fixed filters for grouped video filters
+
 ## 0.0.19
 
 - Added workaround to update filters if video preview is paused
